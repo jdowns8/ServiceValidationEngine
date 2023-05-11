@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_relationship">
+    <sys_relationship action="INSERT_OR_UPDATE">
+        <advanced>false</advanced>
+        <apply_to/>
+        <basic_apply_to>x_236151_service_1_service_validation</basic_apply_to>
+        <basic_query_from>x_236151_service_1_service_validation_results</basic_query_from>
+        <insert_callback/>
+        <name> Control KPI Issues</name>
+        <query_from/>
+        <query_with><![CDATA[(function refineQuery(current, parent) {
+
+	// Add your code here, such as current.addQuery(field, value);
+	current.addNotNullQuery('related_ci');
+	current.addQuery('service_validation_result', 'false');
+	current.addQuery('service_validation', parent.sys_id);
+
+})(current, parent);]]></query_with>
+        <reference_field/>
+        <related_list/>
+        <simple_reference>false</simple_reference>
+        <sys_class_name>sys_relationship</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-02-28 12:53:14</sys_created_on>
+        <sys_id>567d852d97552110892239000153af5e</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name> Control KPI Issues</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_update_name>sys_relationship_567d852d97552110892239000153af5e</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-02-28 15:08:15</sys_updated_on>
+    </sys_relationship>
+    <sys_translated_text action="delete_multiple" query="documentkey=567d852d97552110892239000153af5e"/>
+</record_update>

@@ -1,0 +1,968 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_236151_service_1.ServiceValidationHelper</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>ServiceValidationHelper</name>
+        <script><![CDATA[var ServiceValidationHelper = Class.create();
+ServiceValidationHelper.prototype = {
+    threshold_matrix: gs.getProperty('x_236151_service_1.sve.validation_pattern_weighting'),
+    initialize: function() {
+        this.timer_log = 'Service Validation;Duration\n';
+    },
+    runScores: function() {
+        var gr = new GlideRecord('x_236151_service_1_service_validation');
+        gr.query();
+        while (gr.next()) {
+            this.calculateWeightedControlKPI(gr.sys_id);
+        }
+    },
+    calculateWeightedScore: function(impact) {
+        gs.debug('Impact: ' + impact, 'ServiceValidationHelper');
+        var weight = this.getRiskLevel(this.threshold_matrix, impact);
+        gs.debug('Weight: ' + weight, 'ServiceValidationHelper');
+        return weight;
+    },
+    calculateWeightedControlKPI: function(service_validation) {
+        var gr = new GlideRecord('x_236151_service_1_service_validation_results');
+        gr.addQuery('service_validation', service_validation);
+        gr.addQuery('service_validation_pattern.validation_type', 'Control');
+        gr.addNullQuery('related_ci');
+        gr.query();
+        while (gr.next()) {
+            var impact = parseInt(this.calculateWeightedScore(gr.service_validation_pattern.service_impact));
+            var calc_impact = impact / 100; //gs.print('checking summary with result '+gr.u_service_validation_result);
+            var gr2 = new GlideRecord('x_236151_service_1_service_validation_results');
+            gr2.addQuery('service_validation', service_validation);
+            gr2.addNotNullQuery('related_ci');
+            gr2.addQuery('service_validation_pattern', gr.service_validation_pattern);
+            gr2.query();
+            var total = parseInt(gr2.getRowCount());
+            var gr3 = new GlideRecord('x_236151_service_1_service_validation_results');
+            gr3.addQuery('service_validation', service_validation);
+            gr3.addNotNullQuery('related_ci');
+            gr3.addQuery('service_validation_pattern', gr.service_validation_pattern);
+            gr3.addQuery('service_validation_result', 'false');
+            gr3.query();
+            var failed = parseInt(gr3.getRowCount());
+            gs.info(gr.service_validation_pattern.u_reference + ' - Impact: ' + impact + ' - Total: ' + total + ' - Failed: ' + failed, 'ServiceValidationHelper');
+            var score = 100 - (100 * (failed / total));
+            if (isNaN(score)) {
+                score = 100;
+            }
+            var weighted_score = 100 - (calc_impact * (100 * (failed / total)));
+            if (isNaN(weighted_score) || calc_impact == 0) {
+                weighted_score = 100;
+            }
+            if (score == 0 || calc_impact == 1) {
+                weighted_score = 0;
+            }
+            gs.debug('Score: ' + score, 'ServiceValidationHelper');
+            gs.debug('Weighted Score: ' + weighted_score, 'ServiceValidationHelper');
+            gr.control_kpi = score;
+            gr.weighted_control_kpi = weighted_score;
+            gr.update();
+        }
+    },
+    calculateWeightedArchitectureKPI: function(service_validation) {
+        var gr = new GlideRecord('u_service_validation_results');
+        gr.addQuery('u_service_validation', service_validation);
+        gr.addQuery('u_service_validation_pattern.u_validation_type', 'Architecture');
+        gr.addNullQuery('u_related_ci');
+        gr.query();
+        while (gr.next()) {
+            var impact = parseInt(this.calculateWeightedScore(gr.u_service_validation_pattern.u_service_impact));
+            var calc_impact = impact / 100;
+            gs.debug('Calculated Impact: ' + calc_impact, 'ServiceValidationHelper');
+            //gs.print('checking summary with result '+gr.u_service_validation_result);
+            var gr2 = new GlideRecord('u_service_validation_results');
+            gr2.addQuery('u_service_validation', service_validation);
+            gr2.addNotNullQuery('u_related_ci');
+            gr2.addQuery('u_service_validation_pattern', gr.u_service_validation_pattern);
+            gr2.query();
+            var total = parseInt(gr2.getRowCount());
+            var gr3 = new GlideRecord('u_service_validation_results');
+            gr3.addQuery('u_service_validation', service_validation);
+            gr3.addNotNullQuery('u_related_ci');
+            gr3.addQuery('u_service_validation_pattern', gr.u_service_validation_pattern);
+            gr3.addQuery('u_service_validation_result', 'false');
+            gr3.query();
+            var failed = parseInt(gr3.getRowCount());
+            gs.debug(gr.u_service_validation_pattern.u_reference + ' - Impact: ' + impact + ' - Total: ' + total + ' - Failed: ' + failed, 'ServiceValidationHelper');
+            var score = 100 - (100 * (failed / total));
+            if (isNaN(score)) {
+                score = 100;
+            }
+            var weighted_score = 100 - (calc_impact * (100 * (failed / total)));
+            if (isNaN(weighted_score) || calc_impact == 0) {
+                weighted_score = 100;
+            }
+            if (score == 0 || calc_impact == 1) {
+                weighted_score = 0;
+            }
+            gs.debug('Score: ' + score, 'ServiceValidationHelper');
+            gs.debug('Weighted Score: ' + weighted_score, 'ServiceValidationHelper');
+            gr.u_architecture_kpi = score;
+            gr.u_weighted_architecture_kpi = weighted_score;
+            gr.update();
+        }
+    },
+    findServices: function() {
+        var gdt = new GlideDateTime();
+        gs.debug('Starting to find services to validate', 'ServiceValidationHelper');
+        // Where do we start? Default is OOB Business Service, property can be used to define something else
+        var start_table = gs.getProperty('x_236151_service_1.sve.business_service_class', 'cmdb_ci_service');
+        var filter = gs.getProperty('x_236151_service_1.sve.business_service_filter', '');
+        var limit = gs.getProperty('x_236151_service_1.sve.business_service_limit', '1000');
+        var gr = new GlideRecord(start_table);
+        if (filter !== '') {
+            gr.addEncodedQuery(filter);
+        }
+        gr.setLimit(limit);
+        gr.query();
+        while (gr.next()) {
+            gs.debug('Found a record with name: ' + gr.name, 'ServiceValidationHelper');
+            this.createOrUpdateServiceValidation(gr.sys_id);
+        }
+        gs.debug(this.timer_log, 'ServiceValidationHelper_Timer');
+        // 05102022 stop code here
+        return;
+        this.createOrUpdatePerformanceStat('Find all services and their CIs', gdt);
+        gs.debug('Starting to find validate scripted patterns', 'ServiceValidationHelper');
+        this.findScriptedPatterns();
+        gs.debug('Completed scipted pattern validation', 'ServiceValidationHelper');
+        gs.debug('Starting to find validate patterns for child CIs', 'ServiceValidationHelper');
+        this.findPatterns();
+        gs.debug('Completed pattern validation for Child CIs', 'ServiceValidationHelper');
+        this.createOrUpdatePerformanceStat('Full end-to-end processing', gdt);
+    },
+    createOrUpdateServiceValidation: function(service) {
+        var service_validation;
+        var gdt = new GlideDateTime();
+        var today = gdt.getDate();
+        var gr = new GlideRecord('x_236151_service_1_service_validation');
+        if (gr.get('service', service)) {
+            gr.last_validation_time = gdt;
+            service_validation = gr.update();
+        } else {
+            gr.initialize();
+            gr.service = service;
+            gr.last_validation_time = gdt;
+            service_validation = gr.insert();
+        }
+        this.createOrUpdateChild(service_validation, service, service, '0');
+        gs.debug('Starting to flatten the tree', 'ServiceValidationHelper');
+        // 06102022 stop code here
+        //return;
+        this.findAllChildren(service_validation, service, '');
+        gs.debug('Completed tree flattening', 'ServiceValidationHelper');
+        // 270223 stop code here
+        return;
+        gs.debug('Starting to deactivate non-existent relationships', 'ServiceValidationHelper');
+        this.deactivateChilds(service_validation, service, gdt);
+        gs.debug('Completed deactivation', 'ServiceValidationHelper');
+    },
+    /*
+    findAllChildren: function(service_validation, service, ci) {
+    	var stopwatch = new GlideStopWatch();
+    	this.wipeDataModels(service_validation);
+    	var ciu = new ServiceValidationHelper_CIUtils2();
+    	var child_arr = ciu.cisDownFromCI(service, ["ALL"], '', service_validation);
+    	for(var i=0;i<child_arr.length;i++) {
+    		//gs.print('=====>'+child_arr[i]);
+    		this.createOrUpdateChild(service_validation, service, child_arr[i]);
+    	}
+    	this.timer_log += service_validation+';'+stopwatch+'\n';
+    },
+    */
+    findAllChildren: function(service_validation, service, ci) {
+        //var stopwatch = new global.GlideStopWatch();
+        this.wipeDataModels(service_validation);
+        var ciu = new ServiceValidationHelper_CIUtils2();
+        gs.info('Jumping to ServiceValidationHelper_CIUtils2');
+        var child_arr = ciu.cisDownFromCI(service, ["ALL"], '', service_validation);
+        for (var i = 0; i < child_arr.length; i++) {
+            //gs.print('=====>'+child_arr[i]);
+            this.createOrUpdateChild(service_validation, service, child_arr[i], 1);
+        }
+        //this.timer_log += service_validation + ';' + stopwatch + '\n';
+    },
+    findAllLevel1: function() {
+        var gr = new GlideRecord('x_236151_service_1_service_validation');
+        gr.query();
+        while (gr.next()) {
+            var service_validation = gr.getUniqueValue();
+            gs.info('findAllLevel1 found a service validation');
+            var gr2 = new GlideRecord('cmdb_rel_ci');
+            gr2.addQuery('parent', gr.service.sys_id);
+            gr2.query();
+            while (gr2.next()) {
+                gs.info('+++ findAllLevel1 found a level 1 relationship');
+                var gr3 = new GlideRecord('x_236151_service_1_associated_cis');
+                gr3.addQuery('service_validation', service_validation);
+                gr3.addQuery('ci', gr2.child.sys_id);
+                gr3.query();
+                while (gr3.next()) {
+                    gs.info('++++++ findAllLevel1 found a matching associated CI');
+                    gr3.depth = 1;
+                    gr3.update();
+                }
+            }
+        }
+    },
+    createOrUpdateChild: function(service_validation, service, ci, depth) {
+        // fixed 06102022
+        var gdt = new GlideDateTime();
+        var gr = new GlideRecord('x_236151_service_1_associated_cis');
+        gr.addQuery('service_validation', service_validation);
+        gr.addQuery('service', service);
+        gr.addQuery('ci', ci);
+        gr.query();
+        if (gr.next()) {
+            //gs.print('==========> Match');
+            if (!gr.active) {
+                //gs.print('==========> Activate');
+                gr.active = true;
+                gr.deactivated = '';
+            }
+            gr.last_validation_time = gdt;
+            // 06102022
+            // think about the depth attribute, what if ci found on multiple levels should we track the different levels it's found on?
+            if (depth > gr.depth) {
+                gr.depth = depth;
+            }
+            gr.update();
+        } else {
+            gr.initialize();
+            gr.service_validation = service_validation;
+            gr.service = service;
+            gr.ci = ci;
+            gr.active = true;
+            gr.last_validation_time = gdt;
+            gr.depth = depth;
+            gr.insert();
+        }
+    },
+    deactivateChilds: function(service_validation, service, gdt) {
+        var gr = new GlideRecord('u_related_cis');
+        gr.addQuery('u_service_validation', service_validation);
+        gr.addQuery('u_service', service);
+        gr.addQuery('u_last_validation_time', '<', gdt);
+        gr.query();
+        while (gr.next()) {
+            //gs.print('==========> Deactivate');
+            gr.u_active = false;
+            gr.u_deactivated = gdt;
+            gr.update();
+        }
+    },
+    deactivateSingleChild: function(related_ci) {
+        var gdt = new GlideDateTime();
+        var gr = new GlideRecord('u_related_cis');
+        if (gr.get(related_ci)) {
+            //gs.print('==========> Deactivate');
+            gr.u_active = false;
+            gr.u_deactivated = gdt;
+            gr.update();
+        }
+    },
+    findPatterns: function(pattern, service_validation) {
+        var gr = new GlideRecord('x_236151_service_1_service_validation_patterns');
+        if (pattern.length > 0) {
+            gr.addQuery('number', pattern);
+        }
+        gr.addQuery('active', 'true');
+        gr.addQuery('advanced', 'false');
+        gr.addQuery('applies_to_all', 'false');
+		gr.addQuery('validation_type', '!=', 'Drift');
+        gr.query();
+        while (gr.next()) {
+            var gdt = new GlideDateTime();
+            gs.info('---------> findPatterns Starting to validate pattern: ' + gr.description);
+            this.validatePattern(gr, service_validation);
+            this.createOrUpdatePerformanceStat(gr.description, gdt);
+        }
+    },
+    findPatternsAppliesAll: function(pattern) {
+        var gr = new GlideRecord('x_236151_service_1_service_validation_patterns');
+        if (pattern.length > 0) {
+            gr.addQuery('number', pattern);
+        }
+        gr.addQuery('active', 'true');
+        gr.addQuery('advanced', 'false');
+        gr.addQuery('applies_to_all', 'true');
+        gr.query();
+        while (gr.next()) {
+            var gdt = new GlideDateTime();
+            gs.info('---------> findPatterns Starting to validate pattern: ' + gr.description);
+            this.validatePatternAppliesAll(gr);
+            this.createOrUpdatePerformanceStat(gr.description, gdt);
+        }
+    },
+    findScriptedPatterns: function(pattern) {
+        var gr = new GlideRecord('u_service_validation_patterns');
+        if (pattern.length > 0) {
+            gr.addQuery('u_number', pattern);
+        }
+        gr.addQuery('u_active', 'true');
+        gr.addQuery('u_advanced', 'true');
+        gr.addQuery('applies_to_all', 'false');
+        gr.query();
+        while (gr.next()) {
+            var gdt = new GlideDateTime();
+            //gs.print('Starting to validate pattern: '+gr.u_description);
+            this.validateScriptedPattern(gr);
+            this.createOrUpdatePerformanceStat(gr.u_description, gdt);
+        }
+    },
+    validatePattern: function(pattern, service_validation) {
+        gs.info('validatePattern Finding all CIs');
+        var condition = '';
+        var nextlevel = this.getNextLevel(pattern, 0);
+        var gr = new GlideAggregate('x_236151_service_1_associated_cis');
+        //gr.addEncodedQuery('u_ci.sys_class_name='+pattern.u_applies_to_class);
+        condition = pattern.getValue('condition') || '';
+		
+        if (service_validation){
+			gr.addQuery('service_validation', service_validation.sys_id);
+		}
+		
+		if (pattern.applies_to_all) {
+            gs.info('***** validatePattern for level 1 *****');
+            gr.addQuery('depth', '1');
+        } else if (!pattern.applies_to_all && condition.length > 0) {
+            gs.info('***** validatePattern with condition *****');
+            gr.addEncodedQuery(pattern.condition);
+        } else {
+            gs.info('***** validatePattern with applies to class *****');
+            gr.addQuery('ci.sys_class_name', 'INSTANCEOF', pattern.applies_to_class);
+        }
+        gr.addAggregate('COUNT', 'ci');
+        gr.query();
+        while (gr.next()) {
+		
+		
+            var ci = gr.ci;
+            var sysidcount = gr.getAggregate('COUNT', 'ci');
+            var servicecount = gr.getAggregate('COUNT', 'service');
+            var service = this.getServiceForAssociatedCI(gr.sys_id) || '';
+            gs.info('Testing CI with sys_id ' + ci + ' (' + sysidcount + ')');
+            gs.info(nextlevel.order + ' - They should all relate to class: ' + nextlevel.sys_class_name);
+            //var validation_result = this.validateRelationship(ci, nextlevel.sys_class_name, pattern, nextlevel.order, '');
+            var validation_result = false;
+            if (nextlevel.sys_class_name && !nextlevel.sys_class_name_list) {
+                gs.info(nextlevel.sys_class_name);
+                gs.info(nextlevel.order + ' - They should all relate to single class: ' + nextlevel.sys_class_name);
+                if (pattern.applies_to_all && service.length == 32) {
+                    gs.info('***** validatePattern for level 1 looking for rels *****');
+                    validation_result = this.validateRelationship(service, nextlevel.sys_class_name, pattern, nextlevel.order, '', nextlevel.minresults, '');
+                } else {
+                    validation_result = this.validateRelationship(ci, nextlevel.sys_class_name, pattern, nextlevel.order, '', nextlevel.minresults, '');
+                }
+            } else if (nextlevel.sys_class_name_list) {
+                gs.info(nextlevel.sys_class_name);
+                gs.info(nextlevel.order + ' - They should all relate to multiple classes: ' + nextlevel.sys_class_name);
+                if (pattern.applies_to_all) {
+                    gs.info('***** validatePattern for level 1 looking for rels *****');
+                    validation_result = this.validateRelationship(service, nextlevel.sys_class_name, pattern, nextlevel.order, nextlevel.sys_class_name_list, nextlevel.minresults, '');
+                } else {
+                    validation_result = this.validateRelationship(ci, nextlevel.sys_class_name, pattern, nextlevel.order, nextlevel.sys_class_name_list, nextlevel.minresults, '');
+                }
+            }
+            gs.info('Validation result: ' + validation_result);
+            gs.info('*****');
+            // 280223 added empty service def to update result
+	
+
+            this.createOrUpdateResult(ci, pattern, validation_result, service);
+            this.createOrUpdateResultSummary(ci, pattern, validation_result);
+        }
+    },
+    validatePatternAppliesAll: function(pattern) {
+        gs.info('validatePatternAppliesAll Finding all CIs');
+        var nextlevel = this.getNextLevel(pattern, 0);
+        var gr = new GlideRecord('x_236151_service_1_associated_cis');
+        gr.addQuery('depth', '1');
+        gr.query();
+        while (gr.next()) {
+            var ci = gr.ci;
+            var service = gr.service;
+            var validation_result = false;
+            if (nextlevel.sys_class_name && !nextlevel.sys_class_name_list) {
+                gs.info(nextlevel.sys_class_name);
+                gs.info(nextlevel.order + ' - They should all relate to single class: ' + nextlevel.sys_class_name);
+                validation_result = this.validateRelationship(ci, nextlevel.sys_class_name, pattern, nextlevel.order, '', nextlevel.minresults, service);
+            } else if (nextlevel.sys_class_name_list) {
+                gs.info(nextlevel.sys_class_name);
+                gs.info(nextlevel.order + ' - They should all relate to multiple classes: ' + nextlevel.sys_class_name);
+                validation_result = this.validateRelationship(ci, nextlevel.sys_class_name, pattern, nextlevel.order, nextlevel.sys_class_name_list, nextlevel.minresults, service);
+            }
+            gs.info('Validation result: ' + validation_result);
+            gs.info('*****');
+            // 280223 added empty service def to update result
+
+            this.createOrUpdateResult(ci, pattern, validation_result, service);
+            this.createOrUpdateResultSummary(ci, pattern, validation_result);
+        }
+    },
+    getServiceForAssociatedCI: function(sysid) {
+        gs.info('getServiceForAssociatedCI looking with sysid: ' + sysid);
+        var gr = new GlideRecord('x_236151_service_1_associated_cis');
+        if (gr.get(sysid)) {
+            return gr.sys_id;
+        }
+        return false;
+    },
+    validateScriptedPattern: function(pattern) {
+        var gr = new GlideRecord('u_service_validation');
+        gr.addNotNullQuery('u_service');
+        gr.query();
+        while (gr.next()) {
+            //var vars = {'parent' : gr.u_service.sys_id+''};
+            var evaluator = new GlideScopedEvaluator();
+            evaluator.putVariable('parent', gr.u_service.sys_id + '');
+            evaluator.putVariable('pattern', pattern);
+            /*
+				gr = new GlideRecord('u_service_validation_patterns');
+				gr.addQuery('u_number','SERP0001006');
+				gr.query();
+				if (gr.next()) {
+					gs.info(evaluator.evaluateScript(gr, 'u_custom_validation_script', vars));
+				}
+ 				*/
+            //var validation_result = evaluator.evaluateScript(pattern, 'u_custom_validation_script', vars);
+            var validation_result = evaluator.evaluateScript(pattern, 'u_custom_validation_script', null);
+            //this.createOrUpdateResult(ci, pattern, validation_result);
+            if (validation_result === true || validation_result === false) {
+                this.createOrUpdateResultSummaryForAdvanced(gr, pattern, validation_result);
+            }
+        }
+    },
+    validateRelationship: function(ci, child_class, pattern, order, child_class_list, minresults, service) {
+        gs.info('validateRelationship started with: ci=' + ci + ', child_class=' + child_class + ', pattern=' + pattern + ', order=' + order + ', child_class_list=' + child_class_list + ', minresults=' + minresults + ', service=' + service);
+        var result = false;
+        var gr = new GlideRecord('cmdb_rel_ci');
+        if (service != '') {
+            gs.info('Have both service and ci');
+            gr.addQuery('parent', service);
+            gr.addQuery('child', ci);
+        } else {
+            gs.info('Have only ci');
+            gr.addQuery('parent', ci);
+        }
+        //gs.info('validateRelationship MULTIPLE LIST: '+child_class_list)
+        //var child_class_list_arr = child_class_list.split(',');
+        var qc = '';
+        if (child_class_list.length > 0) {
+            //gs.info('validateRelationship Build query based on list of classes: '+child_class_list);
+            //for (var i = 0; i < arrayLength; i++) {
+            for (var i = 0; i < child_class_list.length; i++) {
+                gs.info('validateRelationship --- condition ' + i + ' - class: ' + child_class_list[i]);
+                if (i == 0) {
+                    qc = gr.addQuery('child.sys_class_name', 'INSTANCEOF', child_class_list[i]);
+                }
+                if (i > 0) {
+                    qc.addOrCondition('child.sys_class_name', 'INSTANCEOF', child_class_list[i]);
+                }
+            }
+        } else {
+            //gs.info('validateRelationship Build query based on single class: '+child_class);
+            gr.addQuery('child.sys_class_name', 'INSTANCEOF', child_class);
+        }
+        gr.query();
+        if (gr.next()) {
+            gs.info('validateRelationship found a rel with sysid (' + gr.sys_id + ') for ' + gr.parent.sys_class_name + '::' + gr.child.sys_class_name);
+            // 280223 for some reason this order causes issues so set it to 0
+            //var nextlevel = this.getNextLevel(pattern, order);
+            var nextlevel = this.getNextLevel(pattern, 0);
+            //gs.info('validateRelationship list: '+nextlevel.sys_class_name_list);
+            /* 280223 making this bit less complicated
+            if (nextlevel.sys_class_name && !nextlevel.sys_class_name_list) {
+                gs.info('validateRelationship '+nextlevel.sys_class_name);
+                gs.info('validateRelationship '+nextlevel.order+' - They should all relate to class: '+nextlevel.sys_class_name);
+                this.validateRelationship(gr.child.sys_id, nextlevel.sys_class_name, pattern, nextlevel.order, '', nextlevel.minresults);
+            }
+            if (nextlevel.sys_class_name_list) {
+                //gs.print(nextlevel.sys_class_name);
+                //gs.print(nextlevel.order+' - They should all relate to class: '+nextlevel.sys_class_name);
+                this.validateRelationship(gr.child.sys_id, nextlevel.sys_class_name, pattern, nextlevel.order, nextlevel.sys_class_name_list, nextlevel.minresults);
+            }
+			*/
+            //gs.print('***** checking number of results, minimum is: '+minresults);
+            if (minresults && minresults > 1) {
+                var rows = gr.getRowCount();
+                //gs.print('***** comparing against row count of: '+rows);
+                if (rows < minresults) {
+                    return false;
+                }
+            }
+            result = true;
+        }
+        return result;
+    },
+    getNextLevel: function(pattern, order) {
+        gs.info('checking the next level where order is greater than ' + order);
+        var res = [];
+        var gr = new GlideRecord('x_236151_service_1_pattern_definition');
+        gr.addQuery('service_validation_pattern', pattern.sys_id);
+        gr.addQuery('order', '>', order);
+        gr.setLimit(1);
+        gr.query();
+        if (gr.next()) {
+            gs.info(order + ' - ' + gr.ci_class.name);
+            res.sys_class_name = gr.ci_class.name;
+            if (gr.ci_classes.lenght > 0) {
+                res.sys_class_name_list = this.findTableName(gr.ci_classes);
+            }
+            res.minresults = gr.minimum_number_of_results;
+            gs.info('MULTIPLE sys_class_name_list: ' + this.findTableName(gr.ci_classes));
+            gs.info('MULTIPLE:' + gr.ci_classes);
+            res.order = gr.order;
+            return res;
+        }
+    },
+    findTableName: function(sysids) {
+        var result = [];
+        var gr = new GlideRecord('sys_db_object');
+        gr.addQuery('sys_id', 'IN', sysids);
+        gr.query();
+        while (gr.next()) {
+            gs.info('MULTIPLE:' + gr.name.toString());
+            result.push(gr.name.toString());
+        }
+        gs.info('MULTIPLE SYSID TO NAME LIST: ' + result);
+        return result;
+    },
+    createOrUpdateResult: function(ci, pattern, result, service) {
+        gs.info('createOrUpdateResult');
+        var gdt = new GlideDateTime();
+        var cigr = new GlideRecord('x_236151_service_1_associated_cis');
+        if (service.length == 32) {
+            gs.info('createOrUpdateResult has a service');
+            cigr.addQuery('service', service);
+        }
+        gs.info('createOrUpdateResult looking for ci');
+        cigr.addQuery('ci', ci);
+        cigr.query();
+        while (cigr.next()) {
+            gs.info('createOrUpdateResult found a ci');
+            var gr = new GlideRecord('x_236151_service_1_service_validation_results');
+            gr.addQuery('service_validation', cigr.service_validation.sys_id);
+            gr.addQuery('service_validation_pattern', pattern.sys_id);
+            gr.addQuery('related_ci', cigr.sys_id);
+            gr.query();
+            if (gr.next()) {
+                gr.last_validation_time = gdt;
+                gr.service_validation_result = result;
+                gr.update();
+            } else {
+                gr.initialize();
+                gr.related_ci = cigr.sys_id;
+                gr.service_validation = cigr.service_validation.sys_id;
+                gr.service_validation_pattern = pattern.sys_id;
+                gr.last_validation_time = gdt;
+                gr.service_validation_result = result;
+                gr.insert();
+            }
+        }
+    },
+    createOrUpdateResultSummary: function(ci, pattern, result) {
+        var gdt = new GlideDateTime();
+        var cigr = new GlideRecord('x_236151_service_1_associated_cis');
+        cigr.addQuery('ci', ci);
+        cigr.query();
+        while (cigr.next()) {
+            var gr = new GlideRecord('x_236151_service_1_service_validation_results');
+            gr.addQuery('service_validation', cigr.service_validation.sys_id);
+            gr.addQuery('service_validation_pattern', pattern.sys_id);
+            gr.addNullQuery('related_ci');
+            gr.query();
+            if (gr.next()) {
+                //gs.print('updating result summary for '+pattern.u_description+' - '+result);
+                gr.last_validation_time = gdt;
+                gr.service_validation_result = result;
+                gr.update();
+            } else {
+                //gs.print('creating result summary for '+pattern.u_description+' - '+result);
+                gr.initialize();
+                gr.service_validation = cigr.service_validation.sys_id;
+                gr.service_validation_pattern = pattern.sys_id;
+                gr.last_validation_time = gdt;
+                gr.service_validation_result = result;
+                gr.insert();
+            }
+        }
+    },
+    fixResultSummary: function(service_validation) {
+        var gr = new GlideRecord('x_236151_service_1_service_validation_results');
+        gr.addQuery('service_validation', service_validation);
+        gr.addNullQuery('related_ci');
+        gr.query();
+        while (gr.next()) {
+            //gs.print('checking summary with result '+gr.u_service_validation_result);
+            var gr2 = new GlideRecord('x_236151_service_1_service_validation_results');
+            gr2.addQuery('service_validation', service_validation);
+            gr2.addNotNullQuery('related_ci');
+            gr2.addQuery('service_validation_pattern', gr.service_validation_pattern);
+            gr2.addQuery('service_validation_result', 'false');
+            gr2.query();
+            if (gr2.next()) {
+                //gs.print('fixing summary to false');
+                gr.service_validation_result = 'false';
+                gr.update();
+            }
+        }
+    },
+    cleanResultsForCeased: function(service_validation) {
+        var ceased_state = gs.getProperty('sve.ci_ceased_state', '6');
+        var gr = new GlideRecord('u_service_validation_results');
+        gr.addQuery('u_service_validation', service_validation);
+        gr.addNotNullQuery('u_related_ci');
+        gr.addEncodedQuery('u_related_ci.u_ci.operational_status=' + ceased_state);
+        gr.query();
+        gs.debug(gr.getRowCount(), 'cleanResultsForCeased');
+        while (gr.next()) {
+            gr.deleteRecord();
+            gs.debug(' -- DELETED -- ' + gr.getRowCount(), 'cleanResultsForCeased');
+            var remaining = this.getResultSummaryCount(service_validation, gr.u_service_validation_pattern);
+            gs.debug(' -- REMAINING -- ' + remaining, 'cleanResultsForCeased');
+            if (remaining == 0) {
+                var gr2 = new GlideRecord('u_service_validation_results');
+                gr2.addQuery('u_service_validation_pattern', gr.u_service_validation_pattern);
+                gr2.addNullQuery('u_related_ci');
+                gr2.addQuery('u_service_validation', service_validation);
+                gr2.query();
+                if (gr2.next()) {
+                    gr2.deleteRecord();
+                }
+                this.deactivateSingleChild(gr.u_related_ci.sys_id);
+            }
+        }
+        this.fixResultSummary(service_validation);
+    },
+    getResultSummaryCount: function(service_validation, service_validation_pattern) {
+        var gr = new GlideRecord('u_service_validation_results');
+        gr.addQuery('u_service_validation_pattern', service_validation_pattern);
+        gr.addNotNullQuery('u_related_ci');
+        gr.addQuery('u_service_validation', service_validation);
+        gr.query();
+        return gr.getRowCount();
+    },
+    calculateTotalTests: function() {
+        var gr = new GlideRecord('u_service_validation');
+        gr.query();
+        while (gr.next()) {
+            var ga = new GlideAggregate('u_service_validation_results');
+            ga.addQuery('u_service_validation', gr.sys_id);
+            ga.addAggregate('COUNT', 'u_service_validation_pattern');
+            ga.groupBy('u_service_validation_pattern');
+            ga.query();
+            var numtests = 0;
+            while (ga.next()) {
+                var testsforpattern = ga.getAggregate('COUNT', 'u_service_validation_pattern');
+                if (testsforpattern > 1) {
+                    testsforpattern--;
+                }
+                numtests = parseInt(numtests) + parseInt(testsforpattern);
+            }
+            gr.u_total_tests_run = numtests;
+            gr.update();
+        }
+    },
+    calculateFailedTests: function() {
+        var gr = new GlideRecord('u_service_validation');
+        gr.query();
+        while (gr.next()) {
+            var ga = new GlideAggregate('u_service_validation_results');
+            ga.addQuery('u_service_validation_result', 'false');
+            ga.addQuery('u_service_validation', gr.sys_id);
+            ga.addAggregate('COUNT', 'u_service_validation_pattern');
+            ga.groupBy('u_service_validation_pattern');
+            ga.query();
+            var numtests = 0;
+            while (ga.next()) {
+                var testsforpattern = ga.getAggregate('COUNT', 'u_service_validation_pattern');
+                if (testsforpattern > 1) {
+                    testsforpattern--;
+                }
+                numtests = parseInt(numtests) + parseInt(testsforpattern);
+            }
+            gr.u_exceptions = numtests;
+            gr.update();
+        }
+    },
+    createOrUpdateResultSummaryForAdvanced: function(service_validation, pattern, result) {
+        var gdt = new GlideDateTime();
+        var gr = new GlideRecord('u_service_validation_results');
+        gr.addQuery('u_service_validation', service_validation.sys_id);
+        gr.addQuery('u_service_validation_pattern', pattern.sys_id);
+        gr.addNullQuery('u_related_ci');
+        gr.query();
+        if (gr.next()) {
+            gr.u_last_validation_time = gdt;
+            gr.u_service_validation_result = result;
+            gr.update();
+        } else {
+            gr.initialize();
+            gr.u_service_validation = service_validation.sys_id;
+            gr.u_service_validation_pattern = pattern.sys_id;
+            gr.u_last_validation_time = gdt;
+            gr.u_service_validation_result = result;
+            gr.insert();
+        }
+    },
+    createOrUpdatePerformanceStat: function(description, start) {
+        var gdt = new GlideDateTime();
+        var gr = new GlideRecord('x_236151_service_1_validation_performance');
+        gr.addQuery('description', description);
+        gr.query();
+        if (gr.next()) {
+            gr.last_run_time = gdt;
+            gr.duration = GlideDateTime.subtract(start, gdt);
+            gr.update();
+        } else {
+            gr.initialize();
+            gr.description = description;
+            gr.last_run_time = gdt;
+            gr.duration = GlideDateTime.subtract(start, gdt);
+            gr.insert();
+        }
+    },
+    getRiskLevel: function(matrix, impact) {
+        var aPair;
+        var answer;
+        var threshold;
+        var risk;
+
+        if (global.JSUtil.nil(matrix)) {
+            return;
+        }
+
+        matrix
+            .split(/\s*,\s*/)
+            .forEach(function(pair) {
+                aPair = pair.split(/\s*\=\s*/);
+                risk = parseInt(aPair[0], 10);
+                threshold = parseInt(aPair[1], 10);
+                if (risk == impact) {
+                    if (!answer) {
+                        answer = threshold;
+                    }
+                }
+            });
+
+        return answer;
+    },
+    wipeDataModels: function(service_validation) {
+        var gr = new GlideRecord('x_236151_service_1_service_validation_data_model');
+        gr.addQuery('service_validation', service_validation);
+        gr.deleteMultiple();
+    },
+    addOrUpdateDataModel: function(parent_class, child_class, service_validation) {
+        gs.info('Data Model Service Validation: ' + service_validation + ' called for parent: ' + parent_class + ', child: ' + child_class)
+        var start_table = gs.getProperty('x_236151_service_1.sve.business_service_class', 'cmdb_ci_service');
+        var start_table_label = this.getTableLabel(start_table);
+        var parent_label = this.getTableLabel(parent_class);
+        var child_label = this.getTableLabel(child_class);
+        var dm = new GlideRecord('x_236151_service_1_service_validation_data_model');
+        dm.addQuery('service_validation', service_validation);
+        dm.addQuery('ci_class', parent_label);
+        dm.query();
+        if (dm.next()) {
+
+        } else {
+            dm.initialize();
+            dm.service_validation = service_validation;
+            dm.ci_class = parent_label;
+            dm.insert();
+        }
+        var gr = new GlideRecord('x_236151_service_1_service_validation_data_model');
+        gr.addQuery('service_validation', service_validation);
+        gr.addQuery('parent.ci_class', parent_label);
+        gr.addQuery('ci_class', child_label);
+        gr.query();
+        if (gr.next()) {
+
+        } else {
+            gr.initialize();
+            gr.service_validation = service_validation;
+            gr.ci_class = child_label;
+            var gr2 = new GlideRecord('x_236151_service_1_service_validation_data_model');
+            gr2.addQuery('service_validation', service_validation);
+            gr2.addQuery('ci_class', parent_label);
+            gr2.query();
+            if (gr2.next()) {
+                gr.setValue('parent', gr2.sys_id);
+            }
+            gr.insert();
+        }
+
+    },
+    getTableLabel: function(table_name) {
+        var result = 'NA';
+        var gr = new GlideRecord('sys_db_object');
+        gr.addQuery('name', table_name);
+        gr.query();
+        if (gr.next()) {
+            result = gr.label;
+        }
+        return result;
+    },
+    findDriftPatterns: function() {
+        var gr = new GlideRecord('x_236151_service_1_service_validation_patterns');
+        gr.addQuery('active', 'true');
+        gr.addQuery('validation_type', 'Drift');
+        gr.addQuery('advanced', 'false');
+        gr.addQuery('applies_to_all', 'false');
+        gr.query();
+        while (gr.next()) {
+            var gdt = new GlideDateTime();
+            gs.info('---------> findPatterns Starting to validate pattern: ' + gr.description);
+            this.validateDriftPattern(gr);
+            //this.createOrUpdatePerformanceStat(gr.description, gdt);
+        }
+    },
+    validateDriftPattern: function(pattern) {
+        var attributes = this.findAttributeName(pattern.drift_attributes);
+        gs.info('validateDriftPattern Finding all CIs');
+        var condition = '';
+        var gr = new GlideAggregate('x_236151_service_1_associated_cis');
+        //gr.addEncodedQuery('u_ci.sys_class_name='+pattern.u_applies_to_class);
+        condition = pattern.getValue('condition') || '';
+        if (condition.length > 0) {
+            gs.info('***** validatePattern with condition *****');
+            gr.addEncodedQuery(pattern.condition);
+        } else {
+            gs.info('***** validateDriftPattern with applies to class *****');
+            gr.addQuery('ci.sys_class_name', 'INSTANCEOF', pattern.applies_to_class);
+        }
+        gr.addAggregate('COUNT', 'ci');
+        gr.query();
+        while (gr.next()) {
+            var ci = gr.ci;
+            var associated_ci = this.getAssociatedCI(ci);
+            var sysidcount = gr.getAggregate('COUNT', 'ci');
+            var servicecount = gr.getAggregate('COUNT', 'service');
+            var service = this.getServiceForAssociatedCI(gr.sys_id) || '';
+            gs.info(ci+' - Testing CI with sys_id ' + ci + ' (' + sysidcount + ')');
+            gs.info(ci+' - We care about attributes: ' + attributes);
+            var attributes_arr = attributes.toString().split(',');
+            gs.info(ci+' - ARR: ' + attributes_arr);
+            var numArr = attributes_arr.length;
+            for (var i = 0; i < numArr; i++) {
+                gs.info(ci+' - ARRAY value: ' + attributes_arr[i]);
+                var attribute = attributes_arr[i];
+                var attribute_value = this.getAttributeValue(ci, attribute) || 'UNDEF';
+				if(attribute_value == '') {
+					attribute_value = 'UNDEF';
+				}
+				attribute_value.toString();
+                gs.info(ci+' - Calling updateDriftValue with assoc ci: ' + associated_ci + ' - attribute: ' + attribute + ' - value: ' + attribute_value);
+                this.updateDriftValue(associated_ci, attribute, attribute_value);
+            }
+            gs.info('*****');
+
+        }
+    },
+    updateDriftValue: function(associated_ci, attribute, value) {
+        gs.info('assoc ci: ' + associated_ci + ' - attribute: ' + attribute + ' - value: ' + value);
+        var gr = new GlideRecord('x_236151_service_1_drift_data');
+        gr.addQuery('associated_ci', associated_ci);
+        gr.addQuery('attribute', attribute);
+        gr.query();
+        if (gr.next()) {
+			gs.info('updateDriftValue found an existing record');
+			if (gr.value == value) {
+				gs.info('updateDriftValue decided to return as the value is the same as before');
+				return;
+			}
+            else if (gr.value != value) {
+				gs.info('updateDriftValue found the value to be different so creating a record and setting parent');
+                gr2 = new GlideRecord('x_236151_service_1_drift_data');
+                gr2.initialize();
+                gr2.associated_ci = associated_ci;
+                gr2.attribute = attribute;
+                gr2.value = value;
+                gr2.parent = gr.sys_id;
+                gr2.insert();
+				this.registerDriftEvent(associated_ci, 'CI Configuration Changed');
+            }
+        } else {
+			gs.info('updateDriftValue did not find any record so creating one');
+            gr2 = new GlideRecord('x_236151_service_1_drift_data');
+            gr2.initialize();
+            gr2.associated_ci = associated_ci;
+            gr2.attribute = attribute;
+            gr2.value = value;
+            gr2.insert();
+        }
+    },
+	registerDriftEvent: function(associated_ci, type) {
+		var gr = new GlideRecord('x_236151_service_1_associated_cis');
+		gr.addQuery('sys_id', associated_ci);
+		gr.query();
+		while(gr.next()) {
+			var gr2 = new GlideRecord('x_236151_service_1_drift_events');
+			gr2.initialize();
+			gr2.active = 'true';
+			gr2.service_validation = gr.service_validation.sys_id;
+			gr2.associated_ci = gr.sys_id;
+			gr2.ci = gr.ci.sys_id;
+			gr2.drift_type = 'CI Configuration Changed';
+			gr2.insert();
+		}
+	},
+    getAttributeValue: function(ci, attribute) {
+        var gr = new GlideRecord('cmdb_ci');
+        if (gr.get(ci)) {
+			var gr2 = new GlideRecord(gr.sys_class_name);
+			if(gr2.get(gr.sys_id)) {
+				var value = gr2.getValue(attribute) || 'UNDEF';
+				if(value == '') {
+					value = 'UNDEF';
+				}
+				value.toString();
+				gs.info('getAttributeValue CI name: ' + gr2.name + ' - Class: ' + gr2.sys_class_name + ' - Attribute: ' + attribute + ' - Value: ' + value);
+			}
+            return value;
+        }
+    },
+    getAssociatedCI: function(ci) {
+        gs.info('getServiceForAssociatedCI looking with sysid: ' + ci);
+        var gr = new GlideRecord('x_236151_service_1_associated_cis');
+        if (gr.get('ci', ci)) {
+            return gr.sys_id;
+        }
+        return false;
+    },
+    findAttributeName: function(sysids) {
+        var result = [];
+        var gr = new GlideRecord('sys_dictionary');
+        gr.addQuery('sys_id', 'IN', sysids);
+        gr.query();
+        while (gr.next()) {
+            gs.info('MULTIPLE:' + gr.element.toString());
+            result.push(gr.element.toString());
+        }
+        gs.info('MULTIPLE SYSID TO NAME LIST: ' + result);
+        return result;
+    },
+    type: 'ServiceValidationHelper'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-02-27 19:04:08</sys_created_on>
+        <sys_id>29a85d9597512110892239000153af4d</sys_id>
+        <sys_mod_count>118</sys_mod_count>
+        <sys_name>ServiceValidationHelper</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_update_name>sys_script_include_29a85d9597512110892239000153af4d</sys_update_name>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-03-31 12:08:37</sys_updated_on>
+    </sys_script_include>
+</record_update>

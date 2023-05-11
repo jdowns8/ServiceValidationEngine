@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_choice action="INSERT_OR_UPDATE" field="validation_type" table="x_236151_service_1_service_validation_patterns" version="3">
+        <sys_choice_set action="INSERT_OR_UPDATE">
+            <element>validation_type</element>
+            <name>x_236151_service_1_service_validation_patterns</name>
+            <sys_class_name>sys_choice_set</sys_class_name>
+            <sys_created_by>jdowns8@dxc.com</sys_created_by>
+            <sys_created_on>2023-03-01 16:21:30</sys_created_on>
+            <sys_id>cfb603351b552150dd76a8a4bd4bcb04</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>validation_type</sys_name>
+            <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+            <sys_update_name>sys_choice_x_236151_service_1_service_validation_patterns_validation_type</sys_update_name>
+            <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+            <sys_updated_on>2023-03-01 16:21:30</sys_updated_on>
+        </sys_choice_set>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>validation_type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Blueprint Control</label>
+            <language>en</language>
+            <name>x_236151_service_1_service_validation_patterns</name>
+            <sequence>0</sequence>
+            <synonyms/>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2023-02-28 12:15:49</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>8ad60f351b552150dd76a8a4bd4bcb24</sys_id>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+            <sys_updated_on>2023-03-30 08:53:06</sys_updated_on>
+            <value>Control</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>validation_type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Blueprint Architecture</label>
+            <language>en</language>
+            <name>x_236151_service_1_service_validation_patterns</name>
+            <sequence>1</sequence>
+            <synonyms/>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2023-02-28 12:15:49</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>4ad60f351b552150dd76a8a4bd4bcb25</sys_id>
+            <sys_mod_count>1</sys_mod_count>
+            <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+            <sys_updated_on>2023-03-30 08:53:14</sys_updated_on>
+            <value>Architecture</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>validation_type</element>
+            <hint/>
+            <inactive>false</inactive>
+            <label>Drift</label>
+            <language>en</language>
+            <name>x_236151_service_1_service_validation_patterns</name>
+            <sequence>2</sequence>
+            <synonyms/>
+            <sys_created_by>tomi.rekonen</sys_created_by>
+            <sys_created_on>2023-03-23 14:27:53</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>8dbf3fb01b39e550dd76a8a4bd4bcb3f</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>tomi.rekonen</sys_updated_by>
+            <sys_updated_on>2023-03-23 14:27:53</sys_updated_on>
+            <value>Drift</value>
+        </sys_choice>
+    </sys_choice>
+</record_update>

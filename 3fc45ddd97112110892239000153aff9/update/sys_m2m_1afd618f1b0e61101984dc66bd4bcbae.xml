@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_m2m">
+    <sys_m2m action="INSERT_OR_UPDATE">
+        <from_table>cmdb_application_product_model</from_table>
+        <m2m_from_field>cmdb_application_product_model</m2m_from_field>
+        <m2m_from_label>Service Validation Patterns</m2m_from_label>
+        <m2m_table>x_236151_service_1_m2m_cmdb_applica_x_236151_ser</m2m_table>
+        <m2m_to_field>x_236151_service_1_service_validation_pa</m2m_to_field>
+        <m2m_to_label>Application Models</m2m_to_label>
+        <sys_class_name>sys_m2m</sys_class_name>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2023-04-11 13:53:44</sys_created_on>
+        <sys_id>1afd618f1b0e61101984dc66bd4bcbae</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_236151_service_1_m2m_cmdb_applica_x_236151_ser</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_update_name>sys_m2m_1afd618f1b0e61101984dc66bd4bcbae</sys_update_name>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-04-11 13:53:44</sys_updated_on>
+        <to_table>x_236151_service_1_service_validation_patterns</to_table>
+    </sys_m2m>
+</record_update>

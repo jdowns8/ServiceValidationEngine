@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="ua_table_licensing_config">
+    <ua_table_licensing_config action="INSERT_OR_UPDATE">
+        <is_fulfillment>false</is_fulfillment>
+        <license_condition/>
+        <license_model>none</license_model>
+        <license_roles/>
+        <name>x_236151_service_1_drift_data</name>
+        <op_delete>true</op_delete>
+        <op_insert>true</op_insert>
+        <op_update>true</op_update>
+        <owner_condition/>
+        <sys_class_name>ua_table_licensing_config</sys_class_name>
+        <sys_created_by>tomi.rekonen</sys_created_by>
+        <sys_created_on>2023-03-23 14:23:16</sys_created_on>
+        <sys_id>e9ae7f301b39e550dd76a8a4bd4bcb96</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_236151_service_1_drift_data</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_update_name>ua_table_licensing_config_e9ae7f301b39e550dd76a8a4bd4bcb96</sys_update_name>
+        <sys_updated_by>tomi.rekonen</sys_updated_by>
+        <sys_updated_on>2023-03-23 14:23:16</sys_updated_on>
+    </ua_table_licensing_config>
+</record_update>

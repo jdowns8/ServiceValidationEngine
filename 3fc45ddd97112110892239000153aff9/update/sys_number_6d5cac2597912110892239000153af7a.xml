@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_number">
+    <sys_number action="INSERT_OR_UPDATE">
+        <category display_value="" name="x_236151_service_1_service_validation_results">x_236151_service_1_service_validation_results</category>
+        <maximum_digits>7</maximum_digits>
+        <number>1000</number>
+        <prefix>SER</prefix>
+        <sys_class_name>sys_number</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-02-28 10:28:27</sys_created_on>
+        <sys_id>6d5cac2597912110892239000153af7a</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>SER</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_update_name>sys_number_6d5cac2597912110892239000153af7a</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-02-28 10:28:27</sys_updated_on>
+    </sys_number>
+</record_update>
