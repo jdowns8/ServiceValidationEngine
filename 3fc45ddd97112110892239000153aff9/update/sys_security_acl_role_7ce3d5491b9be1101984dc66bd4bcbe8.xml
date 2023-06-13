@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl_role">
+    <sys_security_acl_role action="INSERT_OR_UPDATE">
+        <sys_class_name>sys_security_acl_role</sys_class_name>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2023-06-06 10:09:51</sys_created_on>
+        <sys_id>7ce3d5491b9be1101984dc66bd4bcbe8</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x.cscm4.application-owner-workspace.*.canvas_user</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_security_acl display_value="x.cscm4.application-owner-workspace.*">e0e3d5491b9be1101984dc66bd4bcbe3</sys_security_acl>
+        <sys_update_name>sys_security_acl_role_7ce3d5491b9be1101984dc66bd4bcbe8</sys_update_name>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-06-06 10:09:51</sys_updated_on>
+        <sys_user_role display_value="canvas_user" name="canvas_user">8536f54bc713330072b211d4d8c26080</sys_user_role>
+        <transaction_id/>
+    </sys_security_acl_role>
+</record_update>

@@ -2,21 +2,31 @@
     <sys_script_include action="INSERT_OR_UPDATE">
         <access>package_private</access>
         <active>true</active>
-        <api_name>x_236151_service_1.ServiceValidationHelper_CIUtils2</api_name>
+        <api_name>x_236151_service_1.ServiceValidationRelHelper</api_name>
         <caller_access/>
         <client_callable>false</client_callable>
-        <description/>
-        <name>ServiceValidationHelper_CIUtils2</name>
-        <script><![CDATA[var ServiceValidationHelper_CIUtils2 = Class.create();
-ServiceValidationHelper_CIUtils2.prototype = {
+        <description>Functions called by script include "ServiceValidationHelper"&#13;
+cisDownFromCI: Call the _addChildCIs function for specified parent CI&#13;
+&#13;
+Internally called functions&#13;
+_getInfoObj: Tracking which CIs have already been processed within an object&#13;
+_addChildCIs: Lookup qualifying CI relationships&#13;
+_addCI: Add CI found to the info object&#13;
+_unique: Call _objToArray to return unique affected CIs&#13;
+_objToArray: Covert Obj to Array</description>
+        <name>ServiceValidationRelHelper</name>
+        <script><![CDATA[var ServiceValidationRelHelper = Class.create();
+ServiceValidationRelHelper.prototype = {
     initialize: function() {
-        this.maxDepth = gs.getProperty('glide.relationship.max_depth', 10); // how deep to look
-        this.maxAffectedCIs = gs.getProperty('glide.relationship.threshold', 1000); // max records to return
+        this.maxDepth = gs.getProperty('x_236151_service_1.mapped.ci.max.depth', 4); // how deep to look
+        this.maxAffectedCIs = gs.getProperty('x_236151_service_1.mapped.ci.max.threshold', 10000); // max records to return
         this.defaultClasses = ['cmdb_ci_service', 'service_offering'];
+		this.excludedClasses = gs.getProperty('x_236151_service_1.mapped.ci.excluded.ci.classes'); // excluded classes
         this.arutil = new ArrayUtil();
         this.sve = new ServiceValidationHelper();
     },
-    cisAffectedByCI: function(id, classArr, infoObj /*optional*/ ) {
+	
+    cisDownFromCI: function(id, classArr, infoObj, serviceValidation) {
         if (!infoObj) {
             infoObj = this._getInfoObj();
         }
@@ -29,196 +39,120 @@ ServiceValidationHelper_CIUtils2.prototype = {
             classArr = this.defaultClasses;
         }
 
-        // This is to keep track of affected CIs from this CI only.
-        // CIs that are already listed in infoObj.affectedCIs from prior
-        // calls to the function will not be included.
         var affectedCIs = [];
-        var ci = new GlideRecord('cmdb_ci');
-        if (ci.get(id)) {
-            //If class = 'ALL' then just add the CI
-            if (classArr[0] == 'ALL' || this.arutil.contains(classArr, ci.sys_class_name.toString())) {
-                affectedCIs.push(id);
-                this._addCI(id, infoObj);
-            }
-            this._addParentCIs(id, infoObj, affectedCIs, 1, classArr);
-        }
+		this._addChildCIs(id, infoObj, affectedCIs, 1, classArr, serviceValidation);
         return this._unique(affectedCIs); // list of affected CIs
     },
 
-    cisDownFromCI: function(id, classArr, infoObj /*optional*/ , service_validation) {
-        if (!infoObj) {
-            infoObj = this._getInfoObj();
-        }
-        if (infoObj.visitedCIs[id]) {
-            // We've already processed this CI
-            return [];
-        }
-        infoObj.visitedCIs[id] = true;
-        if (!classArr || classArr.length == 0) {
-            classArr = this.defaultClasses;
-        }
+    _addChildCIs: function(id, infoObj, affectedCIs, currentDepth, classArr, serviceValidation) {
 
-        // This is to keep track of affected CIs from this CI only.
-        // CIs that are already listed in infoObj.affectedCIs from prior
-        // calls to the function will not be included.
-        var affectedCIs = [];
-        var ci = new GlideRecord('cmdb_ci');
-        if (ci.get(id)) {
-            //If class = 'ALL' then just add the CI
-            if (classArr[0] == 'ALL' || this.arutil.contains(classArr, ci.sys_class_name.toString())) {
-                //affectedCIs.push(id);
-                //this._addCI(id, infoObj);
-            }
-            this._addChildCIs(id, infoObj, affectedCIs, 1, classArr, service_validation);
-        }
-        return this._unique(affectedCIs); // list of affected CIs
-    },
-
-    /**
-     * Determine which CIs are affected by a task
-     *
-     * Inputs:
-     * task is a task GlideRecord (e.g., incident, change_request, problem)
-     * classArr is an array of CI class names that should be returned
-     *
-     * Returns:
-     * an array of sys_id values for cmdb_ci records upstream from
-     * (or affected by) the configuration item referenced by the task's cmdb_ci field and Affected CIs list
-     */
-
-    cisAffectedByTask: function(task, classArr) {
-        var infoObj = this._getInfoObj();
-        //Find the impacted CIs for the 'cmdb_ci' value
-        var id = task.cmdb_ci.toString();
-        if (id) {
-            this.cisAffectedByCI(id, classArr, infoObj);
-        }
-
-        //Find the impacted CIs for any Affected CIs listed on the task
-        var affCI = new GlideRecord('task_ci');
-        affCI.addQuery('task', task.sys_id);
-        affCI.query();
-        while (affCI.next()) {
-            this.cisAffectedByCI(affCI.ci_item.sys_id.toString(), classArr, infoObj);
-        }
-        return this._objToArray(infoObj.affectedCIs);
-    },
-
-    /**
-     * Returns an XML-formatted string showing all CIs impacted by an outage to the CI given
-     *
-     * Inputs:
-     * id is the sys_id of the root CI
-     *
-     * Returns:
-     * an XML-formatted string containing cmdb_ci records downstream of
-     * (or affected by) the configuration item provided as input
-     */
-
-    getCIXML: function(id) {
-        var gr = new GlideRecord('cmdb_rel_ci');
-        gr.addQuery('child', id);
-        gr.query();
-        gr.next();
-        var str = '';
-        str += '<CI>';
-        str += '<sys_id>' + gr.child.sys_id + '</sys_id>';
-        str += '<name>' + gr.child.name + '</name>';
-        str += '<relType>SELF</relType>';
-        ret = this._recurs(id);
-        if (ret) {
-            str += '<children>';
-            str += ret;
-            str += '</children>';
-        }
-        str += '</CI>';
-        return str;
-    },
-
-    _recurs: function(ci) {
-        var gr = new GlideRecord('cmdb_rel_ci');
-        gr.addQuery('child', ci);
-        gr.query();
-        var str = '';
-        while (gr.next()) {
-            str += '<CI>';
-            str += '<sys_id>' + gr.parent.sys_id + '</sys_id>';
-            str += '<name>' + gr.parent.name + '</name>';
-            str += '<relType>' + gr.type.name + '</relType>';
-            ret = this._recurs(gr.parent.sys_id);
-            if (ret) {
-                str += '<children>';
-                str += ret;
-                str += '</children>';
-            }
-            str += '</CI>';
-        }
-        return str;
-    },
-
-    _addParentCIs: function(id, infoObj, affectedCIs, currentDepth, classArr) {
-        if (infoObj.affectedCIsCount >= this.maxAffectedCIs)
+		if (infoObj.affectedCIsCount >= this.maxAffectedCIs)
             return;
+		
+		
+		var gdt = new GlideDateTime();
+		
+		/*  ********************* Attempt 1 - Pagination  *********************
+		// Paginate/Batch the CMDB Rel CI Query - for Performance Gains
+		var starts = [0, 200, 400, 600];
+		var getNext = Paginator.paginateCIRels('cmdb_rel_ci', 'parent='+id+'^child.sys_class_nameNOT IN'+this.excludedClasses);
+		var pageSize = 199;
 
-        var rel = new GlideRecord('cmdb_rel_ci');
-        rel.addQuery('child', id);
-        rel.query();
+		
+		var childs = [];
 
-        var parents = [];
-        while (rel.next()) {
-            parents.push(rel.parent.toString());
-        }
-        if (parents.length) {
-            var parent = new GlideRecord('cmdb_ci');
-            parent.addQuery('sys_id', parents);
-            parent.query();
-
-            while (parent.next() && infoObj.affectedCIsCount < this.maxAffectedCIs) {
-                var pid = parent.sys_id.toString();
-                if (!infoObj.visitedCIs[pid]) {
+		for (var x = 0; x < starts.length; x++ ) {
+			var childBatch = getNext(starts[x], starts[x] + pageSize); // Returns Sys_ID list of Child CIs within batch
+			
+			for (var c = 0; c < childBatch.length; c++){
+			
+				var pid = childBatch[c].childID;
+				childs.push(pid); // Push each sys_id to the Childs array
+				
+				
+				
+			this.sve._addOrUpdateDataModel(childBatch[c].parentClass, childBatch[c].childClass, serviceValidation);
+				
+			if (infoObj.affectedCIsCount < this.maxAffectedCIs){
+				if (!infoObj.visitedCIs[pid]) {
                     infoObj.visitedCIs[pid] = true;
-                    if (classArr[0] == 'ALL' || this.arutil.contains(classArr, parent.sys_class_name.toString())) {
-                        affectedCIs.push(pid);
+                    if (classArr[0] == 'ALL' || this.arutil.contains(classArr, childBatch[c].childClass.toString())) {
+                        affectedCIs.push({"id": pid, "depth": currentDepth});
                         this._addCI(pid, infoObj);
                     }
-                    if (currentDepth < this.maxDepth)
-                        this._addParentCIs(pid, infoObj, affectedCIs, currentDepth + 1, classArr);
+                    if (currentDepth < this.maxDepth){
+                        this._addChildCIs(pid, infoObj, affectedCIs, currentDepth + 1, classArr, serviceValidation);
+					}
                 }
-            }
-        }
-    },
-    _addChildCIs: function(id, infoObj, affectedCIs, currentDepth, classArr, service_validation) {
-        if (infoObj.affectedCIsCount >= this.maxAffectedCIs)
-            return;
+			}
+			
+			}
+		}
+		this.sve._createOrUpdatePerformanceStat(serviceValidation.number + " paginated", gdt, "Function", serviceValidation);
+		
+		var childs = [];
+		var rel = new GlideAggregate('cmdb_rel_ci');
+        rel.addQuery('parent', id);
+		rel.addQuery('child.sys_class_name', 'NOT IN', this.excludedClasses);
+		rel.addAggregate('COUNT', 'sys_id');
+        rel.query();
+		while (rel.next()){
+			
+			var relObj = this._getRelComponents(rel.getValue('sys_id'));
+			childs.push(relObj.child.toString());
+			this.sve._addOrUpdateDataModel(relObj.parentClass.toString(), relObj.childClass.toString(), serviceValidation);
+		}
+		
+		*/
 
         var rel = new GlideRecord('cmdb_rel_ci');
         rel.addQuery('parent', id);
+		rel.addQuery('child.sys_class_name', 'NOT IN', this.excludedClasses);
         rel.query();
 
         var childs = [];
         while (rel.next()) {
             childs.push(rel.child.toString());
-            this.sve.addOrUpdateDataModel(rel.parent.sys_class_name, rel.child.sys_class_name, service_validation);
+            this.sve._addOrUpdateDataModel(rel.parent.sys_class_name, rel.child.sys_class_name, serviceValidation);
         }
+		
         if (childs.length) {
+
             var child = new GlideRecord('cmdb_ci');
             child.addQuery('sys_id', childs);
             child.query();
 
             while (child.next() && infoObj.affectedCIsCount < this.maxAffectedCIs) {
+							
                 var pid = child.sys_id.toString();
                 if (!infoObj.visitedCIs[pid]) {
                     infoObj.visitedCIs[pid] = true;
                     if (classArr[0] == 'ALL' || this.arutil.contains(classArr, child.sys_class_name.toString())) {
-                        affectedCIs.push(pid);
+                        affectedCIs.push({"id": pid, "depth": currentDepth});
                         this._addCI(pid, infoObj);
                     }
-                    if (currentDepth < this.maxDepth)
-                        this._addChildCIs(pid, infoObj, affectedCIs, currentDepth + 1, classArr, service_validation);
+                    if (currentDepth < this.maxDepth){
+                        this._addChildCIs(pid, infoObj, affectedCIs, currentDepth + 1, classArr, serviceValidation);
+					}
                 }
             }
         }
+		this.sve._createOrUpdatePerformanceStat(serviceValidation.number + " oldfunc", gdt, "Function", serviceValidation);
+		
     },
+	
+	_getRelComponents: function(id){
+				
+		var getRel = new GlideRecord('cmdb_rel_ci');
+		getRel.get(id);
+		getRel.query();
+		if (getRel.next()){
+		var relObj = {"parent": getRel.parent, "parentClass": getRel.parent.sys_class_name, "child": getRel.child, "childClass": getRel.child.sys_class_name};
+			
+		return relObj;
+		}
+
+	},
 
     _addCI: function(id, infoObj) {
         infoObj.affectedCIs[id] = true;
@@ -235,8 +169,8 @@ ServiceValidationHelper_CIUtils2.prototype = {
 
     _objToArray: function(obj) {
         var ar = [];
-        for (var id in obj) {
-            ar.push(id);
+        for (var el in obj) {
+            ar.push(obj[el]);
         }
         return ar;
     },
@@ -244,23 +178,23 @@ ServiceValidationHelper_CIUtils2.prototype = {
     _unique: function(a) {
         var obj = {};
         for (var idx in a) {
-            obj[a[idx]] = true;
+            obj[a[idx].id] = { "id": a[idx].id, "depth": a[idx].depth};
         }
         return this._objToArray(obj);
     },
-    type: 'ServiceValidationHelper_CIUtils2'
+    type: 'ServiceValidationRelHelper'
 };]]></script>
         <sys_class_name>sys_script_include</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2023-02-27 20:52:10</sys_created_on>
         <sys_id>2e21359d97d12110892239000153af4b</sys_id>
-        <sys_mod_count>3</sys_mod_count>
-        <sys_name>ServiceValidationHelper_CIUtils2</sys_name>
+        <sys_mod_count>80</sys_mod_count>
+        <sys_name>ServiceValidationRelHelper</sys_name>
         <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
         <sys_update_name>sys_script_include_2e21359d97d12110892239000153af4b</sys_update_name>
-        <sys_updated_by>tomi.rekonen</sys_updated_by>
-        <sys_updated_on>2023-03-22 17:25:55</sys_updated_on>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-06-06 12:48:56</sys_updated_on>
     </sys_script_include>
 </record_update>

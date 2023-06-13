@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_236151_service_1.ScheduledExecutionUtils</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>ScheduledExecutionUtils</name>
+        <script><![CDATA[var ScheduledExecutionUtils = Class.create();
+ScheduledExecutionUtils.prototype = {
+    initialize: function() {
+    },
+	
+	batchedSVE: function(limit){
+		
+		var startDateTime = new GlideDateTime();
+		var sve = new ServiceValidationHelper();
+		var serviceValidationList = '';
+		
+		// Retrieve Mapped CIs
+		var sv = new GlideRecord('x_236151_service_1_service_validation');
+		sv.setLimit(limit);
+		sv.orderBy('last_validation_time');
+		sv.query();
+		while (sv.next()){
+			
+			try{
+				sve.createOrUpdateMappedCIs(sv.service.sys_id);
+				serviceValidationList += "," + sv.sys_id;
+			}
+			catch(err){
+				gs.info('Error in Mapped CIs for ' + sv.number + ' error: ' + err.message);
+			}
+		}
+		
+		var description = "Execution completed: SVE Generate Mapped CIs (Batched)";
+		sve._createOrUpdatePerformanceStat(description, startDateTime, "Scheduled Execution", null);
+		
+		// Execute Blueprints
+		startDateTime = new GlideDateTime();
+		var mapCI = new GlideAggregate('x_236151_service_1_associated_cis');
+		mapCI.addQuery('service_validation', 'IN', serviceValidationList);
+		mapCI.addAggregate('COUNT', 'service_validation');
+		mapCI.query();
+		while (mapCI.next()){
+			
+			var sv2 = new GlideRecord('x_236151_service_1_service_validation');
+			if (!sv2.get(mapCI.getValue('service_validation'))){
+				continue;
+			}
+			
+			sv2.validation_status = 'validating_patterns';
+			sv2.update();
+			var hasError = false;
+			
+			try{
+				sve.findPatterns('',sv2, 'Blueprint');
+			}
+			catch(err){
+				gs.info('Error in Validating Controls for ' + sv2.number + ' error: ' + err.message);
+			}
+			try{
+				sve.runScores(sv2);
+			}
+			catch(err){
+				gs.info('Error in Running Scores for ' + sv2.number + ' error: ' + err.message);
+			}
+			try{
+				sve._createOrUpdatePerformanceStat(sv.number, startDateTime, 'Service Validation');
+			}
+			catch(err){
+				gs.info('Error in Creating Performance Stats for ' + sv2.number + ' error: ' + err.message);
+			}
+			try{
+				sve.autoCertify(sv2);
+			}
+			catch(err){
+				gs.info('Error in Auto-Certification for ' + sv2.number + ' error: ' + err.message);
+			}
+			
+			if (hasError){
+				sv2.validation_status = 'pattern_validation_error';
+			}
+			else{
+				sv2.validation_status = 'pattern_validation_completed';
+			}
+			sv2.update();
+		}
+		description = "Execution completed: SVE Execute Blueprints (Batched)";
+		sve._createOrUpdatePerformanceStat(description, startDateTime, "ScheduledExecution", null);
+	},
+
+    type: 'ScheduledExecutionUtils'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2023-06-05 11:39:32</sys_created_on>
+        <sys_id>62fbdc381b5761101984dc66bd4bcb07</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>ScheduledExecutionUtils</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_update_name>sys_script_include_62fbdc381b5761101984dc66bd4bcb07</sys_update_name>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-06-05 12:08:09</sys_updated_on>
+    </sys_script_include>
+</record_update>

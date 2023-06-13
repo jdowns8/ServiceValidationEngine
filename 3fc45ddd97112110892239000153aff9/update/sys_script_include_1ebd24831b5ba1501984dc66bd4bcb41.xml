@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_236151_service_1.AccessUtils</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>AccessUtils</name>
+        <script><![CDATA[var AccessUtils = Class.create();
+AccessUtils.prototype = {
+    initialize: function() {
+    },
+
+	grantGroupMembershipFromFieldVal: function(table, field, userId, currentGr, groupId) {
+		var recGr = new GlideAggregate(table);
+		recGr.addQuery(field, userId);
+		recGr.addAggregate("COUNT");
+		recGr.query();
+		recGr.next();
+		if(recGr.getAggregate("COUNT") == 0)
+			this.removeUserFromGroup(userId, groupId);
+		else
+			this.addUserToGroup(userId, groupId);
+	},
+	
+	removeUserFromGroup: function(userId, groupId) {
+		var grpDelGr = new GlideRecord("sys_user_grmember");
+		grpDelGr.addQuery("user", userId);
+		grpDelGr.addQuery("group", groupId);
+		grpDelGr.deleteMultiple();
+	},
+	
+	addUserToGroup: function(userId, groupId) {
+		var grpGr = new GlideRecord("sys_user_grmember");
+		grpGr.addQuery("user", userId);
+		grpGr.addQuery("group", groupId);
+		grpGr.query();
+		if(!grpGr.hasNext()) {
+			grpGr.initialize();
+			grpGr.group = groupId;
+			grpGr.user = userId;
+			grpGr.insert();
+		}
+	},
+	
+    type: 'AccessUtils'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>adam.domanski</sys_created_by>
+        <sys_created_on>2023-06-12 12:31:23</sys_created_on>
+        <sys_id>1ebd24831b5ba1501984dc66bd4bcb41</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>AccessUtils</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_update_name>sys_script_include_1ebd24831b5ba1501984dc66bd4bcb41</sys_update_name>
+        <sys_updated_by>adam.domanski</sys_updated_by>
+        <sys_updated_on>2023-06-12 12:31:23</sys_updated_on>
+    </sys_script_include>
+</record_update>

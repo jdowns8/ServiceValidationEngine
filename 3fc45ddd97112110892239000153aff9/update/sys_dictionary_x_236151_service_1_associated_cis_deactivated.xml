@@ -13,7 +13,7 @@
         <choice/>
         <choice_field/>
         <choice_table/>
-        <column_label>Deactivated</column_label>
+        <column_label>Deactivated time</column_label>
         <comments/>
         <create_roles/>
         <default_value/>
@@ -53,13 +53,13 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2023-02-27 19:03:21</sys_created_on>
         <sys_id>13b603351b552150dd76a8a4bd4bcbd5</sys_id>
-        <sys_name>Deactivated</sys_name>
+        <sys_name>Deactivated time</sys_name>
         <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
         <sys_policy/>
         <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
         <sys_update_name>sys_dictionary_x_236151_service_1_associated_cis_deactivated</sys_update_name>
         <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
-        <sys_updated_on>2023-03-01 16:21:41</sys_updated_on>
+        <sys_updated_on>2023-06-02 10:18:15</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <unique>false</unique>

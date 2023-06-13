@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties_category">
+    <sys_properties_category action="INSERT_OR_UPDATE">
+        <name>Service Validation Engine</name>
+        <sys_class_name>sys_properties_category</sys_class_name>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2023-06-05 11:42:02</sys_created_on>
+        <sys_id>025f98fc1b5761101984dc66bd4bcb78</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Service Validation Engine</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_update_name>sys_properties_category_025f98fc1b5761101984dc66bd4bcb78</sys_update_name>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-06-05 11:42:02</sys_updated_on>
+        <title><![CDATA[<p>Service Validation Engine Properties</p>]]></title>
+    </sys_properties_category>
+    <sys_translated_text action="delete_multiple" query="documentkey=025f98fc1b5761101984dc66bd4bcb78"/>
+</record_update>

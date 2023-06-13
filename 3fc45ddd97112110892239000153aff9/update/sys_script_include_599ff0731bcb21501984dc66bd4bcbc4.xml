@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_236151_service_1.DriftHelper</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description>Functions called by script include "ServiceValidationHelper"&#13;
+ciAttributeChanged: If CI attribute has changed, set baseline and create Drift Event&#13;
+ciRelCreated: If Mapped CI is created today, create Drift Event&#13;
+ciRelRemoved: If Mapped CI is deactivated today, create Drift Event&#13;
+&#13;
+Internally called functions&#13;
+_checkOpenDriftEvent: Check for open Drift Events for the specified ci, pattern and service validation&#13;
+_getAttributeElements: Get column names from dictionary&#13;
+_getAttributeValue: Get dynamic CMDB CI attribute value&#13;
+_createDriftEvent: Create Drift Event</description>
+        <name>DriftHelper</name>
+        <script><![CDATA[var DriftHelper = Class.create();
+DriftHelper.prototype = {
+    initialize: function() {
+    },
+	
+	ciAttributeChanged: function(ci, serviceValidation, pattern, service){
+		
+		// Check for Existing Drift Event - if so then ignore
+		var openDriftEvent = this._checkOpenDriftEvent(ci, serviceValidation, pattern);
+		
+		if (openDriftEvent == 'false'){
+			
+			var driftAttr = this._getAttributeElements(pattern.drift_attributes);
+			
+			for (var i=0; i < driftAttr.length; i++){
+				var driftAttributeValue = this._getAttributeValue(ci, driftAttr[i]);
+				
+				// for each attribute check for existing Drift Data record
+				var checkBaseline = new GlideRecord('x_236151_service_1_drift_data');
+				checkBaseline.addQuery('ci', ci.sys_id);
+				checkBaseline.addQuery('attribute', driftAttr[i]);
+				checkBaseline.addNullQuery('parent');
+				checkBaseline.setLimit(1);
+				checkBaseline.query();
+				if (!checkBaseline.next()){
+					
+					// Create Drift Data - Baseline
+					checkBaseline.initialize();
+					checkBaseline.ci.setValue(ci.sys_id);
+					checkBaseline.attribute.setValue(driftAttr[i]);
+					checkBaseline.value.setValue(driftAttributeValue);
+					checkBaseline.insert();					
+				}
+				
+				else if (checkBaseline.value != driftAttributeValue){
+					
+					// Create Drift Data - Drift
+					var createDriftData = new GlideRecord('x_236151_service_1_drift_data');
+					createDriftData.initialize();
+					createDriftData.ci.setValue(ci.sys_id);
+					createDriftData.attribute.setValue(driftAttr[i]);
+					createDriftData.value.setValue(driftAttributeValue);
+					createDriftData.parent.setValue(createDriftData.sys_id);
+					createDriftData.insert();
+					
+					// Create Drift Event
+					this._createDriftEvent(ci, serviceValidation, pattern);
+				}
+			}
+			return;
+		}
+		else{
+			return;
+		}
+	},
+	
+	ciRelCreated: function(ci, serviceValidation, pattern, service){
+
+		// Check for Existing Drift Event - if so then ignore
+		var openDriftEvent = this._checkOpenDriftEvent(ci, serviceValidation, pattern);
+		
+		if (openDriftEvent == 'false'){
+			
+			// Check If Mapped CI was created on today
+			var checkMappedCI = new GlideRecord('x_236151_service_1_associated_cis');
+			checkMappedCI.addQuery('ci', ci.sys_id);
+			checkMappedCI.addQuery('service_validation', serviceValidation.sys_id);
+			checkMappedCI.addQuery('active', 'true');
+			checkMappedCI.addEncodedQuery('sys_created_onONToday');
+			checkMappedCI.query();
+			if (checkMappedCI.next()){
+				
+				// Create Drift Event
+				this._createDriftEvent(ci, serviceValidation, pattern);
+				
+			}
+		}
+	},
+	
+	ciRelRemoved: function(ci, serviceValidation, pattern, service){
+
+		// Check for Existing Drift Event - if so then ignore
+		var openDriftEvent = this._checkOpenDriftEvent(ci, serviceValidation, pattern);
+		
+		if (openDriftEvent == 'false'){
+			
+			// Check If Mapped CI was created on today
+			var checkMappedCI = new GlideRecord('x_236151_service_1_associated_cis');
+			checkMappedCI.addQuery('ci', ci.sys_id);
+			checkMappedCI.addQuery('service_validation', serviceValidation.sys_id);
+			checkMappedCI.addQuery('active', 'false');
+			checkMappedCI.addEncodedQuery('deactivatedONToday');
+			checkMappedCI.query();
+			if (checkMappedCI.next()){
+				
+				// Create Drift Event
+				this._createDriftEvent(ci, serviceValidation, pattern);
+				
+			}
+		}
+	},
+	
+	_checkOpenDriftEvent: function(ci, serviceValidation, pattern){
+		
+		var isOpen = 'false';
+		
+		// Check for Open Drift Event
+		var checkEvent = new GlideRecord('x_236151_service_1_drift_events');
+		checkEvent.addQuery('ci', ci.sys_id);
+		checkEvent.addQuery('service_validation', serviceValidation.sys_id);
+		checkEvent.addQuery('service_validation_pattern', pattern.sys_id);
+		checkEvent.addQuery('active', 'true');
+		checkEvent.query();
+		if (checkEvent.next()){
+			isOpen = 'true';
+		}
+		
+		return isOpen;
+	},
+	
+	_getAttributeElements: function(dict){
+	
+		var elementIDs = [];
+		
+		var getElements = new GlideRecord('sys_dictionary');
+		getElements.addQuery('sys_id', 'IN', dict);
+		getElements.query();
+		while (getElements.next()){
+			var element = getElements.element.toString();
+			elementIDs.push(element);
+		}
+		
+		return elementIDs;
+	},
+	
+	_getAttributeValue: function(ci, attr){
+		
+		var value = '';
+		
+		var getVal = new GlideRecord(ci.sys_class_name);
+		getVal.get(ci.sys_id);
+		if (getVal.isValidRecord()){
+			value = getVal.getValue(attr);
+		}
+		else{
+			gs.addInfoMessage("Not a valid record");
+		}
+		return value;
+		
+	},
+	
+	_createDriftEvent: function(ci, serviceValidation, pattern){
+		
+		// Create Drift Event
+		var createEvent = new GlideRecord('x_236151_service_1_drift_events');
+		createEvent.initialize();
+		createEvent.setValue('ci', ci.sys_id);
+		createEvent.setValue('active', 'true');
+		createEvent.setValue('service_validation', serviceValidation.sys_id);
+		createEvent.setValue('service_validation_pattern', pattern.sys_id);
+		createEvent.insert();
+	},
+	
+	
+
+    type: 'DriftHelper'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2023-06-02 11:35:12</sys_created_on>
+        <sys_id>599ff0731bcb21501984dc66bd4bcbc4</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>DriftHelper</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_update_name>sys_script_include_599ff0731bcb21501984dc66bd4bcbc4</sys_update_name>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-06-02 11:48:40</sys_updated_on>
+    </sys_script_include>
+</record_update>

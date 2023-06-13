@@ -7,7 +7,7 @@
 
 }]]></client_script_v2>
         <comments/>
-        <condition/>
+        <condition>current.active == true</condition>
         <form_action>true</form_action>
         <form_button>false</form_button>
         <form_button_v2>false</form_button_v2>
@@ -18,22 +18,21 @@
         <format_for_configurable_workspace>false</format_for_configurable_workspace>
         <hint/>
         <isolate_script>false</isolate_script>
-        <list_action>false</list_action>
+        <list_action>true</list_action>
         <list_banner_button>false</list_banner_button>
         <list_button>false</list_button>
-        <list_choice>false</list_choice>
-        <list_context_menu>false</list_context_menu>
+        <list_choice>true</list_choice>
+        <list_context_menu>true</list_context_menu>
         <list_link>false</list_link>
         <list_save_with_form_button>false</list_save_with_form_button>
         <list_style/>
         <messages/>
-        <name>Validate Blueprints</name>
+        <name>Validate Blueprint Patterns</name>
         <onclick/>
         <order>100</order>
-        <script><![CDATA[var sh = new ServiceValidationHelper();
-sh.findPatterns('', current);
-//sh.findPatternsAppliesAll('');
-sh.runScores();
+        <script><![CDATA[var valCon = new ServiceValidationHelper();
+valCon.findPatterns('', current, 'Blueprint');
+valCon.runScores(current);
 action.setRedirectURL(current);]]></script>
         <show_insert>true</show_insert>
         <show_multiple_update>false</show_multiple_update>
@@ -45,15 +44,15 @@ action.setRedirectURL(current);]]></script>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>3b9a70791be5a5101984dc66bd4bcbce</sys_id>
-        <sys_mod_count>4</sys_mod_count>
-        <sys_name>Validate Blueprints</sys_name>
+        <sys_mod_count>8</sys_mod_count>
+        <sys_name>Validate Blueprint Patterns</sys_name>
         <sys_overrides/>
         <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
         <sys_policy/>
         <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
         <sys_update_name>sys_ui_action_3b9a70791be5a5101984dc66bd4bcbce</sys_update_name>
         <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
-        <sys_updated_on>2023-03-31 09:43:35</sys_updated_on>
+        <sys_updated_on>2023-06-05 10:43:50</sys_updated_on>
         <table>x_236151_service_1_service_validation</table>
         <ui11_compatible>true</ui11_compatible>
         <ui16_compatible>false</ui16_compatible>

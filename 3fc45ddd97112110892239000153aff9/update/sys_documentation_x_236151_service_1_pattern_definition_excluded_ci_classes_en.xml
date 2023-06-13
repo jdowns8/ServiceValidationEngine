@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_documentation element="excluded_ci_classes" label="Excluded CI classes" language="en" table="x_236151_service_1_pattern_definition">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>excluded_ci_classes</element>
+            <help/>
+            <hint/>
+            <label>Excluded CI classes</label>
+            <language>en</language>
+            <name>x_236151_service_1_pattern_definition</name>
+            <plural>Excluded CI classes</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>jdowns8@dxc.com</sys_created_by>
+            <sys_created_on>2023-06-02 10:21:26</sys_created_on>
+            <sys_id>972074bf1b0b21501984dc66bd4bcb5b</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Excluded CI classes</sys_name>
+            <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+            <sys_update_name>sys_documentation_x_236151_service_1_pattern_definition_excluded_ci_classes_en</sys_update_name>
+            <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+            <sys_updated_on>2023-06-02 10:21:26</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

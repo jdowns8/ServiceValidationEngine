@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_236151_service_1.PagedGlideRecord</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>PagedGlideRecord</name>
+        <script><![CDATA[var PagedGlideRecord = Class.create();
+PagedGlideRecord.prototype = {
+    /**
+     * Iterates over a large table by processing one chunk at a time. Passes each GlideRecord object into a callbackFunction function. Call the ".nextPage()" method to turn the page.
+     * Note: You must call .nextPage() at least once after initializing PagedGlideRecord, to get any data.
+     * @param tableName {string} the system name (such as incident or sc_request) of the table we're working with.
+     * @param [queryString=''] {string} The query string used to filter the returned GlideRecord
+     * @param [pageSize=500] {number} the size of the chunks to process at a time. Recommend 200-500. NOTE: This number MUST BE LESS THAN the glide.db.max_view_records property. If this property isn't set, then this number must be less than 10,000.
+     * @returns {*} self
+     */
+    initialize: function (tableName, queryString, pageSize)
+    {
+        //Enforce mandatory argument
+        if (!tableName) {
+            gs.info('PagedGlideRecord was initialized without a valid table passed to the constructor.', 'PagedGlideRecord script include - initialize method');
+            throw 'PagedGlideRecord was initialized without a valid table passed to the constructor. tableName parameter[0]: ' + tableName;
+        }
+
+        //initialize optional values with defaults
+        this.pageSize = 500;
+        this.queryString = '';
+
+        //Set additional default values that are tracked at the class-scope level.
+        this.currentLocation = -1;
+        this.tableName = tableName.toString();
+        this.page = 0;
+
+        //validate & setup optional arguments
+        if (queryString) {
+            this.queryString = queryString.toString();
+        }
+        if (pageSize && pageSize > 0) {
+            //Using parseInt to validate pageSize because "isInteger()" was introduced in ECMA2015, and so won't work in Geneva or earlier.
+            pageSize = parseInt(pageSize);
+            //Using ternary operators, set maxViewRecords to either the max_view_records property if it exists, or the default maximum (10k) if it does not.
+            var maxViewRecords = gs.getProperty('glide.db.max_view_records') ? parseInt(gs.getProperty('glide.db.max_view_records')) : 10000;
+            if (maxViewRecords < pageSize) {
+                gs.info('Page size specified is greater than maximum records returnable from GlideRecord query (as determined by system property glide.db.max_view_records). Thus, setting pageSize to the system maximum: ' + maxViewRecords + '.', 'PagedGlideRecord script include.');
+                pageSize = maxViewRecords; //If the page size is larger than the maximum records we can get from a GlideRecord query, set pageSize to the maximum query size.
+            }
+            this.pageSize = pageSize;
+        }
+        return this;
+    },
+
+    /**Turns the page, getting the next n rows (as defined by the pageSize parameter when initializing the class) and passes them into the callback function.
+     * @param [callbackFunction] {callback} the SEMI-optional function to be called to do work on each GlideRecord object.
+     * The specified callback function must accept one argument: A GlideRecord object containing ONE record from the table specified in the first argument.
+     * Note that you must specify the callback function at least once either while calling nextPage(), or by calling setCallback(); subsequent calls to the nextPage() method don't necessarily need it specified; they'll continue using the previously-specified callback function.
+     * @returns {boolean} Returns true if more records are found AFTER all records within the "page" are processed (That is, returns true if there is a "next page").
+     */
+    nextPage: function (callbackFunction)
+    {
+        var counter = 0;
+        //validate callbackFunction exists or is specified. If not, throw an error.
+        if (!this.setCallback(callbackFunction)) {
+            return false; //setCallback logs an error if it fails. Otherwise, continue.
+        }
+        //do work
+        var gr = new GlideRecord(this.tableName); //declare gr
+        gr.addEncodedQuery(this.queryString); //query using whatever encoded query the user passed in, or a blank string (default value) which should return everything.
+        this.currentLocation++; //Iterate currentLocation to the next record, since we don't want to get the last record we got in the last page, we want the first record of the NEW page!
+        //Note: chooseWindow (below) INCLUDES the first index, but DOES NOT INCLUDE the last; hence the above iteration.
+        //So "chooseWindow(0,3)" will run through records at index 0, 1, and 2 - but not the record at index 3.
+        gr.chooseWindow((this.currentLocation), (this.currentLocation + this.pageSize), true);
+        gr.query();
+        try {
+
+            if (!gr.hasNext()) {
+                return false;
+            }
+            this.page++; //increment the page counter, so we can keep track of where we are.
+            while (gr.next()) {
+                this.callbackFunction(gr); //For each record found, pass it into the callback function.
+                counter++;
+            }
+            this.currentLocation = gr.getLocation(); //Once we've hit the limit of our window declared above by setLimit and below by chooseWindow, get our location so we can begin again from the same point.
+            gs.log('PagedGlideRecord Processed PAGE ' + this.page + '. Last record processed: row ' + (this.currentLocation + 1) + '.');
+            if (counter < this.pageSize) {
+                return false;
+            }
+            else {
+                gr.chooseWindow((this.currentLocation + 1), (this.currentLocation + 2), true); //set the window so we run through the NEXT 500 records, if there are that many.
+                gr.query();
+                return gr.hasNext();
+            }
+
+        } catch (ex) {
+            var errMsg = 'Error in attempting to iterate over a large table, using function PagedGlideRecord. Records processed: ' + this.currentLocation + ' Error details: ' + ex.message;
+            gs.info(errMsg, 'PagedGlideRecord');
+            throw errMsg;
+        }
+    },
+
+    setCallback: function (callbackFunction)
+    {
+        //validate callbackFunction exists or is specified. If not, throw an error.
+        if (callbackFunction) {
+            this.callbackFunction = callbackFunction;
+            return true; //return true if callback has a good value.
+        }
+        else if (this.callbackFunction) {
+            return false; //return false and continue execution if callback was falsey but one is already specified.
+        }
+        else {
+            //throw errors if neither the argument or existing callback are valid.
+            gs.info('Invalid or no callback function specified', 'PagedGlideRecord script include');
+            throw 'Invalid or no callback function specified when calling setCallback in PagedGlideRecord';
+        }
+    },
+
+    /**
+     * Get the page number for the page that was last turned to. The next page will be one greater than this number.
+     * @returns {number} the current page number.
+     */
+    getPage: function() {
+        return this.page;
+    },
+
+    /**
+     * Get the current location - a zero-based index. The current "row number" will be this value, plus one.
+     * @returns {number|*} the zero-based index of the last record returned on the last page that was turned to.
+     */
+    getCurrentLocation: function() {
+        return this.currentLocation;
+    },
+
+    type: 'PagedGlideRecord'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2023-06-05 13:35:14</sys_created_on>
+        <sys_id>9f29f83c1b1b61101984dc66bd4bcbb6</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name>PagedGlideRecord</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_update_name>sys_script_include_9f29f83c1b1b61101984dc66bd4bcbb6</sys_update_name>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-06-05 13:53:16</sys_updated_on>
+    </sys_script_include>
+</record_update>

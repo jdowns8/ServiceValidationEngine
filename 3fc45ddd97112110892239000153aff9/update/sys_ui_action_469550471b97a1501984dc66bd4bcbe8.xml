@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_ui_action">
+    <sys_ui_action action="INSERT_OR_UPDATE">
+        <action_name>run_remediation_form</action_name>
+        <active>true</active>
+        <client>true</client>
+        <client_script_v2><![CDATA[function onClick(g_form) {
+
+}]]></client_script_v2>
+        <comments>///***** HIDE UI ACTION *****\\\\</comments>
+        <condition>(current.getRecordClassName().indexOf('cmdb_ci_remediation') &gt; -1  || current.getRecordClassName()=='reconcile_duplicate_task' || current.getRecordClassName() =='cert_follow_on_task') &amp;&amp; (gs.hasRole('itil_admin') || gs.hasRole('cmdb_dedup_admin'))</condition>
+        <form_action>true</form_action>
+        <form_button>true</form_button>
+        <form_button_v2>false</form_button_v2>
+        <form_context_menu>false</form_context_menu>
+        <form_link>false</form_link>
+        <form_menu_button_v2>false</form_menu_button_v2>
+        <form_style>primary</form_style>
+        <format_for_configurable_workspace>false</format_for_configurable_workspace>
+        <hint/>
+        <isolate_script>true</isolate_script>
+        <list_action>false</list_action>
+        <list_banner_button>false</list_banner_button>
+        <list_button>false</list_button>
+        <list_choice>false</list_choice>
+        <list_context_menu>false</list_context_menu>
+        <list_link>false</list_link>
+        <list_save_with_form_button>false</list_save_with_form_button>
+        <list_style/>
+        <messages/>
+        <name>Remediate</name>
+        <onclick>openRemediationPopup()</onclick>
+        <order>1100</order>
+        <script><![CDATA[	function openRemediationPopup(){
+    var dialogClass = window.GlideModal ? GlideModal : GlideDialogWindow;
+	var dialog = new dialogClass("cmdb_run_remediations");
+	dialog.setTitle(getMessage("Remediate"));
+	dialog.setPreference('sysparm_task_id', gel('sys_uniqueValue').value);
+	dialog.setPreference('sysparm_task_type', g_form.getTableName());
+	dialog.setPreference('sysparm_task_label', g_form.getValue('number'));
+	window.openedDialog = dialog;
+	dialog.render();
+	}]]></script>
+        <show_insert>true</show_insert>
+        <show_multiple_update>false</show_multiple_update>
+        <show_query>false</show_query>
+        <show_update>true</show_update>
+        <sys_class_name>sys_ui_action</sys_class_name>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2023-06-12 10:45:33</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>469550471b97a1501984dc66bd4bcbe8</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name>Remediate</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_update_name>sys_ui_action_469550471b97a1501984dc66bd4bcbe8</sys_update_name>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-06-12 10:47:22</sys_updated_on>
+        <table>x_236151_service_1_pattern_remediation_task</table>
+        <ui11_compatible>false</ui11_compatible>
+        <ui16_compatible>false</ui16_compatible>
+    </sys_ui_action>
+</record_update>

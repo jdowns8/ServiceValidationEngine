@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_m2m">
+    <sys_m2m action="INSERT_OR_UPDATE">
+        <from_table>cmdb_rel_ci</from_table>
+        <m2m_from_field>cmdb_rel_ci</m2m_from_field>
+        <m2m_from_label>Service Validations</m2m_from_label>
+        <m2m_table>x_236151_service_1_m2m_ci_relations_service_vali</m2m_table>
+        <m2m_to_field>x_236151_service_1_service_validation</m2m_to_field>
+        <m2m_to_label>CI Relationships</m2m_to_label>
+        <sys_class_name>sys_m2m</sys_class_name>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2023-06-02 10:28:24</sys_created_on>
+        <sys_id>bb11f4731b4b21501984dc66bd4bcb4a</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_236151_service_1_m2m_ci_relations_service_vali</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_update_name>sys_m2m_bb11f4731b4b21501984dc66bd4bcb4a</sys_update_name>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-06-02 10:28:24</sys_updated_on>
+        <to_table>x_236151_service_1_service_validation</to_table>
+    </sys_m2m>
+</record_update>

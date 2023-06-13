@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_package_dependency_m2m">
+    <sys_package_dependency_m2m action="INSERT_OR_UPDATE">
+        <dependency display_value="Task table schema" source="com.glide.task">a6c69894db30101008e39532ca9619ba</dependency>
+        <min_version>1.0.0</min_version>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2023-06-02 11:11:41</sys_created_on>
+        <sys_id>9babbc7b1b8b21501984dc66bd4bcb6d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-06-02 11:11:41</sys_updated_on>
+    </sys_package_dependency_m2m>
+</record_update>
