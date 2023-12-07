@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="eeb6cff11b552150dd76a8a4bd4bcb6c" max_length="40" name="x_236151_service_1_service_validation_results" type="collection">
+        <element label="Architecture KPI" max_length="15" name="architecture_kpi" type="percent_complete"/>
+        <element attributes="target_threshold_colors=0:tomato;70:khaki;90:lightgreen" label="Control KPI" max_length="15" name="control_kpi" type="percent_complete"/>
+        <element label="Last Validation Time" max_length="40" name="last_validation_time" type="glide_date_time"/>
+        <element attributes="ignore_filter_on_new=true" default="javascript:global.getNextObjNumberPadded();" label="Number" max_length="40" name="number" type="string"/>
+        <element label="Related CI" max_length="32" name="related_ci" reference="x_236151_service_1_associated_cis" type="reference"/>
+        <element label="Remediation task" max_length="32" name="remediation_task" reference="x_236151_service_1_pattern_remediation_task" type="reference"/>
+        <element label="Service validation" max_length="32" name="service_validation" reference="x_236151_service_1_service_validation" type="reference"/>
+        <element label="Service validation pattern" max_length="32" name="service_validation_pattern" reference="x_236151_service_1_service_validation_patterns" type="reference"/>
+        <element choice="1" label="Service validation result" max_length="40" name="service_validation_result" type="choice">
+            <choice/>
+        </element>
+        <element default="javascript:current.getTableName();" dynamic_default_value="b5cb83a85f220100a9ad2572f2b4773c" label="Class" max_length="80" name="sys_class_name" type="sys_class_name" use_dynamic_default="true"/>
+        <element label="Weighted Architecture KPI" max_length="15" name="weighted_architecture_kpi" type="percent_complete"/>
+        <element label="Weighted Control KPI" max_length="15" name="weighted_control_kpi" type="percent_complete"/>
+        <index name="index">
+            <element name="related_ci"/>
+        </index>
+        <index name="index2">
+            <element name="remediation_task"/>
+        </index>
+        <index name="index3">
+            <element name="service_validation"/>
+        </index>
+        <index name="index4">
+            <element name="service_validation_pattern"/>
+        </index>
+        <index name="index5">
+            <element name="sys_class_name"/>
+        </index>
+    </element>
+</database>

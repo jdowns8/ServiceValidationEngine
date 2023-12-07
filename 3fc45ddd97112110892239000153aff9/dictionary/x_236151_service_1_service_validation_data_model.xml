@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="87b603351b552150dd76a8a4bd4bcb70" max_length="40" name="x_236151_service_1_service_validation_data_model" type="collection">
+        <element display="true" label="CI class" max_length="100" name="ci_class" type="string"/>
+        <element attributes="ignore_filter_on_new=true" default="javascript:global.getNextObjNumberPadded();" label="Number" max_length="40" name="number" type="string"/>
+        <element label="Parent" max_length="32" name="parent" reference="x_236151_service_1_service_validation_data_model" type="reference"/>
+        <element label="Service Validation" max_length="32" name="service_validation" reference="x_236151_service_1_service_validation" type="reference"/>
+        <element default="javascript:current.getTableName();" dynamic_default_value="b5cb83a85f220100a9ad2572f2b4773c" label="Class" max_length="80" name="sys_class_name" type="sys_class_name" use_dynamic_default="true"/>
+        <index name="index">
+            <element name="parent"/>
+        </index>
+        <index name="index2">
+            <element name="service_validation"/>
+        </index>
+        <index name="index3">
+            <element name="sys_class_name"/>
+        </index>
+    </element>
+</database>

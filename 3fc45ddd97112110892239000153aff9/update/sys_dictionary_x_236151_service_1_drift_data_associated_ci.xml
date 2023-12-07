@@ -52,7 +52,6 @@
         <sys_class_name>sys_dictionary</sys_class_name>
         <sys_created_by>tomi.rekonen</sys_created_by>
         <sys_created_on>2023-03-23 14:23:14</sys_created_on>
-        <sys_id>dc5e37301b39e550dd76a8a4bd4bcbf4</sys_id>
         <sys_name>Associated CI</sys_name>
         <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
         <sys_policy/>

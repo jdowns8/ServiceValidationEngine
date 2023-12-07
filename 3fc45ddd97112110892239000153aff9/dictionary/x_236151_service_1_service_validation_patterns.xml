@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="7ab6cff11b552150dd76a8a4bd4bcbd8" max_length="40" name="x_236151_service_1_service_validation_patterns" type="collection">
+        <element label="Active" max_length="40" name="active" type="boolean"/>
+        <element label="Advanced" max_length="40" name="advanced" type="boolean"/>
+        <element label="Application assignment group/user" max_length="32" name="application_assignment_group_user" reference="sys_dictionary" reference_qual="javascript:'name=cmdb_ci_business_app^reference=sys_user^ORreference=sys_user_group'" type="reference" use_reference_qualifier="advanced"/>
+        <element label="Applies to all" max_length="40" name="applies_to_all" type="boolean"/>
+        <element attributes="base_table=cmdb_ci" label="Applies to Class" max_length="80" name="applies_to_class" type="table_name"/>
+        <element label="Auto-archive invalid relationships" max_length="40" name="auto_archive_invalid_relationships" type="boolean"/>
+        <element dependent="condition_table" dependent_on_field="condition_table" label="Condition" max_length="4000" name="condition" type="conditions" use_dependent_field="true"/>
+        <element attributes="base_start=true" label="Condition Table" max_length="80" name="condition_table" type="table_name"/>
+        <element attributes="edge_encryption_enabled=true" label="Pattern ID" max_length="40" name="control_id" type="string"/>
+        <element label="Create task" max_length="40" name="create_task" type="boolean"/>
+        <element display="true" label="Description" max_length="200" name="description" type="string"/>
+        <element attributes="no_sort=true,slushbucket_ref_no_expand=true" label="Drift attributes" max_length="1024" name="drift_attributes" reference="sys_dictionary" reference_qual="javascript:'name='+current.applies_to_class" type="glide_list" use_reference_qualifier="advanced"/>
+        <element attributes="edge_encryption_enabled=true" choice="1" label="Drift type" max_length="40" name="drift_type" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="CI Relationship Removed" sequence="0" value="CI Relationship Removed"/>
+                <element inactive_on_update="false" label="CI Relationship Created" sequence="1" value="CI Relationship Created"/>
+                <element inactive_on_update="false" label="CI Attribute Changed" sequence="2" value="CI Attribute Changed"/>
+            </choice>
+        </element>
+        <element attributes="ignore_filter_on_new=true" default="javascript:global.getNextObjNumberPadded();" label="Number" max_length="40" name="number" type="string"/>
+        <element choice="1" label="Relationship direction" max_length="40" name="relationship_direction" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Downstream" sequence="0" value="Downstream"/>
+                <element inactive_on_update="false" label="Upstream" sequence="1" value="Upstream"/>
+            </choice>
+        </element>
+        <element label="Remediation steps" max_length="32" name="remediation_steps" reference="kb_knowledge" reference_qual="workflow_state=published^EQ" reference_qual_condition="workflow_state=published^EQ" type="reference"/>
+        <element attributes="edge_encryption_enabled=true" choice="1" label="Service Impact" max_length="40" name="service_impact" type="string">
+            <choice/>
+        </element>
+        <element label="Store invalid relationships" max_length="40" name="store_invalid_relationships" type="boolean"/>
+        <element default="javascript:current.getTableName();" dynamic_default_value="b5cb83a85f220100a9ad2572f2b4773c" label="Class" max_length="80" name="sys_class_name" type="sys_class_name" use_dynamic_default="true"/>
+        <element choice="1" label="Task owner" max_length="40" name="task_owner" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Application Owner" value="Application Owner"/>
+                <element inactive_on_update="false" label="Technical Owner" value="Technical Owner"/>
+            </choice>
+        </element>
+        <element label="Technical assignment group" max_length="32" name="technical_assignment_group" reference="sys_user_group" type="reference"/>
+        <element label="Use Filter" max_length="40" name="use_filter" type="boolean"/>
+        <element attributes="edge_encryption_enabled=true" choice="1" label="Validation Type" max_length="40" name="validation_type" type="string">
+            <choice/>
+        </element>
+        <index name="index">
+            <element name="remediation_steps"/>
+        </index>
+        <index name="index2">
+            <element name="sys_class_name"/>
+        </index>
+        <index name="index3">
+            <element name="technical_assignment_group"/>
+        </index>
+    </element>
+</database>

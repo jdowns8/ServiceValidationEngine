@@ -52,7 +52,6 @@
         <sys_class_name>sys_dictionary</sys_class_name>
         <sys_created_by>jdowns8@dxc.com</sys_created_by>
         <sys_created_on>2023-06-02 11:11:40</sys_created_on>
-        <sys_id>87abbc7b1b8b21501984dc66bd4bcb44</sys_id>
         <sys_name>x_236151_service_1_pattern_remediation_task</sys_name>
         <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
         <sys_policy/>

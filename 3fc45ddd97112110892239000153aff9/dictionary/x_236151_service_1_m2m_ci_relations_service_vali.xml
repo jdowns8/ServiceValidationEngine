@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="9dc178b31b4b21501984dc66bd4bcbbd" label="Invalid CI Relationship" max_length="40" name="x_236151_service_1_m2m_ci_relations_service_vali" type="collection">
+        <element attributes="encode_utf8=false" label="CI Relationship" max_length="32" name="cmdb_rel_ci" reference="cmdb_rel_ci" type="reference"/>
+        <element label="Service validation pattern" max_length="32" name="service_validation_pattern" reference="x_236151_service_1_service_validation_patterns" type="reference"/>
+        <element attributes="encode_utf8=false" label="Service Validations" max_length="32" name="x_236151_service_1_service_validation" reference="x_236151_service_1_service_validation" type="reference"/>
+        <index name="index">
+            <element name="cmdb_rel_ci"/>
+        </index>
+        <index name="index2">
+            <element name="service_validation_pattern"/>
+        </index>
+    </element>
+</database>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_236151_service_1.ServiceImpactAssessment</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description>UI called functions:&#13;
+processSIA: Main function to process Service Impact Assessment&#13;
+&#13;
+Script Include called functions:&#13;
+_locateImpactedServices: Helper function to locate impacted services for a CI&#13;
+_getParents: Helper function to get parent CIs and their associated services recursively&#13;
+_updateImpactedServices: Helper function to update impacted services in the task&#13;
+_getValidationResult: Helper function to retrieve validation result for Mapped CI</description>
+        <name>ServiceImpactAssessment</name>
+        <script><![CDATA[// Define the ServiceImpactAssessment class using Class.create() method
+var ServiceImpactAssessment = Class.create();
+
+// Define the prototype of the ServiceImpactAssessment class
+ServiceImpactAssessment.prototype = {
+    // Constructor function to initialize object properties
+    initialize: function() {
+        this.siaAccuracy = gs.getProperty('x_236151_service_1.sia.accuracy', 'High'); // Stores configurable setting to only process parents with passed results - increasing accuracy
+        this.parentCIs = ""; // Stores parent CIs
+        this.servicesImpacted = ""; // Stores impacted services
+		this.sveList = "";
+    },
+
+    // Main function to process Service Impact Assessment
+    processSIA: function(ciObj, task) {
+
+		this._locateImpactedServices(ciObj); // Locate impacted services for the given CI
+		this._getParents(ciObj); // Get parent CIs, cycle through them, and find associated services
+		this._updateImpactedServices(this.servicesImpacted, task); // Update impacted services in the task
+		return this.servicesImpacted; // Return the list of impacted services
+
+    },
+
+    // Helper function to locate impacted services for a CI
+    _locateImpactedServices: function(ciObj) {
+			
+        var getServices = new GlideRecord('x_236151_service_1_associated_cis');
+        getServices.addQuery('ci', ciObj.sys_id.toString());
+        getServices.addQuery('active', 'true');
+        getServices.addQuery('service', 'NOT IN', this.servicesImpacted);
+        getServices.addNotNullQuery('service');
+        getServices.query();
+        while (getServices.next()) {
+			
+			var valResult = this._getValidationResult(getServices);
+			
+			if (this.siaAccuracy == 'High' && valResult == "true"){
+				gs.addInfoMessage("Found true result");
+				if (!this.servicesImpacted) {
+					this.servicesImpacted = getServices.getValue('service');
+				} else {
+					this.servicesImpacted += ',' + getServices.getValue('service');
+				}
+			}
+			else if (this.siaAccuracy != 'High'){
+				if (!this.servicesImpacted) {
+					this.servicesImpacted = getServices.getValue('service');
+				} else {
+					this.servicesImpacted += ',' + getServices.getValue('service');
+				}
+			}
+		}
+    },
+
+    // Helper function to get parent CIs and their associated services recursively
+    _getParents: function(ciObj) {
+        if (this.parentCIs.indexOf(ciObj.sys_id) > -1) {
+            return; // Skip if the CI is already processed
+        }
+		
+        var getParent = new GlideAggregate('cmdb_rel_ci');
+        getParent.addQuery('child', ciObj.sys_id);
+        getParent.addQuery('parent.sys_class_name', 'NOT IN', 'cmdb_ci_service_discovered, cmdb_ci_service, cmdb_ci_service_auto');
+        getParent.addAggregate('COUNT', 'parent');
+        getParent.query();
+        while (getParent.next()) {
+
+            // Recursively process parent CI and its associated services
+            this._locateImpactedServices(getParent.parent.getRefRecord());
+            this._getParents(getParent.parent.getRefRecord());
+        }
+    },
+
+    // Helper function to update impacted services in the task
+    _updateImpactedServices: function(servicesList, task) {
+		
+		if (servicesList){
+        // Remove all impacted services associated with the task
+        var removeAll = new GlideRecord('task_cmdb_ci_service');
+        removeAll.addQuery('task', task.sys_id);
+		removeAll.addQuery('cmdb_ci_service', '!=', task.cmdb_ci_service);
+        removeAll.query();
+        removeAll.deleteMultiple();
+
+        // Add new impacted services to the task
+        var service = servicesList.split(",");
+        for (var i = 0; i < service.length; i++) {
+            var addNew = new GlideRecord('task_cmdb_ci_service');
+            addNew.initialize();
+            addNew.setValue('task', task.sys_id);
+            addNew.setValue('cmdb_ci_service', service[i]);
+            addNew.insert();
+        }
+		}
+    },
+	
+	// Helper function to retrieve validation result for Mapped CI
+	_getValidationResult: function(mappedCI){
+		var valResult = new GlideAggregate('x_236151_service_1_service_validation_results');
+        valResult.addQuery('related_ci', mappedCI.sys_id);
+		valResult.addQuery('service_validation', mappedCI.service_validation);
+		valResult.addQuery('service_validation_result', 'true');
+        valResult.addAggregate('COUNT');
+        valResult.query();
+		if (valResult.getAggregate('COUNT') > 0){
+			return "true";
+		}
+		else{
+			return "false";
+		}
+	},
+
+    type: 'ServiceImpactAssessment'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2023-07-26 08:40:38</sys_created_on>
+        <sys_id>379dd68d1b587950dd76a8a4bd4bcb23</sys_id>
+        <sys_mod_count>39</sys_mod_count>
+        <sys_name>ServiceImpactAssessment</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_update_name>sys_script_include_379dd68d1b587950dd76a8a4bd4bcb23</sys_update_name>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-07-31 12:35:03</sys_updated_on>
+    </sys_script_include>
+</record_update>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="pa_dimensions">
+    <pa_dimensions action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <conditions/>
+        <description/>
+        <empty_value/>
+        <facts_table>x_236151_service_1_associated_cis</facts_table>
+        <field>service_validation.business_application</field>
+        <manual_breakdown/>
+        <name>Business App (Mapped CIs)</name>
+        <security_type>1</security_type>
+        <sys_class_name>pa_dimensions</sys_class_name>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2023-06-15 08:55:58</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>6e0957fb1b1fa550dd76a8a4bd4bcb17</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Business App (Mapped CIs)</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_update_name>pa_dimensions_6e0957fb1b1fa550dd76a8a4bd4bcb17</sys_update_name>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-06-15 08:55:58</sys_updated_on>
+    </pa_dimensions>
+    <sys_translated_text action="delete_multiple" query="documentkey=6e0957fb1b1fa550dd76a8a4bd4bcb17"/>
+</record_update>

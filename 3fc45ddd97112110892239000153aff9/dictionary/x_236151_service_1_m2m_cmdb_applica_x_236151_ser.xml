@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="ce1e298f1b0e61101984dc66bd4bcb50" label="Blueprint Patterns" max_length="40" name="x_236151_service_1_m2m_cmdb_applica_x_236151_ser" type="collection">
+        <element attributes="encode_utf8=false" label="Application Models" max_length="32" name="cmdb_application_product_model" reference="cmdb_application_product_model" type="reference"/>
+        <element attributes="encode_utf8=false" label="Service Validation Patterns" max_length="32" name="x_236151_service_1_service_validation_pa" reference="x_236151_service_1_service_validation_patterns" type="reference"/>
+        <index name="index">
+            <element name="cmdb_application_product_model"/>
+        </index>
+    </element>
+</database>

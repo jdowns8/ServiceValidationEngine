@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_choice action="DELETE" field="service_validation_result" table="x_236151_service_1_service_validation_results" version="3">
+        <sys_choice_set action="DELETE">
+            <element>service_validation_result</element>
+            <name>x_236151_service_1_service_validation_results</name>
+            <sys_class_name>sys_choice_set</sys_class_name>
+            <sys_created_by>jdowns8@dxc.com</sys_created_by>
+            <sys_created_on>2023-03-01 16:21:29</sys_created_on>
+            <sys_id>a2b6cff11b552150dd76a8a4bd4bcba1</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>service_validation_result</sys_name>
+            <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+            <sys_update_name>sys_choice_x_236151_service_1_service_validation_results_service_validation_result</sys_update_name>
+            <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+            <sys_updated_on>2023-03-01 16:21:29</sys_updated_on>
+        </sys_choice_set>
+    </sys_choice>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</application>
+        <file_path/>
+        <instance_id>3f7e13d9ff3790006663762fa87efe98</instance_id>
+        <instance_name>piit17</instance_name>
+        <name>sys_choice_x_236151_service_1_service_validation_results_service_validation_result</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update><sys_choice action="INSERT_OR_UPDATE" field="service_validation_result" table="x_236151_service_1_service_validation_results" version="3"><sys_choice_set action="INSERT_OR_UPDATE"><element>service_validation_result</element><name>x_236151_service_1_service_validation_results</name><sys_class_name>sys_choice_set</sys_class_name><sys_created_by>jdowns8@dxc.com</sys_created_by><sys_created_on>2023-03-01 16:21:29</sys_created_on><sys_id>a2b6cff11b552150dd76a8a4bd4bcba1</sys_id><sys_mod_count>0</sys_mod_count><sys_name>service_validation_result</sys_name><sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package><sys_policy/><sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope><sys_update_name>sys_choice_x_236151_service_1_service_validation_results_service_validation_result</sys_update_name><sys_updated_by>jdowns8@dxc.com</sys_updated_by><sys_updated_on>2023-03-01 16:21:29</sys_updated_on></sys_choice_set></sys_choice></record_update>]]></payload>
+        <payload_hash>-978228371</payload_hash>
+        <record_name>Service Validation Results.service_validation_result</record_name>
+        <reverted_from/>
+        <source>fc07cbb11b552150dd76a8a4bd4bcbda</source>
+        <source_table>sys_update_set</source_table>
+        <state>current</state>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2023-12-07 10:13:48</sys_created_on>
+        <sys_id>6059f4981b877d10dd76a8a4bd4bcb47</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>18c43c4ed480000001</sys_recorded_at>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-12-07 10:13:48</sys_updated_on>
+        <type>Choice list</type>
+        <update_guid>6459f498cd877d108f3853bd6c579a46</update_guid>
+        <update_guid_history>6459f498cd877d108f3853bd6c579a46:-978228371,2459f498f0877d10cbc6c4e818654d42:720913372,42d60f35b455215016a622cfbcbd7d30:0,ced60f35ff552150624d4a59a3916e29:1972554656</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2023-12-07 10:15:20</sys_created_on>
+        <sys_db_object display_value="" name="sys_choice_set">sys_choice_set</sys_db_object>
+        <sys_id>43a08d7f360840ed8447187f30cb81f9</sys_id>
+        <sys_metadata>a2b6cff11b552150dd76a8a4bd4bcba1</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>service_validation_result</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_parent display_value="Service validation result">eeb6cff11b552150dd76a8a4bd4bcb7d</sys_parent>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_scope_delete display_value="">c499c25595e941129c8835469bc0cb04</sys_scope_delete>
+        <sys_update_name>sys_choice_x_236151_service_1_service_validation_results_service_validation_result</sys_update_name>
+        <sys_update_version display_value="sys_choice_x_236151_service_1_service_validation_results_service_validation_result">6059f4981b877d10dd76a8a4bd4bcb47</sys_update_version>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-12-07 10:15:20</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

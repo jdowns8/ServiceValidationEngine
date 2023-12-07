@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_dictionary action="DELETE" element="x_236151_service_1_u_configuration_item_1" table="u_cmdb_qb_result_9ddae56c5e0e58a1bda5ae9af62bbba4dde8ce91">
+        <active>true</active>
+        <array>false</array>
+        <attributes>encode_utf8=false</attributes>
+        <audit>false</audit>
+        <calculation/>
+        <choice>0</choice>
+        <choice_field/>
+        <choice_table/>
+        <column_label>Configuration Item 1</column_label>
+        <comments/>
+        <create_roles/>
+        <default_value/>
+        <defaultsort/>
+        <delete_roles/>
+        <dependent/>
+        <dependent_on_field/>
+        <display>false</display>
+        <dynamic_creation>false</dynamic_creation>
+        <dynamic_creation_script/>
+        <dynamic_default_value/>
+        <dynamic_ref_qual/>
+        <element>x_236151_service_1_u_configuration_item_1</element>
+        <element_reference>false</element_reference>
+        <foreign_database/>
+        <formula/>
+        <function_definition/>
+        <function_field>false</function_field>
+        <internal_type display_value="Reference">reference</internal_type>
+        <mandatory>false</mandatory>
+        <max_length>32</max_length>
+        <name>u_cmdb_qb_result_9ddae56c5e0e58a1bda5ae9af62bbba4dde8ce91</name>
+        <next_element/>
+        <primary>false</primary>
+        <read_only>false</read_only>
+        <read_roles/>
+        <reference display_value="" name="cmdb_ci">cmdb_ci</reference>
+        <reference_cascade_rule/>
+        <reference_floats>false</reference_floats>
+        <reference_key/>
+        <reference_qual/>
+        <reference_qual_condition/>
+        <reference_type/>
+        <spell_check>false</spell_check>
+        <staged>false</staged>
+        <sys_class_name>sys_dictionary</sys_class_name>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2023-06-06 15:13:00</sys_created_on>
+        <sys_id>1149924d1b9325101984dc66bd4bcbfc</sys_id>
+        <sys_name>Configuration Item 1</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_update_name>sys_dictionary_u_cmdb_qb_result_9ddae56c5e0e58a1bda5ae9af62bbba4dde8ce91_x_236151_service_1_u_configuration_item_1</sys_update_name>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-06-06 15:13:00</sys_updated_on>
+        <table_reference>false</table_reference>
+        <text_index>false</text_index>
+        <unique>false</unique>
+        <use_dependent_field>false</use_dependent_field>
+        <use_dynamic_default>false</use_dynamic_default>
+        <use_reference_qualifier>simple</use_reference_qualifier>
+        <virtual>false</virtual>
+        <virtual_type/>
+        <widget/>
+        <write_roles/>
+        <xml_view>false</xml_view>
+    </sys_dictionary>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</application>
+        <file_path/>
+        <instance_id>3f7e13d9ff3790006663762fa87efe98</instance_id>
+        <instance_name>piit17</instance_name>
+        <name>sys_dictionary_u_cmdb_qb_result_9ddae56c5e0e58a1bda5ae9af62bbba4dde8ce91_x_236151_service_1_u_configuration_item_1</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update><sys_dictionary action="INSERT_OR_UPDATE" element="x_236151_service_1_u_configuration_item_1" table="u_cmdb_qb_result_9ddae56c5e0e58a1bda5ae9af62bbba4dde8ce91"><active>true</active><array>false</array><attributes>encode_utf8=false</attributes><audit>false</audit><calculation/><choice>0</choice><choice_field/><choice_table/><column_label>Configuration Item 1</column_label><comments/><create_roles/><default_value/><defaultsort/><delete_roles/><dependent/><dependent_on_field/><display>false</display><dynamic_creation>false</dynamic_creation><dynamic_creation_script/><dynamic_default_value/><dynamic_ref_qual/><element>x_236151_service_1_u_configuration_item_1</element><element_reference>false</element_reference><foreign_database/><formula/><function_definition/><function_field>false</function_field><internal_type display_value="Reference">reference</internal_type><mandatory>false</mandatory><max_length>32</max_length><name>u_cmdb_qb_result_9ddae56c5e0e58a1bda5ae9af62bbba4dde8ce91</name><next_element/><primary>false</primary><read_only>false</read_only><read_roles/><reference display_value="" name="cmdb_ci">cmdb_ci</reference><reference_cascade_rule/><reference_floats>false</reference_floats><reference_key/><reference_qual/><reference_qual_condition/><reference_type/><spell_check>false</spell_check><staged>false</staged><sys_class_name>sys_dictionary</sys_class_name><sys_created_by>jdowns8@dxc.com</sys_created_by><sys_created_on>2023-06-06 15:13:00</sys_created_on><sys_id>1149924d1b9325101984dc66bd4bcbfc</sys_id><sys_name>Configuration Item 1</sys_name><sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package><sys_policy/><sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope><sys_update_name>sys_dictionary_u_cmdb_qb_result_9ddae56c5e0e58a1bda5ae9af62bbba4dde8ce91_x_236151_service_1_u_configuration_item_1</sys_update_name><sys_updated_by>jdowns8@dxc.com</sys_updated_by><sys_updated_on>2023-06-06 15:13:00</sys_updated_on><table_reference>false</table_reference><text_index>false</text_index><unique>false</unique><use_dependent_field>false</use_dependent_field><use_dynamic_default>false</use_dynamic_default><use_reference_qualifier>simple</use_reference_qualifier><virtual>false</virtual><virtual_type/><widget/><write_roles/><xml_view>false</xml_view></sys_dictionary></record_update>]]></payload>
+        <payload_hash>-1073344915</payload_hash>
+        <record_name>u_cmdb_qb_result_9ddae56c5e0e58a1bda5ae9af62bbba4dde8ce91.Configuration Item 1</record_name>
+        <reverted_from/>
+        <source>fc07cbb11b552150dd76a8a4bd4bcbda</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2023-06-06 15:13:01</sys_created_on>
+        <sys_id>5149d24d1b9325101984dc66bd4bcb2b</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1889144bc670000001</sys_recorded_at>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-06-06 15:13:01</sys_updated_on>
+        <type>Dictionary</type>
+        <update_guid>d549d24db89325103c004a9fa1b1892a</update_guid>
+        <update_guid_history>d549d24db89325103c004a9fa1b1892a:-1073344915</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2023-06-06 15:13:07</sys_created_on>
+        <sys_db_object display_value="" name="sys_dictionary">sys_dictionary</sys_db_object>
+        <sys_id>15bc1170c1cc41d890acc6502609ea40</sys_id>
+        <sys_metadata>1149924d1b9325101984dc66bd4bcbfc</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Configuration Item 1</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_scope_delete display_value="">c499c25595e941129c8835469bc0cb04</sys_scope_delete>
+        <sys_update_name>sys_dictionary_u_cmdb_qb_result_9ddae56c5e0e58a1bda5ae9af62bbba4dde8ce91_x_236151_service_1_u_configuration_item_1</sys_update_name>
+        <sys_update_version display_value="sys_dictionary_u_cmdb_qb_result_9ddae56c5e0e58a1bda5ae9af62bbba4dde8ce91_x_236151_service_1_u_configuration_item_1">5149d24d1b9325101984dc66bd4bcb2b</sys_update_version>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-06-06 15:13:07</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

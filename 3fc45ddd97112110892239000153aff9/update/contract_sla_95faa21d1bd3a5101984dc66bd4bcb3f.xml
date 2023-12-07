@@ -10,13 +10,13 @@
         <enable_logging>false</enable_logging>
         <flow display_value="Default SLA flow">828f267973333300e289235f04f6a7a3</flow>
         <name>Pattern Remediation SLA - Low</name>
-        <pause_condition table="x_236151_service_1_pattern_remediation_task">pattern.service_impact!=4^EQ<item display_value="Low" endquery="false" field="pattern.service_impact" goto="false" newquery="false" operator="!=" or="false" value="4"/>
+        <pause_condition table="x_236151_service_1_pattern_remediation_task">pattern.service_impact!=4^EQ<item display_value="4" endquery="false" field="pattern.service_impact" goto="false" newquery="false" operator="!=" or="false" value="4"/>
             <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
         </pause_condition>
         <relative_duration_works_on>Task record</relative_duration_works_on>
         <reset_action>cancel</reset_action>
         <reset_condition/>
-        <resume_condition table="x_236151_service_1_pattern_remediation_task">pattern.service_impact=4^EQ<item display_value="Low" endquery="false" field="pattern.service_impact" goto="false" newquery="false" operator="=" or="false" value="4"/>
+        <resume_condition table="x_236151_service_1_pattern_remediation_task">pattern.service_impact=4^EQ<item display_value="4" endquery="false" field="pattern.service_impact" goto="false" newquery="false" operator="=" or="false" value="4"/>
             <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
         </resume_condition>
         <retroactive>false</retroactive>
@@ -27,7 +27,7 @@
         <service_commitment>false</service_commitment>
         <set_start_to/>
         <start_condition table="x_236151_service_1_pattern_remediation_task">active=true^pattern.service_impact=4^EQ<item endquery="false" field="active" goto="false" newquery="false" operator="=" or="false" value="true"/>
-            <item display_value="Low" endquery="false" field="pattern.service_impact" goto="false" newquery="false" operator="=" or="false" value="4"/>
+            <item display_value="4" endquery="false" field="pattern.service_impact" goto="false" newquery="false" operator="=" or="false" value="4"/>
             <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
         </start_condition>
         <stop_condition table="x_236151_service_1_pattern_remediation_task">active=false^EQ<item endquery="false" field="active" goto="false" newquery="false" operator="=" or="false" value="false"/>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_policy_action">
+    <sys_ui_policy_action action="DELETE">
+        <cleared>false</cleared>
+        <disabled>ignore</disabled>
+        <field>condition</field>
+        <mandatory>ignore</mandatory>
+        <sys_class_name>sys_ui_policy_action</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-02-28 15:32:08</sys_created_on>
+        <sys_id>88d1756997592110892239000153af17</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>condition</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_update_name>sys_ui_policy_action_88d1756997592110892239000153af17</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-02-28 15:32:08</sys_updated_on>
+        <table>x_236151_service_1_service_validation_patterns</table>
+        <ui_policy display_value="Hide conditions for applies all checked">5c913d2997592110892239000153affd</ui_policy>
+        <visible>false</visible>
+    </sys_ui_policy_action>
+<sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</application>
+        <file_path/>
+        <instance_id>3f7e13d9ff3790006663762fa87efe98</instance_id>
+        <instance_name>piit17</instance_name>
+        <name>sys_ui_policy_action_88d1756997592110892239000153af17</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_policy_action">
+    <sys_ui_policy_action action="INSERT_OR_UPDATE">
+        <cleared>false</cleared>
+        <disabled>ignore</disabled>
+        <field>condition</field>
+        <mandatory>ignore</mandatory>
+        <sys_class_name>sys_ui_policy_action</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-02-28 15:32:08</sys_created_on>
+        <sys_id>88d1756997592110892239000153af17</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>condition</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_update_name>sys_ui_policy_action_88d1756997592110892239000153af17</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-02-28 15:32:08</sys_updated_on>
+        <table>x_236151_service_1_service_validation_patterns</table>
+        <ui_policy display_value="Hide conditions for applies all checked">5c913d2997592110892239000153affd</ui_policy>
+        <visible>false</visible>
+    </sys_ui_policy_action>
+</record_update>]]></payload>
+        <payload_hash>42925835</payload_hash>
+        <record_name>condition</record_name>
+        <reverted_from/>
+        <source>48c643351b552150dd76a8a4bd4bcbfb</source>
+        <source_table>sys_upgrade_history</source_table>
+        <state>previous</state>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2023-03-01 16:21:56</sys_created_on>
+        <sys_id>99d68b351b552150dd76a8a4bd4bcb79</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1869dfaf9ef0000001</sys_recorded_at>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-03-01 16:21:56</sys_updated_on>
+        <type>UI Policy Action</type>
+        <update_guid>59d68b351a552150bb4890b9be366c79</update_guid>
+        <update_guid_history>59d68b351a552150bb4890b9be366c79:42925835</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2023-06-05 09:32:27</sys_created_on>
+        <sys_db_object display_value="" name="sys_ui_policy_action">sys_ui_policy_action</sys_db_object>
+        <sys_id>ea723b0d41294239a2c180988b464cf9</sys_id>
+        <sys_metadata>88d1756997592110892239000153af17</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>condition</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_scope_delete display_value="">c499c25595e941129c8835469bc0cb04</sys_scope_delete>
+        <sys_update_name>sys_ui_policy_action_88d1756997592110892239000153af17</sys_update_name>
+        <sys_update_version display_value="sys_ui_policy_action_88d1756997592110892239000153af17">99d68b351b552150dd76a8a4bd4bcb79</sys_update_version>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-06-05 09:32:27</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

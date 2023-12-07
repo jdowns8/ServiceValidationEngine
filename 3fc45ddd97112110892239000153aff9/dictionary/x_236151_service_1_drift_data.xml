@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="045eb7781bf5e550dd76a8a4bd4bcb67" label="Drift Data" max_length="40" name="x_236151_service_1_drift_data" type="collection">
+        <element label="Associated CI" max_length="32" name="associated_ci" reference="x_236151_service_1_associated_cis" type="reference"/>
+        <element label="Attribute" max_length="40" name="attribute" type="string"/>
+        <element label="Configuration item" max_length="32" name="configuration_item" reference="cmdb_ci" type="reference"/>
+        <element attributes="ignore_filter_on_new=true" default="javascript:global.getNextObjNumberPadded();" label="Number" max_length="40" name="number" type="string"/>
+        <element label="Parent" max_length="32" name="parent" reference="x_236151_service_1_drift_data" type="reference"/>
+        <element default="javascript:current.getTableName();" dynamic_default_value="b5cb83a85f220100a9ad2572f2b4773c" label="Class" max_length="80" name="sys_class_name" type="sys_class_name" use_dynamic_default="true"/>
+        <element label="Value" max_length="400" name="value" type="string"/>
+        <index name="index">
+            <element name="associated_ci"/>
+        </index>
+        <index name="index2">
+            <element name="configuration_item"/>
+        </index>
+        <index name="index3">
+            <element name="parent"/>
+        </index>
+        <index name="index4">
+            <element name="sys_class_name"/>
+        </index>
+    </element>
+</database>

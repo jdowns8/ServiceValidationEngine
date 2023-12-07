@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_properties">
+    <sys_properties action="INSERT_OR_UPDATE">
+        <choices>Low, Medium, High</choices>
+        <description>Service Impact Assessment accuracy when it comes to utilizing SVE data.&#13;
+Low = Associate Mapped CI Service, cycle through SVE associated Mapped CIs with lower depth for other associated services&#13;
+Medium = Associate Mapped CI Service, cycle through parents with active Mapped CIs&#13;
+High = Associate Mapped CI Service, cycle through parents with active Mapped CIs and a true validation result</description>
+        <ignore_cache>true</ignore_cache>
+        <is_private>false</is_private>
+        <name>x_236151_service_1.sia.accuracy</name>
+        <read_roles/>
+        <suffix>sia.accuracy</suffix>
+        <sys_class_name>sys_properties</sys_class_name>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2023-07-27 11:02:33</sys_created_on>
+        <sys_id>c92888251b503d50dd76a8a4bd4bcb57</sys_id>
+        <sys_mod_count>6</sys_mod_count>
+        <sys_name>x_236151_service_1.sia.accuracy</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_update_name>sys_properties_c92888251b503d50dd76a8a4bd4bcb57</sys_update_name>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-07-27 13:01:50</sys_updated_on>
+        <type>choicelist</type>
+        <value>Medium</value>
+        <write_roles/>
+    </sys_properties>
+    <sys_translated_text action="delete_multiple" query="documentkey=c92888251b503d50dd76a8a4bd4bcb57"/>
+</record_update>

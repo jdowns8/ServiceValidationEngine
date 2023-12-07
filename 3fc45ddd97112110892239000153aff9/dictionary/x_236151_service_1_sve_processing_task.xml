@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element audit="true" db_object_id="3a5a69571bfe31101984dc66bd4bcbc2" label="SVE Processing Task" max_length="40" name="x_236151_service_1_sve_processing_task" type="collection">
+        <element label="Duration" max_length="40" name="duration" type="glide_duration"/>
+        <element label="IDs" max_length="4000" name="ids" type="string"/>
+        <element label="ID Count" max_length="40" name="id_count" type="integer"/>
+        <element audit="true" label="Node Name" max_length="120" name="node_name" type="string"/>
+        <element default="javascript:global.getNextObjNumberPadded();" display="true" label="Number" max_length="40" name="number" type="string"/>
+        <element label="Processing end" max_length="40" name="processing_end" type="glide_date_time"/>
+        <element label="Processing start" max_length="40" name="processing_start" type="glide_date_time"/>
+        <element audit="true" default="ready" label="status" max_length="40" name="status" type="string"/>
+    </element>
+</database>

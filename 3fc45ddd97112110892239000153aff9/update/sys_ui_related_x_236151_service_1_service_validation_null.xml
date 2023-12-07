@@ -2,7 +2,7 @@
     <sys_ui_related sys_domain="global" table="x_236151_service_1_service_validation" version="2" view="">
         <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
             <filter/>
-            <list_id display_value="Service Validation - Default view" name="x_236151_service_1_service_validation" related_list="NULL" sys_domain="global" view="Default view">8c6018701b1761101984dc66bd4bcb2e</list_id>
+            <list_id display_value="x_236151_service_1_service_validation - Default view" name="x_236151_service_1_service_validation" related_list="NULL" sys_domain="global" view="Default view">8c6018701b1761101984dc66bd4bcb2e</list_id>
             <order_by/>
             <position>0</position>
             <related_list>x_236151_service_1_associated_cis.service_validation</related_list>
@@ -16,7 +16,7 @@
         </sys_ui_related_list_entry>
         <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
             <filter/>
-            <list_id display_value="Service Validation - Default view" name="x_236151_service_1_service_validation" related_list="NULL" sys_domain="global" view="Default view">8c6018701b1761101984dc66bd4bcb2e</list_id>
+            <list_id display_value="x_236151_service_1_service_validation - Default view" name="x_236151_service_1_service_validation" related_list="NULL" sys_domain="global" view="Default view">8c6018701b1761101984dc66bd4bcb2e</list_id>
             <order_by/>
             <position>1</position>
             <related_list>x_236151_service_1_service_validation_data_model.service_validation</related_list>
@@ -30,7 +30,7 @@
         </sys_ui_related_list_entry>
         <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
             <filter/>
-            <list_id display_value="Service Validation - Default view" name="x_236151_service_1_service_validation" related_list="NULL" sys_domain="global" view="Default view">8c6018701b1761101984dc66bd4bcb2e</list_id>
+            <list_id display_value="x_236151_service_1_service_validation - Default view" name="x_236151_service_1_service_validation" related_list="NULL" sys_domain="global" view="Default view">8c6018701b1761101984dc66bd4bcb2e</list_id>
             <order_by/>
             <position>2</position>
             <related_list>REL:439c45e997552110892239000153af2e</related_list>
@@ -44,7 +44,7 @@
         </sys_ui_related_list_entry>
         <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
             <filter/>
-            <list_id display_value="Service Validation - Default view" name="x_236151_service_1_service_validation" related_list="NULL" sys_domain="global" view="Default view">8c6018701b1761101984dc66bd4bcb2e</list_id>
+            <list_id display_value="x_236151_service_1_service_validation - Default view" name="x_236151_service_1_service_validation" related_list="NULL" sys_domain="global" view="Default view">8c6018701b1761101984dc66bd4bcb2e</list_id>
             <order_by/>
             <position>3</position>
             <related_list>x_236151_service_1_service_validation_results.service_validation</related_list>
@@ -58,7 +58,7 @@
         </sys_ui_related_list_entry>
         <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
             <filter/>
-            <list_id display_value="Service Validation - Default view" name="x_236151_service_1_service_validation" related_list="NULL" sys_domain="global" view="Default view">8c6018701b1761101984dc66bd4bcb2e</list_id>
+            <list_id display_value="x_236151_service_1_service_validation - Default view" name="x_236151_service_1_service_validation" related_list="NULL" sys_domain="global" view="Default view">8c6018701b1761101984dc66bd4bcb2e</list_id>
             <order_by/>
             <position>4</position>
             <related_list>REL:567d852d97552110892239000153af5e</related_list>
@@ -71,7 +71,7 @@
             <sys_updated_on>2023-06-05 10:36:25</sys_updated_on>
         </sys_ui_related_list_entry>
         <sys_ui_related_list action="INSERT_OR_UPDATE">
-            <calculated_name>Service Validation - Default view</calculated_name>
+            <calculated_name>x_236151_service_1_service_validation - Default view</calculated_name>
             <filter/>
             <name>x_236151_service_1_service_validation</name>
             <order_by/>

@@ -4,8 +4,8 @@
         <category>page</category>
         <component_dependencies/>
         <composition>[ {
-  "elementId" : "container_1",
-  "elementLabel" : "Container 1",
+  "elementId" : "container_main",
+  "elementLabel" : "Main Container",
   "propertyValues" : {
     "ariaRegionHeadingLevel" : {
       "type" : "JSON_LITERAL",
@@ -40,8 +40,8 @@
   },
   "overrides" : {
     "composition" : [ {
-      "elementId" : "heading_1",
-      "elementLabel" : "Heading 1",
+      "elementId" : "hdg_my_biz_app_performance",
+      "elementLabel" : "Heading - My Business Application Performance",
       "propertyValues" : {
         "hasNoMargin" : {
           "type" : "JSON_LITERAL",
@@ -85,8 +85,8 @@
       "items" : [ ],
       "styles" : null
     }, {
-      "elementId" : "heading_2",
-      "elementLabel" : "Heading 2",
+      "elementId" : "hdg_selected_biz_app_name",
+      "elementLabel" : "Heading - Selected Business Application Name",
       "propertyValues" : {
         "hasNoMargin" : {
           "type" : "JSON_LITERAL",
@@ -132,10 +132,10 @@
       "default" : {
         "children" : null,
         "isInline" : null,
-        "items" : [{"element_id":"heading_1","styles":{}},{"element_id":"heading_2","styles":{}}],
+        "items" : [{"element_id":"hdg_my_biz_app_performance","styles":{"background-color":"#f0f0f0"}},{"element_id":"hdg_selected_biz_app_name","styles":{"flex":"custom","text-align":"right"}}],
         "root" : null,
         "rules" : null,
-        "styles" : {"flex-direction":"column"},
+        "styles" : {"flex-direction":"column","display":"flex","width":"100%","background-color":"#f0f0f0"},
         "templateId" : "5832fd4d53c31010e6bcddeeff7b12db",
         "type" : "flex"
       },
@@ -152,8 +152,8 @@
   "items" : [ ],
   "styles" : null
 }, {
-  "elementId" : "container_2",
-  "elementLabel" : "Container 2",
+  "elementId" : "cont_two_columns",
+  "elementLabel" : "Container Two columns",
   "propertyValues" : {
     "ariaRegionHeadingLevel" : {
       "type" : "JSON_LITERAL",
@@ -188,7 +188,7 @@
   },
   "overrides" : {
     "composition" : [ {
-      "elementId" : "container_3",
+      "elementId" : "cont_left_side",
       "elementLabel" : "Container Left Side",
       "propertyValues" : {
         "ariaRegionHeadingLevel" : {
@@ -224,8 +224,8 @@
       },
       "overrides" : {
         "composition" : [ {
-          "elementId" : "list_1",
-          "elementLabel" : "List 1",
+          "elementId" : "list_select_biz_app",
+          "elementLabel" : "List - Select Business Application",
           "propertyValues" : {
             "hideUnnecessaryRowSelectors" : {
               "type" : "JSON_LITERAL",
@@ -245,7 +245,7 @@
             },
             "hideLastRefreshedText" : {
               "type" : "JSON_LITERAL",
-              "value" : false
+              "value" : true
             },
             "limit" : {
               "type" : "JSON_LITERAL",
@@ -301,7 +301,7 @@
             },
             "hideFilterPanel" : {
               "type" : "JSON_LITERAL",
-              "value" : false
+              "value" : true
             },
             "hideHighlightContent" : {
               "type" : "JSON_LITERAL",
@@ -337,7 +337,7 @@
             },
             "fixedQuery" : {
               "type" : "JSON_LITERAL",
-              "value" : "owned_byDYNAMIC90d1921e5f510100a9ad2572f2b477fe"
+              "value" : "it_application_ownerDYNAMIC90d1921e5f510100a9ad2572f2b477fe"
             },
             "hideDotwalk" : {
               "type" : "JSON_LITERAL",
@@ -361,7 +361,7 @@
             },
             "hidePanelRestore" : {
               "type" : "JSON_LITERAL",
-              "value" : false
+              "value" : true
             },
             "highlightedValueConfigId" : {
               "type" : "JSON_LITERAL",
@@ -385,7 +385,7 @@
             },
             "hideTitleRowCount" : {
               "type" : "JSON_LITERAL",
-              "value" : false
+              "value" : true
             },
             "hideColumnFiltering" : {
               "type" : "JSON_LITERAL",
@@ -393,7 +393,7 @@
             },
             "hidePanelAdvanced" : {
               "type" : "JSON_LITERAL",
-              "value" : false
+              "value" : true
             },
             "daClientActionContract" : {
               "type" : "JSON_LITERAL",
@@ -413,11 +413,11 @@
             },
             "hideOptionToSaveAs" : {
               "type" : "JSON_LITERAL",
-              "value" : false
+              "value" : true
             },
             "hidePanelFooter" : {
               "type" : "JSON_LITERAL",
-              "value" : false
+              "value" : true
             },
             "actionConfigId" : {
               "type" : "JSON_LITERAL",
@@ -437,7 +437,7 @@
             },
             "hidePagination" : {
               "type" : "JSON_LITERAL",
-              "value" : false
+              "value" : true
             },
             "table" : {
               "type" : "JSON_LITERAL",
@@ -465,7 +465,7 @@
             },
             "hideColumnResizing" : {
               "type" : "JSON_LITERAL",
-              "value" : false
+              "value" : true
             },
             "refreshRequested" : {
               "type" : "JSON_LITERAL",
@@ -548,7 +548,7 @@
           "default" : {
             "children" : null,
             "isInline" : null,
-            "items" : [{"element_id":"list_1","styles":{"width":"100%"}}],
+            "items" : [{"element_id":"list_select_biz_app","styles":{"width":"100%"}}],
             "root" : null,
             "rules" : null,
             "styles" : {"flex-direction":"row","margin":"10px","display":"flex"},
@@ -568,8 +568,8 @@
       "items" : [ ],
       "styles" : null
     }, {
-      "elementId" : "container_4",
-      "elementLabel" : "Container Right",
+      "elementId" : "cont_right_side",
+      "elementLabel" : "Container Right Side",
       "propertyValues" : {
         "ariaRegionHeadingLevel" : {
           "type" : "JSON_LITERAL",
@@ -640,8 +640,8 @@
           },
           "overrides" : {
             "composition" : [ {
-              "elementId" : "heading_3",
-              "elementLabel" : "Heading 3",
+              "elementId" : "hdg_certified_cis",
+              "elementLabel" : "Heading Certified CIs",
               "propertyValues" : {
                 "hasNoMargin" : {
                   "type" : "JSON_LITERAL",
@@ -685,12 +685,12 @@
               "items" : [ ],
               "styles" : null
             }, {
-              "elementId" : "heading_4",
-              "elementLabel" : "Heading 4",
+              "elementId" : "hdg_certified_ci_count",
+              "elementLabel" : "Heading Certified CI Count",
               "propertyValues" : {
                 "hasNoMargin" : {
                   "type" : "JSON_LITERAL",
-                  "value" : false
+                  "value" : true
                 },
                 "level" : {
                   "type" : "JSON_LITERAL",
@@ -728,8 +728,8 @@
               "items" : [ ],
               "styles" : null
             }, {
-              "elementId" : "button_1",
-              "elementLabel" : "Button 1",
+              "elementId" : "btn_view_certified_cis",
+              "elementLabel" : "Button - View Certified CIs",
               "propertyValues" : {
                 "size" : {
                   "type" : "JSON_LITERAL",
@@ -741,7 +741,7 @@
                 },
                 "icon" : {
                   "type" : "JSON_LITERAL",
-                  "value" : null
+                  "value" : ""
                 },
                 "disabled" : {
                   "type" : "JSON_LITERAL",
@@ -759,7 +759,7 @@
                   "type" : "TRANSLATION_LITERAL",
                   "value" : {
                     "code" : null,
-                    "message" : "Enter a label",
+                    "message" : "View Certified Cis in a new Workspace tab.",
                     "comment" : ""
                   }
                 },
@@ -862,10 +862,10 @@
               "default" : {
                 "children" : null,
                 "isInline" : null,
-                "items" : [{"element_id":"heading_3","styles":{"width":"100%"}},{"element_id":"heading_4","styles":{}},{"element_id":"button_1","styles":{"margin":"var(--now-static-space--sm)","flex":"custom"}}],
+                "items" : [{"element_id":"hdg_certified_cis","styles":{"align-self":"flex-start","width":"100%","padding":"var(--now-static-space--lg)","padding-bottom":"var(--now-static-space--xxs)","background":"rgb(var(--now-color--neutral-2))"}},{"element_id":"hdg_certified_ci_count","styles":{}},{"element_id":"btn_view_certified_cis","styles":{"align-self":"flex-end","margin":"var(--now-static-space--sm)","margin-top":"var(--now-static-space--xxs)","margin-right":"var(--now-static-space--sm)","margin-bottom":"var(--now-static-space--sm)"}}],
                 "root" : null,
                 "rules" : null,
-                "styles" : {"flex-direction":"column"},
+                "styles" : {"flex-direction":"column","display":"flex","align-items":"center","width":"49%","border-color":"RGB(var(--now-color--neutral-5))","border-width":"1px","border-style":"solid","box-shadow":"var(--now-static-drop-shadow--md)","align-self":"center"},
                 "templateId" : "5832fd4d53c31010e6bcddeeff7b12db",
                 "type" : "flex"
               },
@@ -880,16 +880,26 @@
           "extensionPoints" : [ ],
           "isNonDestructive" : false,
           "items" : [ ],
-          "styles" : null
+          "styles" : {
+            "flex-direction" : "column",
+            "display" : "flex",
+            "align-items" : "center",
+            "width" : "49%",
+            "border-color" : "RGB(var(--now-color--neutral-5))",
+            "border-width" : "1px",
+            "border-style" : "solid",
+            "box-shadow" : "var(--now-static-drop-shadow--md)",
+            "align-self" : "center"
+          }
         } ],
         "layout" : {
           "default" : {
             "children" : null,
             "isInline" : null,
-            "items" : [{"element_id":"container_5","styles":{"width":"49%","border-color":"RGB(var(--now-color--neutral-5))","border-width":"1px","border-style":"solid"}}],
+            "items" : [{"element_id":"container_5","styles":{"box-shadow":"var(--now-static-drop-shadow--md)","width":"49%","border-color":"RGB(var(--now-color--neutral-5))","border-width":"1px","border-style":"solid"}}],
             "root" : null,
             "rules" : null,
-            "styles" : {"flex-direction":"row"},
+            "styles" : {"flex-direction":"row","gap":"var(--now-static-space--md)","display":"flex","grid-template-columns":"1fr 1fr","grid-template-rows":"1fr 1fr","grid-auto-rows":"1fr","grid-auto-columns":"1fr","justify-items":"center","flex-wrap":"wrap","width":"50%"},
             "templateId" : "5832fd4d53c31010e6bcddeeff7b12db",
             "type" : "flex"
           },
@@ -904,16 +914,27 @@
       "extensionPoints" : [ ],
       "isNonDestructive" : false,
       "items" : [ ],
-      "styles" : null
+      "styles" : {
+        "flex-direction" : "row",
+        "gap" : "var(--now-static-space--md)",
+        "display" : "flex",
+        "grid-template-columns" : "1fr 1fr",
+        "grid-template-rows" : "1fr 1fr",
+        "grid-auto-rows" : "1fr",
+        "grid-auto-columns" : "1fr",
+        "justify-items" : "center",
+        "flex-wrap" : "wrap",
+        "width" : "50%"
+      }
     } ],
     "layout" : {
       "default" : {
         "children" : null,
         "isInline" : null,
-        "items" : [{"element_id":"container_3","styles":{"width":"50%","flex":""}},{"element_id":"container_4","styles":{"width":"50%"}}],
+        "items" : [{"element_id":"cont_left_side","styles":{"width":"50%","flex":""}},{"element_id":"cont_right_side","styles":{"width":"50%"}}],
         "root" : null,
         "rules" : null,
-        "styles" : {"flex-direction":"row","margin":"0px"},
+        "styles" : {"flex-direction":"row","display":"flex","margin":"0px","width":"100%","background-color":"#f0f0f0"},
         "templateId" : "5832fd4d53c31010e6bcddeeff7b12db",
         "type" : "flex"
       },
@@ -1037,6 +1058,555 @@
     }
   },
   "readEvaluationMode" : "EAGER"
+}, {
+  "cachePolicy" : null,
+  "definition" : {
+    "id" : "b997a84053021010cbc2ddeeff7b1228",
+    "type" : "COMPOSITE"
+  },
+  "dependencies" : { },
+  "elementId" : "look_up_invalid_cis",
+  "elementLabel" : "Look Up Invalid CI Relationships",
+  "eventMappings" : [ {
+    "eventMappingId" : "cliszzrbeeaaccqffddnhhtrrbkvkqj",
+    "isConfiguration" : false,
+    "offRowStorageId" : null,
+    "sourceEventApiName" : "sn_uxf.DATA_FETCH_SUCCEEDED",
+    "sourceEventCorrelationId" : null,
+    "sourceEventDefinition" : {
+      "apiName" : "sn_uxf.DATA_FETCH_SUCCEEDED",
+      "id" : null,
+      "type" : "UXEVENT"
+    },
+    "sourceEventSysId" : null,
+    "targets" : [ {
+      "broker" : null,
+      "clientScript" : null,
+      "conditional" : null,
+      "declarativeAction" : null,
+      "event" : null,
+      "operation" : {
+        "dataBrokerId" : "9664d48053461010cbc2ddeeff7b128e",
+        "operationName" : "REFRESH",
+        "parentResourceId" : "look_up_biz_app",
+        "payload" : {
+          "type" : "JSON_LITERAL",
+          "value" : { }
+        }
+      },
+      "targetId" : "cliszzrbeeaaccqggddnhhtxaqxgcam",
+      "type" : "DATABROKER_OP"
+    }, {
+      "broker" : null,
+      "clientScript" : null,
+      "conditional" : null,
+      "declarativeAction" : null,
+      "event" : {
+        "apiName" : "sn_uxf.MACROPONENT_STATE_UPDATE_REQUESTED",
+        "payload" : {
+          "type" : "MAP_CONTAINER",
+          "container" : {
+            "propName" : {
+              "type" : "JSON_LITERAL",
+              "value" : "selectedBizAppName"
+            },
+            "value" : {
+              "type" : "DATA_OUTPUT_BINDING",
+              "binding" : {
+                "address" : [ "look_up_biz_app", "result", "name", "value" ]
+              }
+            }
+          }
+        },
+        "sysId" : "32408b42ff7a10109046e490703bf176"
+      },
+      "operation" : null,
+      "targetId" : "cliszzxccaaaccqhhddnhhtbggdeovvf",
+      "type" : "EVENT"
+    } ]
+  } ],
+  "inputValues" : {
+    "table" : {
+      "type" : "JSON_LITERAL",
+      "value" : "x_236151_service_1_m2m_ci_relations_service_vali"
+    },
+    "encodedQuery" : {
+      "type" : "CLIENT_TRANSFORM",
+      "transform" : {
+        "operands" : {
+          "type" : "LIST_CONTAINER",
+          "container" : [ {
+            "type" : "JSON_LITERAL",
+            "value" : "x_236151_service_1_service_validation.business_application="
+          }, {
+            "type" : "STATE_BINDING",
+            "binding" : {
+              "address" : [ "selectedBizApp" ]
+            }
+          } ]
+        },
+        "operator" : "CONCAT"
+      }
+    },
+    "returnFields" : {
+      "type" : "JSON_LITERAL",
+      "value" : "cmdb_rel_ci.parent.name"
+    },
+    "orderBy" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "sortType" : {
+      "type" : "JSON_LITERAL",
+      "value" : "asc"
+    },
+    "limit" : {
+      "type" : "JSON_LITERAL",
+      "value" : "1000000"
+    },
+    "offset" : {
+      "type" : "JSON_LITERAL",
+      "value" : null
+    },
+    "queryCategory" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "returnFieldMetadata" : {
+      "type" : "JSON_LITERAL",
+      "value" : false
+    }
+  },
+  "readEvaluationMode" : "EAGER"
+}, {
+  "cachePolicy" : null,
+  "definition" : {
+    "id" : "546cccd25310101024e5ddeeff7b123b",
+    "type" : "GRAPHQL"
+  },
+  "dependencies" : { },
+  "elementId" : "agg_invalid_ci_rels",
+  "elementLabel" : "Aggregation Invalid CI Rels",
+  "eventMappings" : [ ],
+  "inputValues" : {
+    "table" : {
+      "type" : "JSON_LITERAL",
+      "value" : "x_236151_service_1_m2m_ci_relations_service_vali"
+    },
+    "encodedQuery" : {
+      "type" : "CLIENT_TRANSFORM",
+      "transform" : {
+        "operands" : {
+          "type" : "LIST_CONTAINER",
+          "container" : [ {
+            "type" : "JSON_LITERAL",
+            "value" : "x_236151_service_1_service_validation.business_application.sys_idIN"
+          }, {
+            "type" : "STATE_BINDING",
+            "binding" : {
+              "address" : [ "selectedBizApp" ]
+            }
+          } ]
+        },
+        "operator" : "CONCAT"
+      }
+    },
+    "groupBy" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "orderBy" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "having" : {
+      "type" : "JSON_LITERAL",
+      "value" : null
+    },
+    "sumField" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "maxField" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "minField" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "avgField" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "queryCategory" : {
+      "type" : "JSON_LITERAL",
+      "value" : null
+    },
+    "returnRowCount" : {
+      "type" : "JSON_LITERAL",
+      "value" : true
+    }
+  },
+  "readEvaluationMode" : "EAGER"
+}, {
+  "cachePolicy" : null,
+  "definition" : {
+    "id" : "546cccd25310101024e5ddeeff7b123b",
+    "type" : "GRAPHQL"
+  },
+  "dependencies" : { },
+  "elementId" : "agg_mapped_cis",
+  "elementLabel" : "Aggregation Mapped CIs",
+  "eventMappings" : [ ],
+  "inputValues" : {
+    "table" : {
+      "type" : "JSON_LITERAL",
+      "value" : "x_236151_service_1_associated_cis"
+    },
+    "encodedQuery" : {
+      "type" : "CLIENT_TRANSFORM",
+      "transform" : {
+        "operands" : {
+          "type" : "LIST_CONTAINER",
+          "container" : [ {
+            "type" : "JSON_LITERAL",
+            "value" : "service_validation.business_application.sys_idIN"
+          }, {
+            "type" : "STATE_BINDING",
+            "binding" : {
+              "address" : [ "selectedBizApp" ]
+            }
+          } ]
+        },
+        "operator" : "CONCAT"
+      }
+    },
+    "groupBy" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "orderBy" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "having" : {
+      "type" : "JSON_LITERAL",
+      "value" : null
+    },
+    "sumField" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "maxField" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "minField" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "avgField" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "queryCategory" : {
+      "type" : "JSON_LITERAL",
+      "value" : null
+    },
+    "returnRowCount" : {
+      "type" : "JSON_LITERAL",
+      "value" : true
+    }
+  },
+  "readEvaluationMode" : "EAGER"
+}, {
+  "cachePolicy" : null,
+  "definition" : {
+    "id" : "546cccd25310101024e5ddeeff7b123b",
+    "type" : "GRAPHQL"
+  },
+  "dependencies" : { },
+  "elementId" : "agg_standard_failures",
+  "elementLabel" : "Aggregation Standard Failures",
+  "eventMappings" : [ ],
+  "inputValues" : {
+    "table" : {
+      "type" : "JSON_LITERAL",
+      "value" : "x_236151_service_1_service_validation_results"
+    },
+    "encodedQuery" : {
+      "type" : "CLIENT_TRANSFORM",
+      "transform" : {
+        "operands" : {
+          "type" : "LIST_CONTAINER",
+          "container" : [ {
+            "type" : "JSON_LITERAL",
+            "value" : "service_validation.business_application.sys_id="
+          }, {
+            "type" : "STATE_BINDING",
+            "binding" : {
+              "address" : [ "selectedBizApp" ]
+            }
+          } ]
+        },
+        "operator" : "CONCAT"
+      }
+    },
+    "groupBy" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "orderBy" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "having" : {
+      "type" : "JSON_LITERAL",
+      "value" : null
+    },
+    "sumField" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "maxField" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "minField" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "avgField" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "queryCategory" : {
+      "type" : "JSON_LITERAL",
+      "value" : null
+    },
+    "returnRowCount" : {
+      "type" : "JSON_LITERAL",
+      "value" : true
+    }
+  },
+  "readEvaluationMode" : "EAGER"
+}, {
+  "cachePolicy" : null,
+  "definition" : {
+    "id" : "546cccd25310101024e5ddeeff7b123b",
+    "type" : "GRAPHQL"
+  },
+  "dependencies" : { },
+  "elementId" : "agg_drift_remediation_tasks",
+  "elementLabel" : "Aggregation Drift Remediation Tasks",
+  "eventMappings" : [ ],
+  "inputValues" : {
+    "table" : {
+      "type" : "JSON_LITERAL",
+      "value" : "x_236151_service_1_service_validation_results"
+    },
+    "encodedQuery" : {
+      "type" : "CLIENT_TRANSFORM",
+      "transform" : {
+        "operands" : {
+          "type" : "LIST_CONTAINER",
+          "container" : [ {
+            "type" : "JSON_LITERAL",
+            "value" : "remediation_taskISNOTEMPTY^remediation_task.active=true^control_kpiISNOTEMPTY^service_validation_pattern.validation_type=Drift^service_validation.business_application.sys_idIN"
+          }, {
+            "type" : "STATE_BINDING",
+            "binding" : {
+              "address" : [ "selectedBizApp" ]
+            }
+          } ]
+        },
+        "operator" : "CONCAT"
+      }
+    },
+    "groupBy" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "orderBy" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "having" : {
+      "type" : "JSON_LITERAL",
+      "value" : null
+    },
+    "sumField" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "maxField" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "minField" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "avgField" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "queryCategory" : {
+      "type" : "JSON_LITERAL",
+      "value" : null
+    },
+    "returnRowCount" : {
+      "type" : "JSON_LITERAL",
+      "value" : true
+    }
+  },
+  "readEvaluationMode" : "EAGER"
+}, {
+  "cachePolicy" : null,
+  "definition" : {
+    "id" : "546cccd25310101024e5ddeeff7b123b",
+    "type" : "GRAPHQL"
+  },
+  "dependencies" : { },
+  "elementId" : "agg_blueprint_remediation_tasks",
+  "elementLabel" : "Aggregation Blueprint Remediation Tasks",
+  "eventMappings" : [ ],
+  "inputValues" : {
+    "table" : {
+      "type" : "JSON_LITERAL",
+      "value" : "x_236151_service_1_service_validation_results"
+    },
+    "encodedQuery" : {
+      "type" : "CLIENT_TRANSFORM",
+      "transform" : {
+        "operands" : {
+          "type" : "LIST_CONTAINER",
+          "container" : [ {
+            "type" : "JSON_LITERAL",
+            "value" : "remediation_taskISNOTEMPTY^remediation_task.active=true^control_kpiISNOTEMPTY^service_validation_pattern.validation_type=Blueprint^service_validation.business_application.sys_idIN"
+          }, {
+            "type" : "STATE_BINDING",
+            "binding" : {
+              "address" : [ "selectedBizApp" ]
+            }
+          } ]
+        },
+        "operator" : "CONCAT"
+      }
+    },
+    "groupBy" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "orderBy" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "having" : {
+      "type" : "JSON_LITERAL",
+      "value" : null
+    },
+    "sumField" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "maxField" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "minField" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "avgField" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "queryCategory" : {
+      "type" : "JSON_LITERAL",
+      "value" : null
+    },
+    "returnRowCount" : {
+      "type" : "JSON_LITERAL",
+      "value" : true
+    }
+  },
+  "readEvaluationMode" : "EAGER"
+}, {
+  "cachePolicy" : null,
+  "definition" : {
+    "id" : "546cccd25310101024e5ddeeff7b123b",
+    "type" : "GRAPHQL"
+  },
+  "dependencies" : { },
+  "elementId" : "aggregation_non_certified_cis",
+  "elementLabel" : "Aggregation Non-Certified CIs",
+  "eventMappings" : [ ],
+  "inputValues" : {
+    "table" : {
+      "type" : "JSON_LITERAL",
+      "value" : "x_236151_service_1_service_validation"
+    },
+    "encodedQuery" : {
+      "type" : "CLIENT_TRANSFORM",
+      "transform" : {
+        "operands" : {
+          "type" : "LIST_CONTAINER",
+          "container" : [ {
+            "type" : "JSON_LITERAL",
+            "value" : "active=true^business_application.sys_idIN"
+          }, {
+            "type" : "STATE_BINDING",
+            "binding" : {
+              "address" : [ "selectedBizApp" ]
+            }
+          }, {
+            "type" : "JSON_LITERAL",
+            "value" : "^certified=false"
+          } ]
+        },
+        "operator" : "CONCAT"
+      }
+    },
+    "groupBy" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "orderBy" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "having" : {
+      "type" : "JSON_LITERAL",
+      "value" : null
+    },
+    "sumField" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "maxField" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "minField" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "avgField" : {
+      "type" : "JSON_LITERAL",
+      "value" : ""
+    },
+    "queryCategory" : {
+      "type" : "JSON_LITERAL",
+      "value" : null
+    },
+    "returnRowCount" : {
+      "type" : "JSON_LITERAL",
+      "value" : true
+    }
+  },
+  "readEvaluationMode" : "EAGER"
 } ]</data>
         <description/>
         <dispatched_events>cf3e194d1bdbe1101984dc66bd4bcbb2</dispatched_events>
@@ -1052,7 +1622,7 @@
   "default" : {
     "children" : null,
     "isInline" : null,
-    "items" : [{"element_id":"container_1","styles":{"width":"100%","flex":"custom"}},{"element_id":"container_2","styles":{"width":"100%"}}],
+    "items" : [{"element_id":"container_main","styles":{"width":"100%","flex":"custom"}},{"element_id":"cont_two_columns","styles":{"width":"100%"}}],
     "root" : null,
     "rules" : null,
     "styles" : {"flex-direction":"column","margin":"var(--now-static-space--lg)"},
@@ -1069,13 +1639,13 @@
   "message" : "Certified Application Services",
   "comment" : ""
 }, {
-  "message" : "Enter a label",
-  "comment" : ""
-}, {
   "message" : "My Business Application Performance",
   "comment" : ""
 }, {
   "message" : "Select Business Application...",
+  "comment" : ""
+}, {
+  "message" : "View Certified Cis in a new Workspace tab.",
   "comment" : ""
 }, {
   "message" : "View..",
@@ -1134,13 +1704,13 @@
         <sys_created_by>jdowns8@dxc.com</sys_created_by>
         <sys_created_on>2023-06-06 10:10:32</sys_created_on>
         <sys_id>ea041d491b9be1101984dc66bd4bcb3f</sys_id>
-        <sys_mod_count>9</sys_mod_count>
+        <sys_mod_count>18</sys_mod_count>
         <sys_name>Default</sys_name>
         <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
         <sys_policy/>
         <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
         <sys_update_name>sys_ux_macroponent_ea041d491b9be1101984dc66bd4bcb3f</sys_update_name>
-        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
-        <sys_updated_on>2023-06-06 10:56:31</sys_updated_on>
+        <sys_updated_by>adam.domanski</sys_updated_by>
+        <sys_updated_on>2023-06-13 10:31:34</sys_updated_on>
     </sys_ux_macroponent>
 </record_update>

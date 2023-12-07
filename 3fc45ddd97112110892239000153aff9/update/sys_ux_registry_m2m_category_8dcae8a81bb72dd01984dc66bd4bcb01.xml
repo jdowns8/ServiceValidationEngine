@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ux_registry_m2m_category">
+    <sys_ux_registry_m2m_category action="INSERT_OR_UPDATE">
+        <experience_category display_value="Workspace">afb4e3e173322010f0ca1e666bf6a726</experience_category>
+        <page_registry display_value="Application Owner Workspace">a0e3d5491b9be1101984dc66bd4bcbdf</page_registry>
+        <sys_class_name>sys_ux_registry_m2m_category</sys_class_name>
+        <sys_created_by>adam.domanski</sys_created_by>
+        <sys_created_on>2023-06-29 14:24:56</sys_created_on>
+        <sys_id>8dcae8a81bb72dd01984dc66bd4bcb01</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_update_name>sys_ux_registry_m2m_category_8dcae8a81bb72dd01984dc66bd4bcb01</sys_update_name>
+        <sys_updated_by>adam.domanski</sys_updated_by>
+        <sys_updated_on>2023-06-29 14:24:56</sys_updated_on>
+    </sys_ux_registry_m2m_category>
+</record_update>

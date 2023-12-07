@@ -52,7 +52,6 @@
         <sys_class_name>sys_dictionary</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2023-02-28 10:31:30</sys_created_on>
-        <sys_id>eab6cff11b552150dd76a8a4bd4bcb77</sys_id>
         <sys_name>Last Validation Time</sys_name>
         <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
         <sys_policy/>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="cmn_schedule">
+    <cmn_schedule action="INSERT_OR_UPDATE">
+        <calendar_name>SVE Processing Task Execution</calendar_name>
+        <description/>
+        <document/>
+        <document_key/>
+        <is_legacy_schedule>true</is_legacy_schedule>
+        <label>SVE Processing Task Execution</label>
+        <name>SVE Processing Task Execution</name>
+        <parent/>
+        <plural_label/>
+        <read_only>false</read_only>
+        <sys_class_name>cmn_schedule</sys_class_name>
+        <sys_created_by>adam.domanski</sys_created_by>
+        <sys_created_on>2023-12-04 11:25:47</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>81fca5db1bfe31101984dc66bd4bcb20</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>SVE Processing Task Execution</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_update_name>cmn_schedule_81fca5db1bfe31101984dc66bd4bcb20</sys_update_name>
+        <sys_updated_by>adam.domanski</sys_updated_by>
+        <sys_updated_on>2023-12-04 11:26:44</sys_updated_on>
+        <time_zone/>
+        <type/>
+    </cmn_schedule>
+</record_update>

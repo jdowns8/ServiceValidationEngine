@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_policy_rl_action">
+    <sys_ui_policy_rl_action action="DELETE">
+        <list>x_236151_service_1_drift_events.drift_control</list>
+        <sys_class_name>sys_ui_policy_rl_action</sys_class_name>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2023-03-30 09:04:06</sys_created_on>
+        <sys_id>d1b8becf1b3da590dd76a8a4bd4bcbe2</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_236151_service_1_drift_events.drift_control</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_update_name>sys_ui_policy_rl_action_d1b8becf1b3da590dd76a8a4bd4bcbe2</sys_update_name>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-03-30 09:04:06</sys_updated_on>
+        <ui_policy display_value="Drift conditions">ec84b6c71b3da590dd76a8a4bd4bcb61</ui_policy>
+        <visible>true</visible>
+    </sys_ui_policy_rl_action>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</application>
+        <file_path/>
+        <instance_id>3f7e13d9ff3790006663762fa87efe98</instance_id>
+        <instance_name>piit17</instance_name>
+        <name>sys_ui_policy_rl_action_d1b8becf1b3da590dd76a8a4bd4bcbe2</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_policy_rl_action"><sys_ui_policy_rl_action action="INSERT_OR_UPDATE"><list>x_236151_service_1_drift_events.drift_control</list><sys_class_name>sys_ui_policy_rl_action</sys_class_name><sys_created_by>jdowns8@dxc.com</sys_created_by><sys_created_on>2023-03-30 09:04:06</sys_created_on><sys_id>d1b8becf1b3da590dd76a8a4bd4bcbe2</sys_id><sys_mod_count>0</sys_mod_count><sys_name>x_236151_service_1_drift_events.drift_control</sys_name><sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package><sys_policy/><sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope><sys_update_name>sys_ui_policy_rl_action_d1b8becf1b3da590dd76a8a4bd4bcbe2</sys_update_name><sys_updated_by>jdowns8@dxc.com</sys_updated_by><sys_updated_on>2023-03-30 09:04:06</sys_updated_on><ui_policy display_value="Drift conditions">ec84b6c71b3da590dd76a8a4bd4bcb61</ui_policy><visible>true</visible></sys_ui_policy_rl_action></record_update>]]></payload>
+        <payload_hash>245599511</payload_hash>
+        <record_name>x_236151_service_1_drift_events.drift_control</record_name>
+        <reverted_from/>
+        <source>fc07cbb11b552150dd76a8a4bd4bcbda</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2023-03-30 09:04:06</sys_created_on>
+        <sys_id>d2b83ecf1b3da590dd76a8a4bd4bcbd9</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>18731c28bfe0000001</sys_recorded_at>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-03-30 09:04:06</sys_updated_on>
+        <type>UI Policy Related List Action</type>
+        <update_guid>dab83ecf3a3da590449dca403146bed8</update_guid>
+        <update_guid_history>dab83ecf3a3da590449dca403146bed8:245599511</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2023-06-05 09:32:27</sys_created_on>
+        <sys_db_object display_value="" name="sys_ui_policy_rl_action">sys_ui_policy_rl_action</sys_db_object>
+        <sys_id>086b9f6ca9ce4ec0821c80c9bb661000</sys_id>
+        <sys_metadata>d1b8becf1b3da590dd76a8a4bd4bcbe2</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_236151_service_1_drift_events.drift_control</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_scope_delete display_value="">c499c25595e941129c8835469bc0cb04</sys_scope_delete>
+        <sys_update_name>sys_ui_policy_rl_action_d1b8becf1b3da590dd76a8a4bd4bcbe2</sys_update_name>
+        <sys_update_version display_value="sys_ui_policy_rl_action_d1b8becf1b3da590dd76a8a4bd4bcbe2">d2b83ecf1b3da590dd76a8a4bd4bcbd9</sys_update_version>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-06-05 09:32:27</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>
