@@ -6,6 +6,12 @@
         <element attributes="ignore_filter_on_new=true" default="javascript:global.getNextObjNumberPadded();" label="Number" max_length="40" name="number" type="string"/>
         <element label="Parent" max_length="32" name="parent" reference="x_236151_service_1_drift_data" type="reference"/>
         <element default="javascript:current.getTableName();" dynamic_default_value="b5cb83a85f220100a9ad2572f2b4773c" label="Class" max_length="80" name="sys_class_name" type="sys_class_name" use_dynamic_default="true"/>
+        <element choice="1" label="Type" max_length="40" name="type" read_only="true" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Expected Value" sequence="0" value="Expected Value"/>
+                <element inactive_on_update="false" label="Unexpected Value" sequence="1" value="Unexpected Value"/>
+            </choice>
+        </element>
         <element label="Value" max_length="400" name="value" type="string"/>
         <index name="index">
             <element name="associated_ci"/>

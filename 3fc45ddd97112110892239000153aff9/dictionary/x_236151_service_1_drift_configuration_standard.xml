@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="57adf0141bc77d10dd76a8a4bd4bcbfe" label="Drift Configuration Standard" max_length="40" name="x_236151_service_1_drift_configuration_standard" type="collection">
+        <element label="Application service" max_length="32" name="application_service" reference="cmdb_ci_service" type="reference"/>
+        <element label="Business application" max_length="32" name="business_application" reference="cmdb_ci_business_app" type="reference"/>
+        <element label="Expected value" max_length="100" name="expected_value" type="string"/>
+        <element label="Hardware attribute" max_length="32" name="hardware_attribute" reference="sys_dictionary" reference_qual="name=cmdb_ci_server^EQ" reference_qual_condition="name=cmdb_ci_server^EQ" type="reference"/>
+        <element label="Last validated" max_length="40" name="last_validated" type="glide_date_time"/>
+        <element choice="1" label="Level" max_length="40" name="level" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Business Application" sequence="0" value="Business Application"/>
+                <element inactive_on_update="false" label="Application Service" sequence="1" value="Application Service"/>
+                <element inactive_on_update="false" label="Server CI" sequence="2" value="Server CI"/>
+            </choice>
+        </element>
+        <element default="javascript:global.getNextObjNumberPadded();" label="Number" max_length="40" name="number" type="string"/>
+        <element label="Product" max_length="32" name="product" reference="cmdb_software_product_model" type="reference"/>
+        <element label="Server CI" max_length="32" name="server_ci" reference="cmdb_ci_server" type="reference"/>
+        <element choice="1" label="Threshold" max_length="40" name="threshold" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Matches" sequence="0" value="Matches"/>
+                <element inactive_on_update="false" label="Minimum or Above" sequence="1" value="Minimum or Above"/>
+                <element inactive_on_update="false" label="Maximum or Below" sequence="2" value="Maximum or Below"/>
+            </choice>
+        </element>
+        <element label="Tracked file" max_length="32" name="tracked_file" reference="cmdb_ci_config_file_tracked" type="reference"/>
+        <element choice="1" label="Type" max_length="40" name="type" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Software Versioning" sequence="0" value="Software Versioning"/>
+                <element inactive_on_update="false" label="Hardware Configuration" sequence="1" value="Hardware Configuration"/>
+                <element inactive_on_update="false" label="Tracked Configuration File" sequence="2" value="Tracked Configuration File"/>
+            </choice>
+        </element>
+        <index name="index">
+            <element name="application_service"/>
+        </index>
+        <index name="index2">
+            <element name="business_application"/>
+        </index>
+        <index name="index3">
+            <element name="hardware_attribute"/>
+        </index>
+        <index name="index4">
+            <element name="product"/>
+        </index>
+        <index name="index5">
+            <element name="server_ci"/>
+        </index>
+        <index name="index6">
+            <element name="tracked_file"/>
+        </index>
+    </element>
+</database>

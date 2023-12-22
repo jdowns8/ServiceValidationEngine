@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_documentation element="drift_reason" label="Drift reason" language="en" table="x_236151_service_1_drift_events">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>drift_reason</element>
+            <help/>
+            <hint/>
+            <label>Drift reason</label>
+            <language>en</language>
+            <name>x_236151_service_1_drift_events</name>
+            <plural>Drift reasons</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>jdowns8@dxc.com</sys_created_by>
+            <sys_created_on>2023-12-07 10:42:58</sys_created_on>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Drift reason</sys_name>
+            <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+            <sys_update_name>sys_documentation_x_236151_service_1_drift_events_drift_reason_en</sys_update_name>
+            <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+            <sys_updated_on>2023-12-07 10:42:58</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

@@ -2,8 +2,10 @@
     <element db_object_id="a01d84751ba1a5101984dc66bd4bcb38" label="Drift Event" max_length="40" name="x_236151_service_1_drift_events" type="collection">
         <element label="Active" max_length="40" name="active" type="boolean"/>
         <element label="Associated CI" max_length="32" name="associated_ci" read_only="true" reference="x_236151_service_1_associated_cis" type="reference"/>
+        <element label="Attribute" max_length="40" name="attribute" type="string"/>
         <element label="Configuration item" max_length="32" name="ci" read_only="true" reference="cmdb_ci" type="reference"/>
         <element attributes="encode_utf8=false" label="Service validation pattern" max_length="32" name="drift_control" reference="x_236151_service_1_service_validation_patterns" type="reference"/>
+        <element label="Drift reason" max_length="1000" name="drift_reason" read_only="true" type="string"/>
         <element choice="1" label="Drift type" max_length="40" name="drift_type" type="choice">
             <choice>
                 <element inactive_on_update="false" label="Relationship added" sequence="0" value="Relationship added"/>

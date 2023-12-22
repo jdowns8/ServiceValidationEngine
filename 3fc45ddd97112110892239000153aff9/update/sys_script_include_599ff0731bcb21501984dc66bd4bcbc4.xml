@@ -6,19 +6,36 @@
         <caller_access/>
         <client_callable>false</client_callable>
         <description>Functions called by script include "ServiceValidationHelper"&#13;
-ciAttributeChanged: If CI attribute has changed, set baseline and create Drift Event&#13;
-ciRelCreated: If Mapped CI is created today, create Drift Event&#13;
-ciRelRemoved: If Mapped CI is deactivated today, create Drift Event&#13;
+ciAttributeChanged: Centralized Model - If CI attribute has changed, set baseline and create Drift Event&#13;
+appConfigComparison: Federated Model - Check Drift Configuration Standards, and compare to current values&#13;
+&#13;
+Functions called by scheduled job script "scheduledExecutionUtils"&#13;
+processPatternRemediationTask: For each event where there is a closed task, deactivate event.  For each active event, check if there is an outstanding task, if not then create a remediation task.&#13;
+&#13;
+Functions called by Drift Configuration Standard record&#13;
+getBusinessApps: return a sys_id list of owned business applications&#13;
+getAppServices: return a sys_id list of certified app services for the specified business application&#13;
+getServerCIs: return a sys_id list of Server CIs flattened from SVE for the specified App service&#13;
+getProducts: return a sys_id list of software models associated to installations for the selected CI&#13;
+getTrackedFiles: return a sys_id list of tracked configuration files for the selected CI&#13;
 &#13;
 Internally called functions&#13;
 _checkOpenDriftEvent: Check for open Drift Events for the specified ci, pattern and service validation&#13;
 _getAttributeElements: Get column names from dictionary&#13;
 _getAttributeValue: Get dynamic CMDB CI attribute value&#13;
-_createDriftEvent: Create Drift Event</description>
+_createDriftEvent: Create Drift Event&#13;
+_createDriftData: Create Drift Data, to be associated to Drift Events&#13;
+_removeDriftData: Delete Unnecessary Drift Data&#13;
+_deactivateDriftEvent: Set Drift Event to Active is False&#13;
+_getAssociatedCIs: Federated model, option for traversing through mapped CIs to retrieving CI list&#13;
+_processServerCI: Call the comparison function to find Drift for the specified CI&#13;
+_processService: For each associated flattened CI, call the _processServerCI function&#13;
+_processBusinessApp: For each associated certified app service, call the _processService function</description>
         <name>DriftHelper</name>
         <script><![CDATA[var DriftHelper = Class.create();
 DriftHelper.prototype = {
     initialize: function() {
+		this.sve = new ServiceValidationHelper();
     },
 	
 	ciAttributeChanged: function(ci, serviceValidation, pattern, service){
@@ -71,54 +88,511 @@ DriftHelper.prototype = {
 			return;
 		}
 	},
-	
-	ciRelCreated: function(ci, serviceValidation, pattern, service){
 
-		// Check for Existing Drift Event - if so then ignore
-		var openDriftEvent = this._checkOpenDriftEvent(ci, serviceValidation, pattern);
+	appConfigComparison: function(ci, serviceValidation, pattern){
 		
-		if (openDriftEvent == 'false'){
+		var startDateTime = new GlideDateTime();
+		
+		//Fetch matching Drift Standard Configurations
+		var getConfigStandard = new GlideRecord('x_236151_service_1_drift_configuration_standard');
+		getConfigStandard.addQuery('type', pattern.drift_type);
+		getConfigStandard.addQuery('business_application', serviceValidation.business_application).addOrCondition('application_service', serviceValidation.service).addOrCondition('server_ci', ci.sys_id);
+		getConfigStandard.addEncodedQuery('last_validated<'+gs.beginningOfToday()+'^ORlast_validatedISEMPTY');
+		getConfigStandard.query();
+		while (getConfigStandard.next()){
 			
-			// Check If Mapped CI was created on today
-			var checkMappedCI = new GlideRecord('x_236151_service_1_associated_cis');
-			checkMappedCI.addQuery('ci', ci.sys_id);
-			checkMappedCI.addQuery('service_validation', serviceValidation.sys_id);
-			checkMappedCI.addQuery('active', 'true');
-			checkMappedCI.addEncodedQuery('sys_created_onONToday');
-			checkMappedCI.query();
-			if (checkMappedCI.next()){
+			// Process Server Level Configuration Standard
+			if (getConfigStandard.level == 'Server CI'){
+				this._processServerCI(getConfigStandard.server_ci.getRefRecord(), serviceValidation, pattern, getConfigStandard);
+			}
+			
+			// Process Application Service Level Configuration Standard
+			if (getConfigStandard.level == 'Application Service'){
+				this._processService(getConfigStandard.application_service, serviceValidation, pattern, getConfigStandard);
+			}
+			
+			// Process Business Application Level Configuration Standard
+			if (getConfigStandard.level == 'Business Application'){
+				this._processBusinessApp(getConfigStandard.business_application, '', pattern, getConfigStandard);
+			}
+			
+			// Set Last Validated
+			getConfigStandard.setValue('last_validated', startDateTime);
+			getConfigStandard.update();
+		}	
+	},
+	
+	processPatternRemediationTask: function(serviceValidation){
+		
+		var patternObj = {};
+		var remediationTasks;
+		
+		// Process Outstanding Events - Create Task
+		var getActiveEvents = new GlideRecord('x_236151_service_1_drift_events');
+		getActiveEvents.addQuery('service_validation', serviceValidation.sys_id);
+		getActiveEvents.addQuery('drift_control.create_task', 'true');
+		getActiveEvents.addQuery('active', 'true');
+		getActiveEvents.query();
+		while (getActiveEvents.next()){
+			
+			// If no remediation task exists
+			if (!getActiveEvents.remediation_task){
 				
-				// Create Drift Event
-				this._createDriftEvent(ci, serviceValidation, pattern);
+				var ci = getActiveEvents.ci.toString();
+				var patternID = getActiveEvents.service_validation_pattern;
+				var patternDesc = getActiveEvents.service_validation_pattern.description;
+				var serviceImpact = getActiveEvents.service_validation_pattern.service_impact + '';
+				var defaultAssignment = getActiveEvents.service_validation_pattern.task_owner;
+				var assignedTo = this.sve._getDefaultAssignedTo(defaultAssignment, serviceValidation, patternID);
+				var patternGroup = patternID + "|" + patternDesc + "|" + assignedTo + "|" + serviceImpact;
 				
+				if (patternObj.hasOwnProperty(patternGroup)){
+					patternObj[patternGroup].push(ci);
+				} else {
+					patternObj[patternGroup] = [ci];
+				}
+			}
+		}
+		
+		for (patternGroup in patternObj){
+			
+			var patternArr = patternGroup.split("|");
+			var patternRawID = patternArr[0];
+			var patternRawDesc = patternArr[1];
+			var assigneeRaw = patternArr[2];
+			var priorityRaw = patternArr[3];
+			var ciRaw = patternObj[patternGroup];
+			var ciList = patternObj[patternGroup].join(",");
+			
+			// Create Remediation Task
+			var tsk = new GlideRecord('x_236151_service_1_pattern_remediation_task');
+			tsk.initialize();
+			tsk.setValue('assignment_group', assigneeRaw);
+			tsk.setValue('assigned_to', assigneeRaw);
+			tsk.setValue('pattern', patternRawID);
+			tsk.setValue('short_description', tsk.pattern.validation_type + ' Standard Remediation - ' + patternRawDesc);
+			var desc = 'A ' + tsk.pattern.validation_type + ' Standard failure has been identified on Application Service ' + serviceValidation.service.getDisplayValue() + '\n' + 'The failure was against the ' + tsk.pattern.validation_type + ' Standard: ' + patternRawDesc;
+			if (tsk.pattern.remediation_steps){
+				var kbText = 'For steps required to review and remediate this failure, visit the attached knowledge article.';
+				var url = '[code]<a href="' + gs.getProperty('glide.servlet.uri') + 'kb_view.do?sys_kb_id=' + tsk.pattern.remediation_steps.sys_id.toString() + '&preview_article=true" target="_blank">' + tsk.pattern.remediation_steps.getDisplayValue() + ': Remediation Steps' + '</a>[/code]';
+				desc = desc + '\n' + kbText;
+				tsk.work_notes = url;
+			}
+			if (tsk.pattern.drift_type == 'CI Attribute Changed'){
+				
+				var driftDesc = '';
+				// Get Drift Data - Baseline
+				var getDriftDataBaseline = new GlideRecord('x_236151_service_1_drift_data');
+				getDriftDataBaseline.addQuery('configuration_item', ciRaw);
+				getDriftDataBaseline.addQuery('attribute', getActiveEvents.attribute);
+				getDriftDataBaseline.addNullQuery('parent');
+				getDriftDataBaseline.query();
+				if (getDriftDataBaseline.next()){
+					driftDesc = "Attribute " + getActiveEvents.attribute + " for CI " + getActiveEvents.ci.getDisplayValue() + " has unexpectedly changed from " + getDriftDataBaseline.value + " to ";
+				}
+				
+				// Get Drift Data - Changed Value
+				var getDriftDataNew = new GlideRecord('x_236151_service_1_drift_data');
+				getDriftDataNew.addQuery('configuration_item', ciRaw);
+				getDriftDataNew.addQuery('attribute', getActiveEvents.attribute);
+				getDriftDataNew.addNotNullQuery('parent');
+				getDriftDataNew.query();
+				if (getDriftDataNew.next()){
+					driftDesc = driftDesc + getDriftDataNew.value;
+				}
+				desc = desc + "\n" + driftDesc;
+			}
+			tsk.setValue('description', desc);
+			tsk.setValue('priority', priorityRaw);
+			tsk.setValue('service_validation', serviceValidation.sys_id);
+			tsk.insert();
+			
+			// Link KB Article
+			var kbAttach = new GlideRecord('m2m_kb_task');
+			kbAttach.initialize();
+			kbAttach.setValue('kb_knowledge', tsk.pattern.remediation_steps);
+			kbAttach.setValue('task', tsk.sys_id);
+			kbAttach.insert();
+			
+			// Create Affected CIs
+			for (var i=0; i < ciRaw.length; i++){
+				
+				var affCI = new GlideRecord('task_ci');
+				affCI.initialize();
+				affCI.task.setValue(tsk.sys_id);
+				affCI.ci_item.setValue(ciRaw[i]);
+				affCI.insert();
+				
+			// Update Remediation Task Field
+			var updateEvent = new GlideRecord('x_236151_service_1_drift_events');
+				updateEvent.addQuery('service_validation', serviceValidation.sys_id);
+				updateEvent.addQuery('active', 'true');
+				updateEvent.addQuery('service_validation_pattern', patternRawID);
+				updateEvent.addQuery('ci', ciRaw[i]);
+				updateEvent.query();
+				while (updateEvent.next()){
+					updateEvent.remediation_task = tsk.sys_id;
+					updateEvent.update();
+				}
 			}
 		}
 	},
 	
-	ciRelRemoved: function(ci, serviceValidation, pattern, service){
-
-		// Check for Existing Drift Event - if so then ignore
-		var openDriftEvent = this._checkOpenDriftEvent(ci, serviceValidation, pattern);
+	getBusinessApps: function(){
 		
-		if (openDriftEvent == 'false'){
+		var appliesToIDs = '';
+		
+		var getBusApps = new GlideAggregate('cmdb_ci_business_app');
+		if (!gs.hasRole('x_236151_service_1.admin')) {
 			
-			// Check If Mapped CI was created on today
-			var checkMappedCI = new GlideRecord('x_236151_service_1_associated_cis');
-			checkMappedCI.addQuery('ci', ci.sys_id);
-			checkMappedCI.addQuery('service_validation', serviceValidation.sys_id);
-			checkMappedCI.addQuery('active', 'false');
-			checkMappedCI.addEncodedQuery('deactivatedONToday');
-			checkMappedCI.query();
-			if (checkMappedCI.next()){
+getBusApps.addEncodedQuery('managed_by_groupDYNAMICd6435e965f510100a9ad2572f2b47744^ORit_application_ownerDYNAMIC90d1921e5f510100a9ad2572f2b477fe');
+		}
+		getBusApps.addAggregate('COUNT', 'sys_id');
+		getBusApps.query();
+		while (getBusApps.next()){
+			appliesToIDs += getBusApps.sys_id + ',';
+		}
+		
+		if (!appliesToIDs){
+			return 'sys_id=';
+		} else {
+			return 'sys_idIN' + appliesToIDs;
+		}
+	},
+	
+	getAppServices: function(businessApplication){
+		
+		if (!businessApplication){
+			return 'sys_id=';
+		}
+		
+		var appliesToIDs = '';
+		
+		var getAppServices = new GlideAggregate('x_236151_service_1_service_validation');
+		getAppServices.addEncodedQuery('business_application='+ businessApplication + '^certified=true');
+		getAppServices.addAggregate('COUNT', 'service');
+		getAppServices.query();
+		while (getAppServices.next()){
+			appliesToIDs += getAppServices.service + ',';
+		}
+		
+		if (!appliesToIDs){
+			return 'sys_id=';
+		} else {
+			return 'sys_idIN' + appliesToIDs;
+		}
+	},
+	
+	getServerCIs: function(applicationService){
+		
+		if (!applicationService){
+			return 'sys_id=';
+		}
+		
+		var appliesToIDs = '';
+		var getCIs = new GlideAggregate('x_236151_service_1_associated_cis');
+		getCIs.addEncodedQuery('service=' + applicationService + '^ci.sys_class_name=cmdb_ci_win_server^ORci.sys_class_name=cmdb_ci_linux_server^ORci.sys_class_name=cmdb_ci_unix_server^active=true');
+		getCIs.addAggregate('COUNT', 'ci');
+		getCIs.query();
+		while (getCIs.next()){
+			appliesToIDs += getCIs.ci + ',';
+		}
+		
+		if (!appliesToIDs){
+			return 'sys_id=';
+		} else {
+			return 'sys_idIN' + appliesToIDs;
+		}
+	},
+	
+	getProducts: function(businessApplication, applicationService, serverCI, level){
+		
+		var ciList = '';
+		var modelList = '';
+		
+		ciList = this._getAssociatedCIs(businessApplication, applicationService, serverCI, level);
+		
+		if (ciList){
+			
+			var getModels = new GlideAggregate('cmdb_sam_sw_install');
+			getModels.addEncodedQuery('installed_onIN' + ciList + '^operational_status=1^software_modelISNOTEMPTY');  // TODO : Check Operational Status Attribute
+			getModels.addAggregate('COUNT', 'software_model');
+			getModels.query();
+			while (getModels.next()){
 				
-				// Create Drift Event
-				this._createDriftEvent(ci, serviceValidation, pattern);
+				var getProduct = new GlideRecord('cmdb_software_product_model');
+				getProduct.get(getModels.software_model);
+				modelList += getProduct.product + ","; // TODO : Check Product Attribute
+			}
+		}
+		
+		if (!modelList){
+			return 'sys_idIN';
+			
+		}
+		else {
+			return 'sys_idIN' + modelList;
+		}
+	},
+	
+	getTrackedFiles: function(businessApplication, applicationService, serverCI, level){
+		
+		var ciList = '';
+		var fileList = '';
+		
+		ciList = this._getAssociatedCIs(businessApplication, applicationService, serverCI, level);
+		
+		if (ciList){
+			
+			var getFiles = new GlideAggregate('cmdb_ci_config_file_tracked');
+			getFiles.addEncodedQuery('hostIN' + ciList);
+			getFiles.addAggregate('COUNT', 'sys_id');
+			getFiles.query();
+			while (getFiles.next()){
+				fileList += getFiles.sys_id + ',';
+			}
+		}
+		
+		if (!fileList){
+			return 'sys_idIN';
+		}
+		else {
+			
+			return 'sys_idIN' + fileList;
+		}
+	},
+	
+	_processServerCI: function(ci, serviceValidation, pattern, getConfigStandard){
+		
+		var driftObj = {};
+		var hasDrift = 'false';
+		var driftAttr = '';
+		
+		switch (pattern.drift_type.toString()){
 				
+			case 'Software Versioning':
+				driftObj = this._compareProduct(getConfigStandard, ci);
+				driftAttr = getConfigStandard.product.getDisplayValue();
+				break;
+				
+			case 'Hardware Configuration':
+				driftObj = this._compareHardwareAttr(getConfigStandard, ci);
+				driftAttr = getConfigStandard.hardware_attribute.getDisplayValue();
+				break;
+				
+			case 'Tracked Configuration File':
+				driftObj = this._compareTrackedFile(getConfigStandard, ci);
+				driftAttr = getConfigStandard.tracked_file.getDisplayValue();
+				break;
+		}
+		
+		var openDriftEvent = this._checkOpenDriftEvent(ci, serviceValidation, pattern, driftAttr);
+		
+		if (driftObj.driftResult == 'false' && openDriftEvent == 'true'){
+			
+			// Deactivate Drift Event
+			this._deactivateDriftEvent(ci, serviceValidation, pattern, driftAttr);
+		}
+		
+		if (driftObj.driftResult == 'true' && openDriftEvent == 'false'){
+			
+			// Create Drift Event
+			this._createDriftEvent(ci, serviceValidation, pattern, driftAttr, driftObj.driftReason);
+		}
+	},
+	
+	_processService: function(service, serviceValidation, pattern, getConfigStandard){
+		
+		var getCIs = this.getServerCIs(service);
+		
+		var getCI = new GlideRecord('cmdb_ci_server');
+		getCI.addEncodedQuery(getCIs);
+		getCI.query();
+		while (getCI.next()){
+			this._processServerCI(getCI, serviceValidation, pattern, getConfigStandard);
+		}
+	},
+	
+	_processBusinessApp: function(businessApp, serviceValidation, pattern, getConfigStandard){
+		
+		var getServices = this.getAppServices(businessApp);
+		
+		var getService = new GlideRecord('cmdb_ci_service');
+		getService.addEncodedQuery(getServices);
+		getService.query();
+		while (getService.next()){
+			
+			var getSV = new GlideRecord('x_236151_service_1_service_validation');
+			getSV.addQuery('service', getService.sys_id);
+			getSV.query();
+			if (getSV.next()){
+				
+				this._processService(getService.sys_id, getSV, pattern, getConfigStandard);
 			}
 		}
 	},
 	
-	_checkOpenDriftEvent: function(ci, serviceValidation, pattern){
+	_compareProduct: function(configStandard, ci){
+		
+		var thresholdOperator = this._getThreshold(configStandard.threshold);
+		var driftObj = {};
+		driftObj.driftResult = 'false';
+		
+		// Check if the Server CI meets the condition
+		var checkInstall = new GlideRecord('cmdb_sam_sw_install');
+		checkInstall.addQuery('installed_on', ci.sys_id);
+		checkInstall.addQuery('prod_id', configStandard.product); // TODO Check Product Field
+		checkInstall.addQuery('operational_status', 1); // TODO Check Status Field
+		checkInstall.orderBy('normalized_version', 'DESC');
+		checkInstall.setLimit(1);
+		if (!checkInstall.next()){
+			driftObj.driftResult = 'true';
+			driftObj.driftReason = 'Product ' + configStandard.product.getDisplayValue() + ' is not installed on Server CI ' + ci.name;
+		}
+		else{
+			
+			if (configStandard.threshold == 'Matches'){
+				if (parseInt(checkInstall.normalized_verson) != parseInt(configStandard.expected_value)){
+					driftObj.driftResult = 'true';
+					driftObj.driftReason = 'Product ' + configStandard.product.getDisplayValue() + ' installed on Server CI ' + ci.name + ' did not match the expected version.' + '\n' + 'Current Version: ' + checkInstall.normalized_version + '\n' + 'Expected Version: ' + configStandard.expected_value;
+				}
+			}
+			else if (configStandard.threshold == 'Minimum or Above'){
+				if (parseInt(checkInstall.normalized_verson) <= parseInt(configStandard.expected_value)){
+					driftObj.driftResult = 'true';
+					driftObj.driftReason = 'Product ' + configStandard.product.getDisplayValue() + ' installed on Server CI ' + ci.name + ' did not meet the minimum version.' + '\n' + 'Current Version: ' + checkInstall.normalized_version + '\n' + 'Expected Version: ' + configStandard.expected_value;
+				}			
+			}
+			else if (configStandard.threshold == 'Maximum or Below'){
+				if (parseInt(checkInstall.normalized_verson) >= parseInt(configStandard.expected_value)){
+					driftObj.driftResult = 'true';
+					driftObj.driftReason = 'Product ' + configStandard.product.getDisplayValue() + ' installed on Server CI ' + ci.name + ' exceeds the maximum version.' + '\n' + 'Current Version: ' + checkInstall.normalized_version + '\n' + 'Expected Version: ' + configStandard.expected_value;
+				}			
+			}
+		}
+		
+		return driftObj;
+	},
+	
+	_compareHardwareAttr: function(configStandard, ci){
+		
+		var driftObj = {};
+		driftObj.driftResult = 'false';
+		
+		// Check if the Server CI meets the condition
+		var checkAttr = new GlideRecord('cmdb_ci_server');
+		checkAttr.get(ci.sys_id);
+		
+		var attrValue = checkAttr.getValue(configStandard.hardware_attribute.element);
+		
+		driftObj.currentValue = attrValue;
+		if (!attrValue){
+			driftObj.driftResult = 'true';
+			driftObj.driftReason = 'The current hardware attribute' + configStandarde.hardware_attribute.getDisplayValue() + ' value for Server CI ' + checkAttr.name + ' is blank';
+		}
+		else{
+			
+			if (configStandard.threshold == 'Matches'){
+				if (parseInt(checkInstall.normalized_verson) != parseInt(configStandard.expected_value)){
+					driftObj.driftResult = 'true';
+					driftObj.driftReason = 'The current hardware attribute ' + configStandard.hardware_attribute.getDisplayValue() + ' value for Server CI ' + ci.name + ' did not match the expected value.' + '\n' + 'Current Value: ' + checkInstall.normalized_version + '\n' + 'Expected Value: ' + configStandard.expected_value;
+				}
+			}
+			else if (configStandard.threshold == 'Minimum or Above'){
+				if (parseInt(checkInstall.normalized_verson) <= parseInt(configStandard.expected_value)){
+					driftObj.driftResult = 'true';
+					driftObj.driftReason = 'The current hardware attribute ' + configStandard.hardware_attribute.getDisplayValue() + ' value for Server CI ' + ci.name + ' did not match the minimum value.' + '\n' + 'Current Value: ' + checkInstall.normalized_version + '\n' + 'Expected Value: ' + configStandard.expected_value;
+				}			
+			}
+			else if (configStandard.threshold == 'Maximum or Below'){
+				if (parseInt(checkInstall.normalized_verson) >= parseInt(configStandard.expected_value)){
+					driftObj.driftResult = 'true';
+					driftObj.driftReason = 'The current hardware attribute ' + configStandard.hardware_attribute.getDisplayValue() + ' value for Server CI ' + ci.name + ' exceeds the maximum value.' + '\n' + 'Current Value: ' + checkInstall.normalized_version + '\n' + 'Expected Value: ' + configStandard.expected_value;
+				}			
+			}
+		}
+		
+		return driftObj;
+	},
+	
+	_compareTrackedFile: function(configStandard, ci){
+		
+		var driftObj = {};
+		driftObj.driftResult = 'false';
+		
+		// Check if the Tracked File meets the condition
+		var checkHash = new GlideRecord('cmdb_ci_config_file_tracked');
+		checkHash.addQuery('sys_id', configStandard.tracked_file);
+		checkHash.addQuery('hash', configStandard.expected_value);
+		checkHash.query();
+		if (!checkHash.next()){
+			driftObj.driftResult = 'true';
+			driftObj.driftReason = 'The tracked configuration file ' + configStandard.tracked_file.getDisplayValue() + ' on host Server CI ' + ci.name + ' has unexpectedly changed.';
+		}
+		
+		return driftObj;
+	},
+	
+	_getThreshold: function(threshold){
+		
+		var operator = '';
+		
+		switch (threshold.toString()){
+				
+			case 'Matches':
+				operator = '=';
+				break;
+				
+			case 'Minimum or Above':
+				operator = '>';
+				break;
+				
+			case 'Maximum or Below':
+				operator = '<';
+				break;
+				
+			case 'Between':
+				operator = '<>';
+				break;
+		}
+		
+		return operator;
+	},
+	
+	_getAssociatedCIs: function(businessApplication, applicationService, serverCI, level){
+		
+		var ciList = '';
+		
+		if (level == 'Business Application'){
+			
+			var getCIs = new GlideAggregate('x_236151_service_1_associated_cis');
+			getCIs.addEncodedQuery('service_validation.business_application=' + businessApplication + '^active=true^ci.sys_class_name=cmdb_ci_win_server^ORci.sys_class_name=cmdb_ci_linux_server^ORci.sys_class_name=cmdb_ci_unix_server^service_validation.certified=true');
+			getCIs.addAggregate('COUNT', 'ci');
+			getCIs.query();
+			while (getCIs.next()){
+				ciList += getCIs.ci + ',';
+			}
+
+		}
+		if (level == 'Application Service'){
+			
+			var getCIs = new GlideAggregate('x_236151_service_1_associated_cis');
+			getCIs.addEncodedQuery('service=' + applicationService + '^active=true^ci.sys_class_name=cmdb_ci_win_server^ORci.sys_class_name=cmdb_ci_linux_server^ORci.sys_class_name=cmdb_ci_unix_server^service_validation.certified=true');
+			getCIs.addAggregate('COUNT', 'ci');
+			getCIs.query();
+			while (getCIs.next()){
+				ciList += getCIs.ci + ',';
+			}
+
+		}
+		if (level == 'Server CI'){
+			ciList = serverCI;
+		}
+		
+		return ciList;
+	},
+		
+	_checkOpenDriftEvent: function(ci, serviceValidation, pattern, attribute){
 		
 		var isOpen = 'false';
 		
@@ -127,6 +601,7 @@ DriftHelper.prototype = {
 		checkEvent.addQuery('ci', ci.sys_id);
 		checkEvent.addQuery('service_validation', serviceValidation.sys_id);
 		checkEvent.addQuery('service_validation_pattern', pattern.sys_id);
+		checkEvent.addQuery('attribute', attribute);
 		checkEvent.addQuery('active', 'true');
 		checkEvent.query();
 		if (checkEvent.next()){
@@ -167,18 +642,85 @@ DriftHelper.prototype = {
 		
 	},
 	
-	_createDriftEvent: function(ci, serviceValidation, pattern){
+	_createDriftEvent: function(ci, serviceValidation, pattern, driftAttribute, driftReason){
 		
 		// Create Drift Event
 		var createEvent = new GlideRecord('x_236151_service_1_drift_events');
-		createEvent.initialize();
-		createEvent.setValue('ci', ci.sys_id);
-		createEvent.setValue('active', 'true');
-		createEvent.setValue('service_validation', serviceValidation.sys_id);
-		createEvent.setValue('service_validation_pattern', pattern.sys_id);
-		createEvent.insert();
+		createEvent.addQuery('ci', ci.sys_id);
+		createEvent.addQuery('service_validation', serviceValidation.sys_id);
+		createEvent.addQuery('service_validation_pattern', pattern.sys_id);
+		createEvent.addQuery('attribute', driftAttribute);
+		createEvent.addQuery('active', 'true');
+		createEvent.query();
+		if (!createEvent.next()){
+		
+			createEvent.initialize();
+			createEvent.setValue('ci', ci.sys_id);
+			createEvent.setValue('active', 'true');
+			createEvent.setValue('service_validation', serviceValidation.sys_id);
+			createEvent.setValue('service_validation_pattern', pattern.sys_id);
+			createEvent.setValue('attribute', driftAttribute);
+			createEvent.setValue('drift_reason', driftReason);
+			createEvent.insert();
+		}
 	},
 	
+	_deactivateDriftEvent: function(ci, serviceValidation, pattern, driftAttribute){
+		
+		// Deactivate Event
+		var deactivateEvent = new GlideRecord('x_236151_service_1_drift_events');
+		deactivateEvent.addQuery('ci', ci.sys_id);
+		deactivateEvent.addQuery('service_validation', serviceValidation.sys_id);
+		deactivateEvent.addQuery('service_validation_pattern', pattern.sys_id);
+		deactivateEvent.addQuery('attribute', driftAttribute);
+		deactivateEvent.addQuery('active', 'true');
+		deactivateEvent.query();
+		while (deactivateEvent.next()){
+			
+			if (deactivateEvent.remediation_task){
+				this.sve._removeAffectedCI(deactivateEvent.ci, deactivateEvent.remediation_task);
+			}
+			deactivateEvent.active = 'false';
+			deactivateEvent.update();
+		}
+	},
+	
+	_createDriftData: function(ci, attribute, attributeValue, parent){
+		
+		// Create Drift Data
+		var createDriftData = new GlideRecord('x_236151_service_1_drift_data');
+		createDriftData.addQuery('configuration_item', ci.sys_id);
+		createDriftData.addQuery('attribute', attribute);
+		createDriftData.addQuery('value', attributeValue);
+		createDriftData.query();
+		if (!createDriftData.next()){
+			createDriftData.initialize();
+			createDriftData.setValue('configuration_item', ci.sys_id);
+			createDriftData.setValue('type', 'Expected Value');
+			createDriftData.setValue('attribute', attribute);
+			createDriftData.setValue('value', attributeValue);
+			if (parent){
+				createDriftData.setValue('parent', parent);
+				createDriftData.setValue('type', 'Unexpected Value');
+			}
+			createDriftData.insert();
+		}
+		
+		return createDriftData.sys_id;
+	},
+	
+	_removeDriftData: function(ci, attribute, parent){
+		
+		// Remove Drift Data
+		var removeDriftData = new GlideRecord('x_236151_service_1_drift_data');
+		removeDriftData.addQuery('configuration_item', ci.sys_id);
+		removeDriftData.addQuery('parent', parent);
+		removeDriftData.addQuery('attribute', attribute);
+		removeDriftData.query();
+		while (removeDriftData.next()){
+			removeDriftData.deleteRecord();
+		}
+	},
 	
 
     type: 'DriftHelper'
@@ -187,13 +729,13 @@ DriftHelper.prototype = {
         <sys_created_by>jdowns8@dxc.com</sys_created_by>
         <sys_created_on>2023-06-02 11:35:12</sys_created_on>
         <sys_id>599ff0731bcb21501984dc66bd4bcbc4</sys_id>
-        <sys_mod_count>1</sys_mod_count>
+        <sys_mod_count>18</sys_mod_count>
         <sys_name>DriftHelper</sys_name>
         <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
         <sys_update_name>sys_script_include_599ff0731bcb21501984dc66bd4bcbc4</sys_update_name>
         <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
-        <sys_updated_on>2023-06-02 11:48:40</sys_updated_on>
+        <sys_updated_on>2023-12-22 14:30:31</sys_updated_on>
     </sys_script_include>
 </record_update>

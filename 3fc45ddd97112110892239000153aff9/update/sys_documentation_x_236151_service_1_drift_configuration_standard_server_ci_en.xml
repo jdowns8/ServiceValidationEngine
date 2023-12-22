@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_documentation element="server_ci" label="Server CI" language="en" table="x_236151_service_1_drift_configuration_standard">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element>server_ci</element>
+            <help/>
+            <hint/>
+            <label>Server CI</label>
+            <language>en</language>
+            <name>x_236151_service_1_drift_configuration_standard</name>
+            <plural>Server CIs</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>jdowns8@dxc.com</sys_created_by>
+            <sys_created_on>2023-12-07 10:36:51</sys_created_on>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Server CI</sys_name>
+            <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+            <sys_update_name>sys_documentation_x_236151_service_1_drift_configuration_standard_server_ci_en</sys_update_name>
+            <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+            <sys_updated_on>2023-12-07 10:36:51</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

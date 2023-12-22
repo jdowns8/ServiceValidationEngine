@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_236151_service_1.DriftAjax</api_name>
+        <caller_access/>
+        <client_callable>true</client_callable>
+        <description>Function description:&#13;
+setUserPreference : As MRVS struggles to receive data from other variables/variable sets, we save the selected Bus App as a preference then retrieve&#13;
+getConfigStandards_BusApp: Fetch the configuration standards for this business application&#13;
+getConfigStandards_AppService: Fetch the configuration standards for this application service&#13;
+getConfigStandards_ServerCI: Fetch the configuration standards for this server CI&#13;
+getProductValue: Get the product version against the specified server CI installation&#13;
+getFileHash: Lookup tracked file and return hash attribute value&#13;
+getHardwareAttValue: Lookup hardware attribute value for specified server CI</description>
+        <name>DriftAjax</name>
+        <script><![CDATA[var DriftAjax = Class.create();
+DriftAjax.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
+	
+	setUserPreference: function(){
+		
+		var businessApp = this.getParameter('sysparm_ba');
+		var currentUser = gs.getUser();
+		currentUser.savePreference('customform.ba', businessApp);
+		return currentUser.getPreference('customform.ba');
+
+	},
+	
+	getConfigStandards_BusApp: function(){
+		
+		var businessApp = this.getParameter('sysparm_ba');
+		
+		var standardArr = [];
+		var standardObj = {};
+		
+		var getStandards = new GlideRecord('x_236151_service_1_drift_configuration_standard');
+		getStandards.addQuery('business_application', businessApp);
+		getStandards.addQuery('level', 'Business Application');
+		getStandards.orderBy('type', 'DESC');
+		getStandards.query();
+		while (getStandards.next()){
+			
+			standardObj = {
+				'type_1': getStandards.type.toString(),
+				'expected_value_1': getStandards.expected_value.toString(),
+				'hardware_attribute_1': getStandards.hardware_attribute.toString(),
+				'product_1': getStandards.product.toString(),
+				'tracked_configuration_file_1': getStandards.tracked_file.toString(),
+				'threshold_1': getStandards.threshold.toString()
+			};
+			standardArr.push(standardObj);
+		}
+		return JSON.stringify(standardArr);
+	},
+
+	getConfigStandards_AppService: function(){
+		
+		var businessApp = this.getParameter('sysparm_ba');
+		
+		var standardArr = [];
+		var standardObj = {};
+		
+		var getStandards = new GlideRecord('x_236151_service_1_drift_configuration_standard');
+		getStandards.addQuery('business_application', businessApp);
+		getStandards.addQuery('level', 'Application Service');
+		getStandards.orderBy('type', 'DESC');
+		getStandards.query();
+		while (getStandards.next()){
+			
+			standardObj = {
+				'type_2': getStandards.type.toString(),
+				'expected_value_2': getStandards.expected_value.toString(),
+				'hardware_attribute_2': getStandards.hardware_attribute.toString(),
+				'product_2': getStandards.product.toString(),
+				'tracked_configuration_file_2': getStandards.tracked_file.toString(),
+				'threshold_2': getStandards.threshold.toString(),
+				'application_service_2': getStandards.application_service.toString(),
+			};
+			standardArr.push(standardObj);
+		}
+		return JSON.stringify(standardArr);
+	},
+	
+	getConfigStandards_ServerCI: function(){
+		var businessApp = this.getParameter('sysparm_ba');
+		
+		var standardArr = [];
+		var standardObj = {};
+		
+		var getStandards = new GlideRecord('x_236151_service_1_drift_configuration_standard');
+		getStandards.addQuery('business_application', businessApp);
+		getStandards.addQuery('level', 'Server CI');
+		getStandards.orderBy('type', 'DESC');
+		getStandards.query();
+		while (getStandards.next()){
+			
+			standardObj = {
+				'type_3': getStandards.type.toString(),
+				'expected_value_3': getStandards.expected_value.toString(),
+				'hardware_attribute_3': getStandards.hardware_attribute.toString(),
+				'product_3': getStandards.product.toString(),
+				'tracked_configuration_file_3': getStandards.tracked_file.toString(),
+				'threshold_3': getStandards.threshold.toString(),
+				'application_service_3': getStandards.application_service.toString(),
+				'server_ci_3': getStandards.server_ci.toString(),
+			};
+			standardArr.push(standardObj);
+		}
+		return JSON.stringify(standardArr);
+	},
+	
+	getProductValue: function(){
+		
+		var serverCI = this.getParameter('sysparm_ci');
+		var product = this.getParameter('sysparm_product');
+		var defaultValue = '';
+		
+		var getValue = new GlideRecord('cmdb_sam_sw_install');
+		getValue.addQuery('installed_on', serverCI);
+		getValue.addQuery('software_model.product', product); // TODO : Get OOTB Product Field
+		getValue.addQuery('operational_status', 1); // TODO : Get OOTB Status Field
+		getValue.setLimit(1);
+		getValue.query();
+		while (getValue.next()){
+			defaultValue = getValue.normalized_version;
+		}
+		return defaultValue;
+	},
+	
+	getFileHash: function(){
+		
+		var trackedFile = this.getParameter('sysparm_ci');
+		var defaultValue = '';
+		
+		var getValue = new GlideRecord('cmdb_ci_config_file_tracked');
+		getValue.get(trackedFile);
+		defaultValue = getValue.hash;
+		
+		return defaultValue;
+	},
+	
+	getHardwareAttValue: function(){
+		
+		var ci = this.getParameter('sysparm_ci');
+		var dictEntry = this.getParameter('sysparm_attr');
+		var defaultValue = '';
+		var getElement = new GlideRecord('sys_dictionary');
+		getElement.get(dictEntry);
+		var attr = getElement.element;
+		
+		var getAttr = new GlideRecord('cmdb_ci_server');
+		getAttr.get(ci);
+		defaultValue = getAttr.getValue(attr);
+		
+		return defaultValue;
+	},
+	
+	
+
+    type: 'DriftAjax'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2023-12-07 10:48:01</sys_created_on>
+        <sys_id>2140c9581bc77d10dd76a8a4bd4bcba2</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>DriftAjax</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_update_name>sys_script_include_2140c9581bc77d10dd76a8a4bd4bcba2</sys_update_name>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-12-07 11:05:19</sys_updated_on>
+    </sys_script_include>
+</record_update>
