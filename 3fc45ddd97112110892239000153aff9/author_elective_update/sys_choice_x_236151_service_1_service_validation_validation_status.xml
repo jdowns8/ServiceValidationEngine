@@ -77,6 +77,25 @@
             <element>validation_status</element>
             <hint/>
             <inactive>false</inactive>
+            <label>Pending Task Execution</label>
+            <language>en</language>
+            <name>x_236151_service_1_service_validation</name>
+            <sequence>25</sequence>
+            <synonyms/>
+            <sys_created_by>adam.domanski</sys_created_by>
+            <sys_created_on>2023-12-08 10:58:04</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_mod_count>4</sys_mod_count>
+            <sys_updated_by>adam.domanski</sys_updated_by>
+            <sys_updated_on>2023-12-08 10:58:32</sys_updated_on>
+            <value>pending_task_execution</value>
+        </sys_choice>
+        <sys_choice action="INSERT_OR_UPDATE">
+            <dependent_value/>
+            <element>validation_status</element>
+            <hint/>
+            <inactive>false</inactive>
             <label>Validating Patterns</label>
             <language>en</language>
             <name>x_236151_service_1_service_validation</name>

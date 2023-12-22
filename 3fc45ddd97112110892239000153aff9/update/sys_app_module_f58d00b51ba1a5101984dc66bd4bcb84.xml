@@ -26,17 +26,17 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>f58d00b51ba1a5101984dc66bd4bcb84</sys_id>
-        <sys_mod_count>2</sys_mod_count>
-        <sys_name>Drift Events</sys_name>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>Active Events</sys_name>
         <sys_overrides/>
         <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
         <sys_policy/>
         <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
         <sys_update_name>sys_app_module_f58d00b51ba1a5101984dc66bd4bcb84</sys_update_name>
         <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
-        <sys_updated_on>2023-03-30 09:01:22</sys_updated_on>
+        <sys_updated_on>2023-12-22 15:27:56</sys_updated_on>
         <timeline_page/>
-        <title>Drift Events</title>
+        <title>Active Events</title>
         <uncancelable>false</uncancelable>
         <view_name/>
         <window_name/>

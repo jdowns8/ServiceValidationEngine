@@ -7,6 +7,14 @@
         <element default="javascript:global.getNextObjNumberPadded();" display="true" label="Number" max_length="40" name="number" type="string"/>
         <element label="Processing end" max_length="40" name="processing_end" type="glide_date_time"/>
         <element label="Processing start" max_length="40" name="processing_start" type="glide_date_time"/>
-        <element audit="true" default="ready" label="status" max_length="40" name="status" type="string"/>
+        <element audit="true" choice="3" default="ready" label="Status" max_length="40" name="status" type="string">
+            <choice>
+                <element inactive_on_update="false" label="Ready" sequence="10" value="ready"/>
+                <element inactive_on_update="false" label="In Progress" sequence="20" value="in_progress"/>
+                <element inactive_on_update="false" label="Paused - Awaiting Schedule" sequence="30" value="awaiting_schedule"/>
+                <element inactive_on_update="false" label="Complete" sequence="40" value="complete"/>
+                <element inactive_on_update="false" label="Error" sequence="50" value="error"/>
+            </choice>
+        </element>
     </element>
 </database>

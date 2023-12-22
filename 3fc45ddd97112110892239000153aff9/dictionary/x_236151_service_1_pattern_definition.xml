@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
-    <element db_object_id="87b603351b552150dd76a8a4bd4bcb06" max_length="40" name="x_236151_service_1_pattern_definition" type="collection">
-        <element label="CI Class" max_length="32" name="ci_class" reference="sys_db_object" type="reference"/>
+    <element db_object_id="87b603351b552150dd76a8a4bd4bcb06" label="Pattern Definition" max_length="40" name="x_236151_service_1_pattern_definition" type="collection">
+        <element label="CI class" max_length="32" name="ci_class" reference="sys_db_object" type="reference"/>
         <element label="CI Classes" max_length="4000" name="ci_classes" reference="sys_db_object" type="glide_list"/>
         <element attributes="base_start=true,base_table=cmdb_ci,edge_encryption_enabled=true" label="Excluded CI classes" max_length="4000" name="excluded_ci_classes" reference="sys_db_object" type="glide_list"/>
         <element label="Minimum number of results" max_length="40" name="minimum_number_of_results" type="integer"/>

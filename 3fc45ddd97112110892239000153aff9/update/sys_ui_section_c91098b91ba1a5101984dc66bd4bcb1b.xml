@@ -4,13 +4,13 @@
             <element>number</element>
             <position>0</position>
             <sys_created_by>jdowns8@dxc.com</sys_created_by>
-            <sys_created_on>2023-06-02 10:41:48</sys_created_on>
-            <sys_id>2dd4387b1b4b21501984dc66bd4bcb64</sys_id>
+            <sys_created_on>2023-12-22 15:20:45</sys_created_on>
+            <sys_id>366f47091b93f1d01984dc66bd4bcb07</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_236151_service_1_drift_events" sys_domain="global" view="Default view">c91098b91ba1a5101984dc66bd4bcb1b</sys_ui_section>
             <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
-            <sys_updated_on>2023-06-02 10:41:48</sys_updated_on>
+            <sys_updated_on>2023-12-22 15:20:45</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -18,27 +18,27 @@
             <element>ci</element>
             <position>1</position>
             <sys_created_by>jdowns8@dxc.com</sys_created_by>
-            <sys_created_on>2023-06-02 10:41:48</sys_created_on>
-            <sys_id>21d4387b1b4b21501984dc66bd4bcb65</sys_id>
+            <sys_created_on>2023-12-22 15:20:45</sys_created_on>
+            <sys_id>ba6f47091b93f1d01984dc66bd4bcb07</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_236151_service_1_drift_events" sys_domain="global" view="Default view">c91098b91ba1a5101984dc66bd4bcb1b</sys_ui_section>
             <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
-            <sys_updated_on>2023-06-02 10:41:48</sys_updated_on>
+            <sys_updated_on>2023-12-22 15:20:45</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>last_certified_time</element>
+            <element>attribute</element>
             <position>2</position>
             <sys_created_by>jdowns8@dxc.com</sys_created_by>
-            <sys_created_on>2023-06-02 10:41:48</sys_created_on>
-            <sys_id>25d4387b1b4b21501984dc66bd4bcb65</sys_id>
+            <sys_created_on>2023-12-22 15:20:45</sys_created_on>
+            <sys_id>3e6f47091b93f1d01984dc66bd4bcb07</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_236151_service_1_drift_events" sys_domain="global" view="Default view">c91098b91ba1a5101984dc66bd4bcb1b</sys_ui_section>
             <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
-            <sys_updated_on>2023-06-02 10:41:48</sys_updated_on>
+            <sys_updated_on>2023-12-22 15:20:45</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -46,13 +46,13 @@
             <element>active</element>
             <position>3</position>
             <sys_created_by>jdowns8@dxc.com</sys_created_by>
-            <sys_created_on>2023-06-02 10:41:48</sys_created_on>
-            <sys_id>29d4387b1b4b21501984dc66bd4bcb65</sys_id>
+            <sys_created_on>2023-12-22 15:20:45</sys_created_on>
+            <sys_id>be6f47091b93f1d01984dc66bd4bcb07</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_236151_service_1_drift_events" sys_domain="global" view="Default view">c91098b91ba1a5101984dc66bd4bcb1b</sys_ui_section>
             <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
-            <sys_updated_on>2023-06-02 10:41:48</sys_updated_on>
+            <sys_updated_on>2023-12-22 15:20:45</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -60,13 +60,13 @@
             <element>.split</element>
             <position>4</position>
             <sys_created_by>jdowns8@dxc.com</sys_created_by>
-            <sys_created_on>2023-06-02 10:41:48</sys_created_on>
-            <sys_id>2dd4387b1b4b21501984dc66bd4bcb65</sys_id>
+            <sys_created_on>2023-12-22 15:20:45</sys_created_on>
+            <sys_id>326f47091b93f1d01984dc66bd4bcb08</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_236151_service_1_drift_events" sys_domain="global" view="Default view">c91098b91ba1a5101984dc66bd4bcb1b</sys_ui_section>
             <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
-            <sys_updated_on>2023-06-02 10:41:48</sys_updated_on>
+            <sys_updated_on>2023-12-22 15:20:45</sys_updated_on>
             <sys_user/>
             <type>.split</type>
         </sys_ui_element>
@@ -74,13 +74,13 @@
             <element>service_validation</element>
             <position>5</position>
             <sys_created_by>jdowns8@dxc.com</sys_created_by>
-            <sys_created_on>2023-06-02 10:41:48</sys_created_on>
-            <sys_id>21d4387b1b4b21501984dc66bd4bcb66</sys_id>
+            <sys_created_on>2023-12-22 15:20:45</sys_created_on>
+            <sys_id>b26f47091b93f1d01984dc66bd4bcb08</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_236151_service_1_drift_events" sys_domain="global" view="Default view">c91098b91ba1a5101984dc66bd4bcb1b</sys_ui_section>
             <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
-            <sys_updated_on>2023-06-02 10:41:48</sys_updated_on>
+            <sys_updated_on>2023-12-22 15:20:45</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -88,13 +88,13 @@
             <element>drift_control</element>
             <position>6</position>
             <sys_created_by>jdowns8@dxc.com</sys_created_by>
-            <sys_created_on>2023-06-02 10:41:48</sys_created_on>
-            <sys_id>25d4387b1b4b21501984dc66bd4bcb66</sys_id>
+            <sys_created_on>2023-12-22 15:20:45</sys_created_on>
+            <sys_id>366f47091b93f1d01984dc66bd4bcb08</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_236151_service_1_drift_events" sys_domain="global" view="Default view">c91098b91ba1a5101984dc66bd4bcb1b</sys_ui_section>
             <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
-            <sys_updated_on>2023-06-02 10:41:48</sys_updated_on>
+            <sys_updated_on>2023-12-22 15:20:45</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -102,41 +102,41 @@
             <element>remediation_task</element>
             <position>7</position>
             <sys_created_by>jdowns8@dxc.com</sys_created_by>
-            <sys_created_on>2023-06-02 11:14:57</sys_created_on>
-            <sys_id>536c78fb1b8b21501984dc66bd4bcbb0</sys_id>
+            <sys_created_on>2023-12-22 15:20:45</sys_created_on>
+            <sys_id>b66f47091b93f1d01984dc66bd4bcb08</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_236151_service_1_drift_events" sys_domain="global" view="Default view">c91098b91ba1a5101984dc66bd4bcb1b</sys_ui_section>
             <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
-            <sys_updated_on>2023-06-02 11:14:57</sys_updated_on>
+            <sys_updated_on>2023-12-22 15:20:45</sys_updated_on>
             <sys_user/>
             <type/>
+        </sys_ui_element>
+        <sys_ui_element action="INSERT_OR_UPDATE">
+            <element>.end_split</element>
+            <position>8</position>
+            <sys_created_by>jdowns8@dxc.com</sys_created_by>
+            <sys_created_on>2023-12-22 15:20:45</sys_created_on>
+            <sys_id>3a6f47091b93f1d01984dc66bd4bcb08</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_ui_formatter/>
+            <sys_ui_section caption="NULL" display_value="" name="x_236151_service_1_drift_events" sys_domain="global" view="Default view">c91098b91ba1a5101984dc66bd4bcb1b</sys_ui_section>
+            <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+            <sys_updated_on>2023-12-22 15:20:45</sys_updated_on>
+            <sys_user/>
+            <type>.end_split</type>
         </sys_ui_element>
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>drift_reason</element>
-            <position>8</position>
-            <sys_created_by>jdowns8@dxc.com</sys_created_by>
-            <sys_created_on>2023-12-07 10:42:58</sys_created_on>
-            <sys_id>afffbcd41bc77d10dd76a8a4bd4bcba9</sys_id>
-            <sys_mod_count>0</sys_mod_count>
-            <sys_ui_formatter/>
-            <sys_ui_section caption="NULL" display_value="" name="x_236151_service_1_drift_events" sys_domain="global" view="Default view">c91098b91ba1a5101984dc66bd4bcb1b</sys_ui_section>
-            <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
-            <sys_updated_on>2023-12-07 10:42:58</sys_updated_on>
-            <sys_user/>
-            <type/>
-        </sys_ui_element>
-        <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>attribute</element>
             <position>9</position>
             <sys_created_by>jdowns8@dxc.com</sys_created_by>
-            <sys_created_on>2023-12-22 14:17:21</sys_created_on>
-            <sys_id>1ee08b051b13f1d01984dc66bd4bcb86</sys_id>
+            <sys_created_on>2023-12-22 15:20:45</sys_created_on>
+            <sys_id>ba6f47091b93f1d01984dc66bd4bcb08</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="NULL" display_value="" name="x_236151_service_1_drift_events" sys_domain="global" view="Default view">c91098b91ba1a5101984dc66bd4bcb1b</sys_ui_section>
             <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
-            <sys_updated_on>2023-12-22 14:17:21</sys_updated_on>
+            <sys_updated_on>2023-12-22 15:20:45</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>

@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
-    <element db_object_id="a6b6cff11b552150dd76a8a4bd4bcba2" max_length="40" name="x_236151_service_1_service_validation" type="collection">
+    <element db_object_id="a6b6cff11b552150dd76a8a4bd4bcba2" label="Service Validation" max_length="40" name="x_236151_service_1_service_validation" type="collection">
         <element label="Active" max_length="40" name="active" type="boolean"/>
         <element label="Business application" max_length="32" name="business_application" reference="cmdb_ci_business_app" type="reference"/>
         <element label="Certified" max_length="40" name="certified" type="boolean"/>
-        <element attributes="edge_encryption_enabled=true" label="Last Certified Time" max_length="40" name="last_certified_time" read_only="true" type="glide_date_time"/>
-        <element label="Last Validation Time" max_length="40" name="last_validation_time" read_only="true" type="glide_date_time"/>
+        <element attributes="edge_encryption_enabled=true" label="Last certified time" max_length="40" name="last_certified_time" read_only="true" type="glide_date_time"/>
+        <element label="last_validation_time" max_length="40" name="last_validation_time" read_only="true" type="glide_date_time"/>
         <element attributes="ignore_filter_on_new=true" default="javascript:global.getNextObjNumberPadded();" label="Number" max_length="40" name="number" read_only="true" type="string"/>
         <element label="Service" max_length="32" name="service" reference="cmdb_ci_service" type="reference"/>
-        <element default="javascript:current.getTableName();" dynamic_default_value="b5cb83a85f220100a9ad2572f2b4773c" label="Class" max_length="80" name="sys_class_name" type="sys_class_name" use_dynamic_default="true"/>
+        <element default="javascript:current.getTableName();" dynamic_default_value="b5cb83a85f220100a9ad2572f2b4773c" label="Class name" max_length="80" name="sys_class_name" type="sys_class_name" use_dynamic_default="true"/>
         <element choice="1" default="awaiting_mapping" label="Validation status" max_length="40" name="validation_status" read_only="true" type="choice">
             <choice>
                 <element inactive_on_update="false" label="Awaiting Mapping" sequence="0" value="awaiting_mapping"/>
                 <element inactive_on_update="false" label="Mapping CIs" sequence="15" value="mapping_cis"/>
                 <element inactive_on_update="false" label="Mapped CIs Retrieved" sequence="20" value="mapped_cis_retrieved"/>
+                <element inactive_on_update="false" label="Pending Task Execution" sequence="25" value="pending_task_execution"/>
                 <element inactive_on_update="false" label="Validating Patterns" sequence="30" value="validating_patterns"/>
                 <element inactive_on_update="false" label="Pattern Validation Completed" sequence="40" value="pattern_validation_completed"/>
                 <element inactive_on_update="false" label="Pattern Validation Error" sequence="50" value="pattern_validation_error"/>

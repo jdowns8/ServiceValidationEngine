@@ -10,7 +10,7 @@
         <create_access_controls>true</create_access_controls>
         <delete_access>false</delete_access>
         <is_extendable>true</is_extendable>
-        <label>Service Validation Results</label>
+        <label>Service Validation Result</label>
         <live_feed_enabled>false</live_feed_enabled>
         <name>x_236151_service_1_service_validation_results</name>
         <number_ref display_value="SER">6d5cac2597912110892239000153af7a</number_ref>
@@ -22,14 +22,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2023-02-28 10:28:26</sys_created_on>
         <sys_id>eeb6cff11b552150dd76a8a4bd4bcb6c</sys_id>
-        <sys_mod_count>1</sys_mod_count>
-        <sys_name>Service Validation Results</sys_name>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>Service Validation Result</sys_name>
         <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
         <sys_policy/>
         <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
         <sys_update_name>sys_db_object_eeb6cff11b552150dd76a8a4bd4bcb6c</sys_update_name>
-        <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2023-02-28 10:28:27</sys_updated_on>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-12-22 15:04:37</sys_updated_on>
         <update_access>false</update_access>
         <user_role display_value="x_236151_service_1.service_validation_results_user" name="x_236151_service_1.service_validation_results_user">2c1c242597912110892239000153afd2</user_role>
         <ws_access>false</ws_access>

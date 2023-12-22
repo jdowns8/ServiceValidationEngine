@@ -2,48 +2,62 @@
     <sys_ui_related sys_domain="global" table="x_236151_service_1_service_validation_patterns" version="2" view="">
         <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
             <filter/>
-            <list_id display_value="x_236151_service_1_service_validation_patterns - Default view" name="x_236151_service_1_service_validation_patterns" related_list="NULL" sys_domain="global" view="Default view">3198facf1b3da590dd76a8a4bd4bcb1f</list_id>
+            <list_id display_value="Service Validation Pattern - Default view" name="x_236151_service_1_service_validation_patterns" related_list="NULL" sys_domain="global" view="Default view">efa80f851b53f1d01984dc66bd4bcb08</list_id>
             <order_by/>
             <position>0</position>
             <related_list>x_236151_service_1_pattern_definition.service_validation_pattern</related_list>
             <sys_class_name>sys_ui_related_list_entry</sys_class_name>
             <sys_created_by>jdowns8@dxc.com</sys_created_by>
-            <sys_created_on>2023-03-30 09:03:30</sys_created_on>
-            <sys_id>b198facf1b3da590dd76a8a4bd4bcb20</sys_id>
+            <sys_created_on>2023-12-22 14:51:18</sys_created_on>
+            <sys_id>63a80f851b53f1d01984dc66bd4bcb0a</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
-            <sys_updated_on>2023-03-30 09:03:30</sys_updated_on>
+            <sys_updated_on>2023-12-22 14:51:18</sys_updated_on>
         </sys_ui_related_list_entry>
         <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
             <filter/>
-            <list_id display_value="x_236151_service_1_service_validation_patterns - Default view" name="x_236151_service_1_service_validation_patterns" related_list="NULL" sys_domain="global" view="Default view">3198facf1b3da590dd76a8a4bd4bcb1f</list_id>
+            <list_id display_value="Service Validation Pattern - Default view" name="x_236151_service_1_service_validation_patterns" related_list="NULL" sys_domain="global" view="Default view">efa80f851b53f1d01984dc66bd4bcb08</list_id>
             <order_by/>
             <position>1</position>
             <related_list>x_236151_service_1_service_validation_results.service_validation_pattern</related_list>
             <sys_class_name>sys_ui_related_list_entry</sys_class_name>
             <sys_created_by>jdowns8@dxc.com</sys_created_by>
-            <sys_created_on>2023-03-30 09:03:30</sys_created_on>
-            <sys_id>b998facf1b3da590dd76a8a4bd4bcb20</sys_id>
+            <sys_created_on>2023-12-22 14:51:18</sys_created_on>
+            <sys_id>6ba80f851b53f1d01984dc66bd4bcb0a</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
-            <sys_updated_on>2023-03-30 09:03:30</sys_updated_on>
+            <sys_updated_on>2023-12-22 14:51:18</sys_updated_on>
         </sys_ui_related_list_entry>
         <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
             <filter/>
-            <list_id display_value="x_236151_service_1_service_validation_patterns - Default view" name="x_236151_service_1_service_validation_patterns" related_list="NULL" sys_domain="global" view="Default view">3198facf1b3da590dd76a8a4bd4bcb1f</list_id>
+            <list_id display_value="Service Validation Pattern - Default view" name="x_236151_service_1_service_validation_patterns" related_list="NULL" sys_domain="global" view="Default view">efa80f851b53f1d01984dc66bd4bcb08</list_id>
             <order_by/>
             <position>2</position>
+            <related_list>REL:1c284b451b53f1d01984dc66bd4bcb08</related_list>
+            <sys_class_name>sys_ui_related_list_entry</sys_class_name>
+            <sys_created_by>jdowns8@dxc.com</sys_created_by>
+            <sys_created_on>2023-12-22 14:51:18</sys_created_on>
+            <sys_id>6fa80f851b53f1d01984dc66bd4bcb0a</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+            <sys_updated_on>2023-12-22 14:51:18</sys_updated_on>
+        </sys_ui_related_list_entry>
+        <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
+            <filter/>
+            <list_id display_value="Service Validation Pattern - Default view" name="x_236151_service_1_service_validation_patterns" related_list="NULL" sys_domain="global" view="Default view">efa80f851b53f1d01984dc66bd4bcb08</list_id>
+            <order_by/>
+            <position>3</position>
             <related_list>x_236151_service_1_drift_events.drift_control</related_list>
             <sys_class_name>sys_ui_related_list_entry</sys_class_name>
             <sys_created_by>jdowns8@dxc.com</sys_created_by>
-            <sys_created_on>2023-03-30 09:03:30</sys_created_on>
-            <sys_id>bd98facf1b3da590dd76a8a4bd4bcb20</sys_id>
+            <sys_created_on>2023-12-22 14:51:18</sys_created_on>
+            <sys_id>63a80f851b53f1d01984dc66bd4bcb0b</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
-            <sys_updated_on>2023-03-30 09:03:30</sys_updated_on>
+            <sys_updated_on>2023-12-22 14:51:18</sys_updated_on>
         </sys_ui_related_list_entry>
         <sys_ui_related_list action="INSERT_OR_UPDATE">
-            <calculated_name>x_236151_service_1_service_validation_patterns - Default view</calculated_name>
+            <calculated_name>Service Validation Pattern - Default view</calculated_name>
             <filter/>
             <name>x_236151_service_1_service_validation_patterns</name>
             <order_by/>
@@ -51,18 +65,18 @@
             <related_list/>
             <sys_class_name>sys_ui_related_list</sys_class_name>
             <sys_created_by>jdowns8@dxc.com</sys_created_by>
-            <sys_created_on>2023-03-30 09:03:30</sys_created_on>
+            <sys_created_on>2023-12-22 14:51:18</sys_created_on>
             <sys_domain>global</sys_domain>
             <sys_domain_path>/</sys_domain_path>
-            <sys_id>3198facf1b3da590dd76a8a4bd4bcb1f</sys_id>
+            <sys_id>efa80f851b53f1d01984dc66bd4bcb08</sys_id>
             <sys_mod_count>0</sys_mod_count>
-            <sys_name>Service Validation Patterns - Default view</sys_name>
+            <sys_name>Service Validation Pattern - Default view</sys_name>
             <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
             <sys_policy/>
             <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
             <sys_update_name>sys_ui_related_x_236151_service_1_service_validation_patterns_null</sys_update_name>
             <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
-            <sys_updated_on>2023-03-30 09:03:30</sys_updated_on>
+            <sys_updated_on>2023-12-22 14:51:18</sys_updated_on>
             <sys_user/>
             <view display_value="Default view" name="NULL">Default view</view>
             <view_name/>

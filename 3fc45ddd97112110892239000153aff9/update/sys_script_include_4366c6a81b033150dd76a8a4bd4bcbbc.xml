@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_236151_service_1.SVEProcessingUtils</api_name>
+        <caller_access/>
+        <client_callable>false</client_callable>
+        <description/>
+        <name>SVEProcessingUtils</name>
+        <script><![CDATA[var SVEProcessingUtils = Class.create();
+SVEProcessingUtils.prototype = {
+
+    initialize: function() {
+        this.MAX_CONCURRENCY = gs.getProperty("x_236151_service_1.processing.max_concurrency");
+        this.SVC_PER_TASK = gs.getProperty("x_236151_service_1.processing.svc_per_task");
+    },
+
+	// This function checks that the current time falls within the time period set in the Schedule,
+	// returning true if so, otherwise false
+    checkExecutionTime: function() {
+		var currentGdt = new GlideDateTime();
+        var scheduleName = gs.getProperty("x_236151_service_1.processing.schedule_name");
+
+        var scheduleGr = new GlideRecord("cmn_schedule");
+        if (!scheduleGr.get("name", scheduleName))
+            return false;
+
+        var sched = new GlideSchedule(scheduleGr.sys_id + '');
+		return sched.isInSchedule(currentGdt);
+    },
+
+	// Called by the multi-threading scheduled job to create tasks if required
+    createProcessingTasks: function() {
+        var existingTasks = new GlideAggregate("x_236151_service_1_sve_processing_task");
+        existingTasks.addQuery("status", "IN", "ready, in_progress, awaiting_schedule");
+        existingTasks.addAggregate("COUNT");
+        existingTasks.query();
+        existingTasks.next();
+
+        var availableTaskCount = this.MAX_CONCURRENCY - existingTasks.getAggregate("COUNT"); // Max number of concurrent tasks allowed 
+        if (availableTaskCount <= 0)
+            return;
+		
+		var validationLimit = availableTaskCount * this.SVC_PER_TASK;  
+        var idLists = [],
+            currentList = [];
+		
+		// Query as many service validations as can be processed by the umber of tasks being created
+		var eq = "active=true^last_validation_timeRELATIVELT@hour@ago@24^ORlast_validation_timeISEMPTY^" + 
+			"validation_statusINawaiting_mapping,pattern_validation_completed,pattern_validation_error";
+        var svGr = new GlideRecord("x_236151_service_1_service_validation");
+        svGr.addEncodedQuery(eq);
+        svGr.orderBy("last_validation_time");
+        svGr.setLimit(validationLimit);
+        svGr.query();
+        while (svGr.next()) {
+			// Populate an array containing lists of CIs, each list will be added to an individual task
+            if (currentList.length < this.SVC_PER_TASK) {
+                currentList.push(svGr.sys_id + '');
+            } else {
+                idLists.push(currentList.join(","));
+                currentList = [];
+                currentList.push(svGr.sys_id + '');
+            }
+            if (!svGr.hasNext()) // Is this the last GlideRecord? If so, save current list before exiting loop
+                idLists.push(currentList.join(","));
+			
+			// Mark each Service Validation so that it is not added to another task in the next scheduled execution
+            svGr.validation_status = "pending_task_execution";
+            svGr.update();
+        }
+
+        // Each list of Service Validations will be added to a new task
+		for (var iKey in idLists)
+            this.createProcessingTask(idLists[iKey]);
+    },
+
+	// Creates a new SVE Processing Task
+    createProcessingTask: function(idListStr) {
+        var pTask = new GlideRecord("x_236151_service_1_sve_processing_task");
+        pTask.ids = idListStr;
+        pTask.insert();
+    },
+
+    type: 'SVEProcessingUtils'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>adam.domanski</sys_created_by>
+        <sys_created_on>2023-12-08 10:29:41</sys_created_on>
+        <sys_id>4366c6a81b033150dd76a8a4bd4bcbbc</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>SVEProcessingUtils</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_update_name>sys_script_include_4366c6a81b033150dd76a8a4bd4bcbbc</sys_update_name>
+        <sys_updated_by>adam.domanski</sys_updated_by>
+        <sys_updated_on>2023-12-14 11:54:01</sys_updated_on>
+    </sys_script_include>
+</record_update>

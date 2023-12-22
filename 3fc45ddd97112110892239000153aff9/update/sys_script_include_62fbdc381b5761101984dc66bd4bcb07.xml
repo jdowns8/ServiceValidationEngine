@@ -90,6 +90,180 @@ ScheduledExecutionUtils.prototype = {
 		description = "Execution completed: SVE Execute Blueprints (Batched)";
 		sve._createOrUpdatePerformanceStat(description, startDateTime, "ScheduledExecution", null);
 	},
+	
+	// Checks how many tasks are In Progress already, then sets one Ready task to In Progress if we haven't reached the maximum
+	batchedSVEFromTask: function() {
+		var inProgress = new GlideAggregate("x_236151_service_1_sve_processing_task");
+		inProgress.addQuery("status", "in_progress");
+		inProgress.addAggregate("COUNT");
+		inProgress.query();
+		inProgress.next();
+		var inProgressCount = inProgress.getAggregate("COUNT");
+		
+		var limit = gs.getProperty("x_g_wfb_sve.processing.max_concurrency");
+		limit = limit - inProgressCount;
+		if(limit < 1)
+			return;
+		
+		var prTask = new GlideRecord("x_236151_service_1_sve_processing_task");
+		prTask.addQuery("status", "IN", "ready, awaiting_schedule");
+		// Only one task will be set to In Progress at a time, this ensures that each task execution gets assigned to an individual processing node
+		prTask.setLimit(1);
+		prTask.orderBy("status");
+		prTask.orderBy("sys_updated_on");
+		prTask.query();
+		while(prTask.next()) {
+			prTask.status = "in_progress";
+			prTask.update();
+		}
+	},
+	
+	// When a task moves to In Progress state, this async code runs SVE against the referenced Service Validations
+	executeSVEFromTask: function(ids, taskID) {
+		var startDateTime = new GlideDateTime();
+		var sve = new ServiceValidationHelper(taskID);
+		var drift = new DriftHelper();
+		var svp = new SVEProcessingUtils();
+		var serviceValidationList = "";
+
+		// Update Node Name
+		this.setNodeNameOnTask(taskID);
+
+		// Retrieve Mapped CIs
+		var sv = new GlideRecord('x_236151_service_1_service_validation');
+		sv.addQuery("sys_id", "IN", ids);
+		sv.addQuery("validation_status", "IN", "pending_task_execution, mapped_cis_retrieved");
+		sv.orderBy("last_validation_time");
+		sv.query();
+		while (sv.next()) {
+
+			// Have we moved out of the scheduled execution period? If so, pause the task
+			if(!svp.checkExecutionTime()) {
+				this.pauseTask(taskID, sve);
+				return;
+			}
+			try{
+				sve.createOrUpdateMappedCIs(sv.getValue('service'));
+				serviceValidationList += "," + sv.sys_id;
+			}
+			catch(err){
+				gs.info('Error in Mapping CIs for ' + sv.number + " error: " + err.message);	
+			}
+		}
+		var description = "Execution completed: SVE Generate Mapped CIs (Batched)";
+		sve._createOrUpdatePerformanceStat(description, startDateTime, "Scheduled Execution", null);
+		
+		// Execute Blueprints
+		var blueprintStartDateTime = new GlideDateTime();
+		var mapCI = new GlideAggregate("x_g_wfb_sve_mapped_ci");
+		mapCI.addQuery('service_validation', 'IN', serviceValidationList);
+		mapCI.addAggregate("COUNT", "service_validation");
+		mapCI.query();
+		while (mapCI.next()) {
+			
+			// Have we moved out of the scheduled execution period? If so, pause the task
+			if(!svp.checkExecutionTime()) {
+				this.pauseTask(taskID, sve);				
+				return;
+			}
+			
+			var sv2 = new GlideRecord("x_g_wfb_sve_service_validation");
+			if(!sv2.get(mapCI.getValue("service_validation")))
+				continue;
+			
+			sv2.validation_status = "executing_standards";
+			sv2.update();
+			var hasError = false;
+			
+			try{
+				sve.findControls('', sv2, "Blueprint");
+			} catch(err){
+				gs.info('Error in Validating Controls for ' + sv2.number + " error: " + err.message);
+			}
+			
+			try{
+				sve.runScores(sv2);
+			} catch(err){
+				gs.info('Error in Running Scores for ' + sv2.number + " error: " + err.message);
+				hasError = true;
+			}
+						
+			try {
+				sve.processControlRemediationTask(sv2);
+			} catch(err){
+				gs.info('Error in processing Standard Remediation Tasks for ' + sv2.number + " error: " + err.message);
+				hasError = true;
+			}
+			
+			try{
+				//sve.autoCertify(sv2);
+				gs.eventQueue("x_g_wfb_sve.trigger_task_creation", sv2, null, null);
+			} catch(err){
+				gs.info('Error in Auto-Certification for ' + sv2.number + " error: " + err.message);
+				hasError = true;
+			}
+			try{
+				sve._createOrUpdatePerformanceStat(sv.number, blueprintStartDateTime, "Service Validation");
+			} catch(err){
+				gs.info('Error in Creating Performance Stats for ' + sv2.number + " error: " + err.message);
+				hasError = true;
+			}
+			
+			try{
+				sve.findControls('', sv2, "Drift");
+			} catch(err){
+				gs.info('Error in Validating Controls for ' + sv2.number + " error: " + err.message);
+			} 
+						try{
+				drift.processControlRemediationTask(sv2);
+			} catch(err){
+				gs.info('Error in Validating Controls for ' + sv2.number + " error: " + err.message);
+			} 
+			
+			if(hasError)
+				sv2.validation_status = "standard_execution_error";
+			else
+				sv2.validation_status = "standard_execution_completed";
+			sv2.update();
+		}
+		var processTask = new GlideRecord("x_236151_service_1_sve_processing_task");
+		if(processTask.get(taskID)) {
+			var scheduleName = gs.getProperty("x_g_wfb_sve.processing.schedule_name");
+			var scheduleGr = new GlideRecord("cmn_schedule");
+			if(scheduleGr.get("name", scheduleName)) {
+				var gdt = GlideDateTime();
+				var glideSchedule = new GlideSchedule(scheduleGr.sys_id+'');
+				var duration = glideSchedule.duration(startDateTime, gdt);
+				processTask.duration.setValue(duration);
+			}
+			
+			processTask.status = "complete";
+			processTask.processing_end = gdt;
+			processTask.update();
+		}
+		description = "Execution completed: SVE Execute Blueprints (Batched)";
+		sve._createOrUpdatePerformanceStat(description, startDateTime, "Scheduled Execution", null);
+	},
+	
+	// Sets any tasks to Paused state, invoked when processing happens outside the scheduled window
+	pauseTask: function(taskID, sve) {
+		var spTask = new GlideRecord("x_236151_service_1_sve_processing_task");
+		spTask.get(taskID);
+		spTask.status = "awaiting_schedule";
+		spTask.update();
+		var description = "Execution paused: Outside of scheduled window";
+		var currentTime =  new GlideDateTime();
+		sve._createOrUpdatePerformanceStat(description, currentTime, "Scheduled Execution", null);
+	},
+	
+	//Update Node Name
+	setNodeNameOnTask: function(taskID) {		
+		var nodeName = gs.getProperty("glide.cluster.node_name");	
+		var sveTask = new GlideRecord("x_g_wfb_sve_processing_task");
+		sveTask.get(taskID);
+		sveTask.u_node_name = nodeName;
+		sveTask.update();
+	},
 
     type: 'ScheduledExecutionUtils'
 };]]></script>
@@ -97,13 +271,13 @@ ScheduledExecutionUtils.prototype = {
         <sys_created_by>jdowns8@dxc.com</sys_created_by>
         <sys_created_on>2023-06-05 11:39:32</sys_created_on>
         <sys_id>62fbdc381b5761101984dc66bd4bcb07</sys_id>
-        <sys_mod_count>3</sys_mod_count>
+        <sys_mod_count>5</sys_mod_count>
         <sys_name>ScheduledExecutionUtils</sys_name>
         <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
         <sys_update_name>sys_script_include_62fbdc381b5761101984dc66bd4bcb07</sys_update_name>
-        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
-        <sys_updated_on>2023-06-05 12:08:09</sys_updated_on>
+        <sys_updated_by>adam.domanski</sys_updated_by>
+        <sys_updated_on>2023-12-14 12:31:02</sys_updated_on>
     </sys_script_include>
 </record_update>

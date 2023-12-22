@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_ui_related sys_domain="global" table="x_236151_service_1_sve_processing_task" version="2" view="">
+        <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
+            <filter/>
+            <list_id display_value="SVE Processing Task - Default view" name="x_236151_service_1_sve_processing_task" related_list="NULL" sys_domain="global" view="Default view">266e49621b8f7510dd76a8a4bd4bcb11</list_id>
+            <order_by/>
+            <position>0</position>
+            <related_list>REL:a622f7671b3635101984dc66bd4bcbe2</related_list>
+            <sys_class_name>sys_ui_related_list_entry</sys_class_name>
+            <sys_created_by>adam.domanski</sys_created_by>
+            <sys_created_on>2023-12-14 11:32:18</sys_created_on>
+            <sys_id>266e49621b8f7510dd76a8a4bd4bcb12</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>adam.domanski</sys_updated_by>
+            <sys_updated_on>2023-12-14 11:32:18</sys_updated_on>
+        </sys_ui_related_list_entry>
+        <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
+            <filter/>
+            <list_id display_value="SVE Processing Task - Default view" name="x_236151_service_1_sve_processing_task" related_list="NULL" sys_domain="global" view="Default view">266e49621b8f7510dd76a8a4bd4bcb11</list_id>
+            <order_by/>
+            <position>1</position>
+            <related_list>x_236151_service_1_validation_performance.processing_task</related_list>
+            <sys_class_name>sys_ui_related_list_entry</sys_class_name>
+            <sys_created_by>adam.domanski</sys_created_by>
+            <sys_created_on>2023-12-14 11:32:18</sys_created_on>
+            <sys_id>2e6e49621b8f7510dd76a8a4bd4bcb12</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>adam.domanski</sys_updated_by>
+            <sys_updated_on>2023-12-14 11:32:18</sys_updated_on>
+        </sys_ui_related_list_entry>
+        <sys_ui_related_list_entry action="INSERT_OR_UPDATE">
+            <filter/>
+            <list_id display_value="SVE Processing Task - Default view" name="x_236151_service_1_sve_processing_task" related_list="NULL" sys_domain="global" view="Default view">266e49621b8f7510dd76a8a4bd4bcb11</list_id>
+            <order_by/>
+            <position>2</position>
+            <related_list>REL:ab1dc5ee1b4f7510dd76a8a4bd4bcb77</related_list>
+            <sys_class_name>sys_ui_related_list_entry</sys_class_name>
+            <sys_created_by>adam.domanski</sys_created_by>
+            <sys_created_on>2023-12-14 11:32:18</sys_created_on>
+            <sys_id>226e49621b8f7510dd76a8a4bd4bcb13</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_updated_by>adam.domanski</sys_updated_by>
+            <sys_updated_on>2023-12-14 11:32:18</sys_updated_on>
+        </sys_ui_related_list_entry>
+        <sys_ui_related_list action="INSERT_OR_UPDATE">
+            <calculated_name>SVE Processing Task - Default view</calculated_name>
+            <filter/>
+            <name>x_236151_service_1_sve_processing_task</name>
+            <order_by/>
+            <position/>
+            <related_list/>
+            <sys_class_name>sys_ui_related_list</sys_class_name>
+            <sys_created_by>adam.domanski</sys_created_by>
+            <sys_created_on>2023-12-14 11:32:18</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>266e49621b8f7510dd76a8a4bd4bcb11</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>SVE Processing Task - Default view</sys_name>
+            <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+            <sys_update_name>sys_ui_related_x_236151_service_1_sve_processing_task_null</sys_update_name>
+            <sys_updated_by>adam.domanski</sys_updated_by>
+            <sys_updated_on>2023-12-14 11:32:18</sys_updated_on>
+            <sys_user/>
+            <view display_value="Default view" name="NULL">Default view</view>
+            <view_name/>
+        </sys_ui_related_list>
+    </sys_ui_related>
+</record_update>

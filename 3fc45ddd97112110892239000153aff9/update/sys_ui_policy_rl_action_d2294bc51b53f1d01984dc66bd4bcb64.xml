@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_policy_rl_action">
+    <sys_ui_policy_rl_action action="INSERT_OR_UPDATE">
+        <list>REL:1c284b451b53f1d01984dc66bd4bcb08</list>
+        <sys_class_name>sys_ui_policy_rl_action</sys_class_name>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2023-12-22 14:53:33</sys_created_on>
+        <sys_id>d2294bc51b53f1d01984dc66bd4bcb64</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>REL:1c284b451b53f1d01984dc66bd4bcb08</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_update_name>sys_ui_policy_rl_action_d2294bc51b53f1d01984dc66bd4bcb64</sys_update_name>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-12-22 14:53:33</sys_updated_on>
+        <ui_policy display_value="Drift Control Visibility">dfe2c8301b9361101984dc66bd4bcbb3</ui_policy>
+        <visible>true</visible>
+    </sys_ui_policy_rl_action>
+</record_update>

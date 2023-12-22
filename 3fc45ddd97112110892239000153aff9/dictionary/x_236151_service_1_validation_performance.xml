@@ -4,6 +4,7 @@
         <element label="Duration" max_length="40" name="duration" type="glide_duration"/>
         <element label="Last Run Time" max_length="40" name="last_run_time" type="glide_date_time"/>
         <element attributes="ignore_filter_on_new=true" default="javascript:global.getNextObjNumberPadded();" label="Number" max_length="40" name="number" type="string"/>
+        <element attributes="encode_utf8=false" label="Processing Task" max_length="32" name="processing_task" reference="x_236151_service_1_sve_processing_task" type="reference"/>
         <element label="Service validation" max_length="32" name="service_validation" reference="x_236151_service_1_service_validation" type="reference"/>
         <element default="javascript:current.getTableName();" dynamic_default_value="b5cb83a85f220100a9ad2572f2b4773c" label="Class" max_length="80" name="sys_class_name" type="sys_class_name" use_dynamic_default="true"/>
         <element choice="1" label="Type" max_length="40" name="type" type="choice">
@@ -15,9 +16,12 @@
             </choice>
         </element>
         <index name="index">
-            <element name="service_validation"/>
+            <element name="processing_task"/>
         </index>
         <index name="index2">
+            <element name="service_validation"/>
+        </index>
+        <index name="index3">
             <element name="sys_class_name"/>
         </index>
     </element>

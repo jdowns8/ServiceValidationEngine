@@ -46,6 +46,8 @@ ServiceValidationHelper.prototype = {
     initialize: function() {
         this.timer_log = 'Service Validation;Duration\n';
 		this.excludedClasses = gs.getProperty('x_236151_service_1.sve.mapped.ci.excluded.ci.classes');
+		if(taskID != null)
+			this.taskID = taskID;
     },
 	
 	findServices: function() {
@@ -814,7 +816,7 @@ ServiceValidationHelper.prototype = {
 	
 	_createOrUpdatePerformanceStat: function(description, start, type, svGr) {
 		
-		// Create Performance State for Performance Logging
+		// Create Performance Stat for Performance Logging
         var gdt = new GlideDateTime();
         var setPerf = new GlideRecord('x_236151_service_1_validation_performance');
         setPerf.addQuery('description', description);
@@ -822,9 +824,11 @@ ServiceValidationHelper.prototype = {
         if (setPerf.next()) {
             setPerf.last_run_time.setValue(gdt);
             setPerf.duration.setValue(GlideDateTime.subtract(start, gdt));
-			if (svGr){
+			if (svGr)
 				setPerf.service_validation.setValue(svGr.sys_id);
-			}
+			// Update for multi-threading to make all logging visible in the tasks
+			if(this.taskID != null)
+				setPerf.processing_task = this.taskID;
             setPerf.update();
         } else {
             setPerf.initialize();
@@ -832,9 +836,10 @@ ServiceValidationHelper.prototype = {
 			setPerf.type.setValue(type);
             setPerf.last_run_time.setValue(gdt);
             setPerf.duration.setValue(GlideDateTime.subtract(start, gdt));
-			if (svGr){
+			if (svGr)
 				setPerf.service_validation.setValue(svGr.sys_id);
-			}
+			if(this.taskID != null)
+				setPerf.processing_task = this.taskID;
             setPerf.insert();
         }
     },
@@ -918,13 +923,13 @@ ServiceValidationHelper.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2023-02-27 19:04:08</sys_created_on>
         <sys_id>29a85d9597512110892239000153af4d</sys_id>
-        <sys_mod_count>260</sys_mod_count>
+        <sys_mod_count>261</sys_mod_count>
         <sys_name>ServiceValidationHelper</sys_name>
         <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
         <sys_update_name>sys_script_include_29a85d9597512110892239000153af4d</sys_update_name>
-        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
-        <sys_updated_on>2023-06-12 10:37:31</sys_updated_on>
+        <sys_updated_by>adam.domanski</sys_updated_by>
+        <sys_updated_on>2023-12-14 12:00:13</sys_updated_on>
     </sys_script_include>
 </record_update>
