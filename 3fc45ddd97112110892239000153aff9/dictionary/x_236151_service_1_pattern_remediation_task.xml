@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
     <element audit="true" db_object_id="807bb47b1b8b21501984dc66bd4bcbdc" extends="task" label="Pattern Remediation Task" max_length="40" name="x_236151_service_1_pattern_remediation_task" type="collection">
+        <element label="False positive" max_length="40" name="false_positive" type="boolean"/>
+        <element choice="1" label="False positive reason" max_length="40" name="false_positive_reason" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="Invalid Pattern" sequence="0" value="Invalid Pattern"/>
+                <element inactive_on_update="false" label="Expected Change" sequence="1" value="Expected Change"/>
+                <element inactive_on_update="false" label="Invalid CMDB Entry" sequence="2" value="Invalid CMDB Entry"/>
+                <element inactive_on_update="false" label="Duplicate" sequence="3" value="Duplicate"/>
+            </choice>
+        </element>
         <element label="Pattern" max_length="32" name="pattern" read_only="true" reference="x_236151_service_1_service_validation_patterns" type="reference"/>
         <element label="Service validation" max_length="32" name="service_validation" read_only="true" reference="x_236151_service_1_service_validation" type="reference"/>
     </element>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl_role">
+    <sys_security_acl_role action="DELETE">
+        <sys_class_name>sys_security_acl_role</sys_class_name>
+        <sys_created_by>tomi.rekonen</sys_created_by>
+        <sys_created_on>2023-03-23 14:23:15</sys_created_on>
+        <sys_id>51ae7f301b39e550dd76a8a4bd4bcb6a</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_236151_service_1_drift_data.x_236151_service_1.drift_data_user</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_security_acl display_value="x_236151_service_1_drift_data">11ae7f301b39e550dd76a8a4bd4bcb5a</sys_security_acl>
+        <sys_update_name>sys_security_acl_role_51ae7f301b39e550dd76a8a4bd4bcb6a</sys_update_name>
+        <sys_updated_by>tomi.rekonen</sys_updated_by>
+        <sys_updated_on>2023-03-23 14:23:15</sys_updated_on>
+        <sys_user_role display_value="x_236151_service_1.drift_data_user" name="x_236151_service_1.drift_data_user">7cae7ffc1bf5e550dd76a8a4bd4bcb02</sys_user_role>
+        <transaction_id/>
+    </sys_security_acl_role>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</application>
+        <file_path/>
+        <instance_id>3f7e13d9ff3790006663762fa87efe98</instance_id>
+        <instance_name>piit17</instance_name>
+        <name>sys_security_acl_role_51ae7f301b39e550dd76a8a4bd4bcb6a</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl_role"><sys_security_acl_role action="INSERT_OR_UPDATE"><sys_class_name>sys_security_acl_role</sys_class_name><sys_created_by>tomi.rekonen</sys_created_by><sys_created_on>2023-03-23 14:23:15</sys_created_on><sys_id>51ae7f301b39e550dd76a8a4bd4bcb6a</sys_id><sys_mod_count>0</sys_mod_count><sys_name>x_236151_service_1_drift_data.x_236151_service_1.drift_data_user</sys_name><sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package><sys_policy/><sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope><sys_security_acl display_value="x_236151_service_1_drift_data">11ae7f301b39e550dd76a8a4bd4bcb5a</sys_security_acl><sys_update_name>sys_security_acl_role_51ae7f301b39e550dd76a8a4bd4bcb6a</sys_update_name><sys_updated_by>tomi.rekonen</sys_updated_by><sys_updated_on>2023-03-23 14:23:15</sys_updated_on><sys_user_role display_value="x_236151_service_1.drift_data_user" name="x_236151_service_1.drift_data_user">7cae7ffc1bf5e550dd76a8a4bd4bcb02</sys_user_role><transaction_id/></sys_security_acl_role></record_update>]]></payload>
+        <payload_hash>-1211041867</payload_hash>
+        <record_name>x_236151_service_1_drift_data.x_236151_service_1.drift_data_user</record_name>
+        <reverted_from/>
+        <source>2f38d3e01bf5e9501984dc66bd4bcb4a</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>tomi.rekonen</sys_created_by>
+        <sys_created_on>2023-03-23 14:23:15</sys_created_on>
+        <sys_id>d1ae7f301b39e550dd76a8a4bd4bcb6d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1870eda3ac70000001</sys_recorded_at>
+        <sys_updated_by>tomi.rekonen</sys_updated_by>
+        <sys_updated_on>2023-03-23 14:23:15</sys_updated_on>
+        <type>Access Roles</type>
+        <update_guid>d9ae7f30ae39e550d17d0bd3e224a86c</update_guid>
+        <update_guid_history>d9ae7f30ae39e550d17d0bd3e224a86c:-1211041867</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="x_236151_service_1_drift_data.x_236151_service_1.drift_data_user">feaf40051ba7f1541984dc66bd4bcbff</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2024-01-03 11:38:40</sys_created_on>
+        <sys_db_object display_value="" name="sys_security_acl_role">sys_security_acl_role</sys_db_object>
+        <sys_id>dda04db9bac04e029630d38b80b0e4a4</sys_id>
+        <sys_metadata>51ae7f301b39e550dd76a8a4bd4bcb6a</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_236151_service_1_drift_data.x_236151_service_1.drift_data_user</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_parent display_value="x_236151_service_1_drift_data">11ae7f301b39e550dd76a8a4bd4bcb5a</sys_parent>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_scope_delete display_value="">c499c25595e941129c8835469bc0cb04</sys_scope_delete>
+        <sys_update_name>sys_security_acl_role_51ae7f301b39e550dd76a8a4bd4bcb6a</sys_update_name>
+        <sys_update_version display_value="sys_security_acl_role_51ae7f301b39e550dd76a8a4bd4bcb6a">d1ae7f301b39e550dd76a8a4bd4bcb6d</sys_update_version>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2024-01-03 11:38:40</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

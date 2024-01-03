@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_ui_form_sections form_id="db72b88d1babf1541984dc66bd4bcbc4" sys_domain="global" table="x_236151_service_1_pattern_remediation_task" version="3">
+        <sys_ui_form_section action="INSERT_OR_UPDATE">
+            <position>0</position>
+            <sys_created_by>jdowns8@dxc.com</sys_created_by>
+            <sys_created_on>2024-01-03 14:10:48</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>1372b88d1babf1541984dc66bd4bcbc6</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_overrides/>
+            <sys_ui_form display_value="x_236151_service_1_pattern_remediation_task" name="x_236151_service_1_pattern_remediation_task" sys_domain="global" view="Default view">db72b88d1babf1541984dc66bd4bcbc4</sys_ui_form>
+            <sys_ui_section caption="NULL" display_value="" name="x_236151_service_1_pattern_remediation_task" sys_domain="global" view="Default view">736dd2dd1b53a5101984dc66bd4bcb49</sys_ui_section>
+            <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+            <sys_updated_on>2024-01-03 14:10:48</sys_updated_on>
+        </sys_ui_form_section>
+        <sys_ui_form_section action="INSERT_OR_UPDATE">
+            <position>1</position>
+            <sys_created_by>jdowns8@dxc.com</sys_created_by>
+            <sys_created_on>2024-01-03 14:10:48</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>5b72f8cd1babf1541984dc66bd4bcb40</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_overrides/>
+            <sys_ui_form display_value="x_236151_service_1_pattern_remediation_task" name="x_236151_service_1_pattern_remediation_task" sys_domain="global" view="Default view">db72b88d1babf1541984dc66bd4bcbc4</sys_ui_form>
+            <sys_ui_section caption="Notes" display_value="Notes" name="x_236151_service_1_pattern_remediation_task" sys_domain="global" view="Default view">5b72b88d1babf1541984dc66bd4bcbc6</sys_ui_section>
+            <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+            <sys_updated_on>2024-01-03 14:10:48</sys_updated_on>
+        </sys_ui_form_section>
+        <sys_ui_form_section action="INSERT_OR_UPDATE">
+            <position>2</position>
+            <sys_created_by>jdowns8@dxc.com</sys_created_by>
+            <sys_created_on>2024-01-03 14:11:09</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>d092b0cd1babf1541984dc66bd4bcb0f</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_overrides/>
+            <sys_ui_form display_value="x_236151_service_1_pattern_remediation_task" name="x_236151_service_1_pattern_remediation_task" sys_domain="global" view="Default view">db72b88d1babf1541984dc66bd4bcbc4</sys_ui_form>
+            <sys_ui_section caption="Resolution Information" display_value="Resolution Information" name="x_236151_service_1_pattern_remediation_task" sys_domain="global" view="Default view">8092b0cd1babf1541984dc66bd4bcb0d</sys_ui_section>
+            <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+            <sys_updated_on>2024-01-03 14:11:09</sys_updated_on>
+        </sys_ui_form_section>
+        <sys_ui_form action="INSERT_OR_UPDATE">
+            <name>x_236151_service_1_pattern_remediation_task</name>
+            <roles/>
+            <sys_class_name>sys_ui_form</sys_class_name>
+            <sys_created_by>jdowns8@dxc.com</sys_created_by>
+            <sys_created_on>2024-01-03 14:10:48</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>db72b88d1babf1541984dc66bd4bcbc4</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>x_236151_service_1_pattern_remediation_task</sys_name>
+            <sys_overrides/>
+            <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+            <sys_update_name>sys_ui_form_sections_db72b88d1babf1541984dc66bd4bcbc4</sys_update_name>
+            <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+            <sys_updated_on>2024-01-03 14:10:48</sys_updated_on>
+            <sys_user/>
+            <view display_value="Default view" name="NULL">Default view</view>
+            <view_name/>
+        </sys_ui_form>
+    </sys_ui_form_sections>
+</record_update>

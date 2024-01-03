@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_user_role">
+    <sys_user_role action="DELETE">
+        <assignable_by/>
+        <can_delegate>true</can_delegate>
+        <description/>
+        <elevated_privilege>false</elevated_privilege>
+        <encryption_context/>
+        <grantable>true</grantable>
+        <includes_roles/>
+        <name>x_236151_service_1.invalid_ci_relationship_user</name>
+        <requires_subscription>-1</requires_subscription>
+        <scoped_admin>false</scoped_admin>
+        <suffix>invalid_ci_relationship_user</suffix>
+        <sys_class_name>sys_user_role</sys_class_name>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2023-06-02 10:24:35</sys_created_on>
+        <sys_id>a9e0b4ff1b0b21501984dc66bd4bcbfc</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_236151_service_1.invalid_ci_relationship_user</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_update_name>sys_user_role_a9e0b4ff1b0b21501984dc66bd4bcbfc</sys_update_name>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-06-02 10:24:35</sys_updated_on>
+    </sys_user_role>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</application>
+        <file_path/>
+        <instance_id>3f7e13d9ff3790006663762fa87efe98</instance_id>
+        <instance_name>piit17</instance_name>
+        <name>sys_user_role_a9e0b4ff1b0b21501984dc66bd4bcbfc</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_user_role"><sys_user_role action="INSERT_OR_UPDATE"><assignable_by/><can_delegate>true</can_delegate><description/><elevated_privilege>false</elevated_privilege><encryption_context/><grantable>true</grantable><includes_roles/><name>x_236151_service_1.invalid_ci_relationship_user</name><requires_subscription>-1</requires_subscription><scoped_admin>false</scoped_admin><suffix>invalid_ci_relationship_user</suffix><sys_class_name>sys_user_role</sys_class_name><sys_created_by>jdowns8@dxc.com</sys_created_by><sys_created_on>2023-06-02 10:24:35</sys_created_on><sys_id>a9e0b4ff1b0b21501984dc66bd4bcbfc</sys_id><sys_mod_count>0</sys_mod_count><sys_name>x_236151_service_1.invalid_ci_relationship_user</sys_name><sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package><sys_policy/><sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope><sys_update_name>sys_user_role_a9e0b4ff1b0b21501984dc66bd4bcbfc</sys_update_name><sys_updated_by>jdowns8@dxc.com</sys_updated_by><sys_updated_on>2023-06-02 10:24:35</sys_updated_on></sys_user_role></record_update>]]></payload>
+        <payload_hash>125388273</payload_hash>
+        <record_name>x_236151_service_1.invalid_ci_relationship_user</record_name>
+        <reverted_from/>
+        <source>fc07cbb11b552150dd76a8a4bd4bcbda</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2023-06-02 10:24:35</sys_created_on>
+        <sys_id>6de0f4ff1b0b21501984dc66bd4bcb00</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1887ba33e330000001</sys_recorded_at>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-06-02 10:24:35</sys_updated_on>
+        <type>Role</type>
+        <update_guid>61e0f4ff8e0b2150297762aa91297200</update_guid>
+        <update_guid_history>61e0f4ff8e0b2150297762aa91297200:125388273</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="x_236151_service_1.invalid_ci_relationship_user">945ee8851babf1541984dc66bd4bcb02</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2024-01-03 13:52:35</sys_created_on>
+        <sys_db_object display_value="" name="sys_user_role">sys_user_role</sys_db_object>
+        <sys_id>145d0df0d9894521824303b6fef08de1</sys_id>
+        <sys_metadata>a9e0b4ff1b0b21501984dc66bd4bcbfc</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_236151_service_1.invalid_ci_relationship_user</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_scope_delete display_value="">c499c25595e941129c8835469bc0cb04</sys_scope_delete>
+        <sys_update_name>sys_user_role_a9e0b4ff1b0b21501984dc66bd4bcbfc</sys_update_name>
+        <sys_update_version display_value="sys_user_role_a9e0b4ff1b0b21501984dc66bd4bcbfc">6de0f4ff1b0b21501984dc66bd4bcb00</sys_update_version>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2024-01-03 13:52:35</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl_role">
+    <sys_security_acl_role action="DELETE">
+        <sys_class_name>sys_security_acl_role</sys_class_name>
+        <sys_created_by>adam.domanski</sys_created_by>
+        <sys_created_on>2023-12-04 11:18:20</sys_created_on>
+        <sys_id>285b29d71bfe31101984dc66bd4bcb2b</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>x_236151_service_1_sve_processing_task.x_236151_service_1.admin</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_security_acl display_value="x_236151_service_1_sve_processing_task">645b29d71bfe31101984dc66bd4bcb25</sys_security_acl>
+        <sys_update_name>sys_security_acl_role_285b29d71bfe31101984dc66bd4bcb2b</sys_update_name>
+        <sys_updated_by>adam.domanski</sys_updated_by>
+        <sys_updated_on>2023-12-04 11:19:56</sys_updated_on>
+        <sys_user_role display_value="x_236151_service_1.admin" name="x_236151_service_1.admin">3bc49ddd97112110892239000153af25</sys_user_role>
+        <transaction_id/>
+    </sys_security_acl_role>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</application>
+        <file_path/>
+        <instance_id>3f7e13d9ff3790006663762fa87efe98</instance_id>
+        <instance_name>piit17</instance_name>
+        <name>sys_security_acl_role_285b29d71bfe31101984dc66bd4bcb2b</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl_role"><sys_security_acl_role action="INSERT_OR_UPDATE"><sys_class_name>sys_security_acl_role</sys_class_name><sys_created_by>adam.domanski</sys_created_by><sys_created_on>2023-12-04 11:18:20</sys_created_on><sys_id>285b29d71bfe31101984dc66bd4bcb2b</sys_id><sys_mod_count>1</sys_mod_count><sys_name>x_236151_service_1_sve_processing_task.x_236151_service_1.admin</sys_name><sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package><sys_policy/><sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope><sys_security_acl display_value="x_236151_service_1_sve_processing_task">645b29d71bfe31101984dc66bd4bcb25</sys_security_acl><sys_update_name>sys_security_acl_role_285b29d71bfe31101984dc66bd4bcb2b</sys_update_name><sys_updated_by>adam.domanski</sys_updated_by><sys_updated_on>2023-12-04 11:19:56</sys_updated_on><sys_user_role display_value="x_236151_service_1.admin" name="x_236151_service_1.admin">3bc49ddd97112110892239000153af25</sys_user_role><transaction_id/></sys_security_acl_role></record_update>]]></payload>
+        <payload_hash>2094843543</payload_hash>
+        <record_name>x_236151_service_1_sve_processing_task.x_236151_service_1.admin</record_name>
+        <reverted_from/>
+        <source>83d3a0281beaa590dd76a8a4bd4bcbec</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>adam.domanski</sys_created_by>
+        <sys_created_on>2023-12-04 11:19:56</sys_created_on>
+        <sys_id>f7ab251b1bfe31101984dc66bd4bcbe3</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>18c348e66430000001</sys_recorded_at>
+        <sys_updated_by>adam.domanski</sys_updated_by>
+        <sys_updated_on>2023-12-04 11:19:56</sys_updated_on>
+        <type>Access Roles</type>
+        <update_guid>3fab251b82fe311065530918463f41e2</update_guid>
+        <update_guid_history>3fab251b82fe311065530918463f41e2:2094843543,6c5b29d77efe3110cc1c5d6ad5da602f:-1523984962</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="x_236151_service_1_sve_processing_task.x_236151_service_1.admin">83f8e8891b6bf1541984dc66bd4bcb39</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2024-01-03 13:29:17</sys_created_on>
+        <sys_db_object display_value="" name="sys_security_acl_role">sys_security_acl_role</sys_db_object>
+        <sys_id>2f1d1da729914cb9a3b8f9c4e59238c9</sys_id>
+        <sys_metadata>285b29d71bfe31101984dc66bd4bcb2b</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_236151_service_1_sve_processing_task.x_236151_service_1.admin</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_parent display_value="x_236151_service_1_sve_processing_task">645b29d71bfe31101984dc66bd4bcb25</sys_parent>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_scope_delete display_value="">c499c25595e941129c8835469bc0cb04</sys_scope_delete>
+        <sys_update_name>sys_security_acl_role_285b29d71bfe31101984dc66bd4bcb2b</sys_update_name>
+        <sys_update_version display_value="sys_security_acl_role_285b29d71bfe31101984dc66bd4bcb2b">f7ab251b1bfe31101984dc66bd4bcbe3</sys_update_version>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2024-01-03 13:29:17</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>
