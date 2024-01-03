@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="catalog_ui_policy_action">
+    <catalog_ui_policy_action action="INSERT_OR_UPDATE">
+        <catalog_item display_value="Manage Application Configuration Standards">d2d14a1b1b5b75141984dc66bd4bcb2e</catalog_item>
+        <catalog_variable>IO:b255c6131b9b75141984dc66bd4bcb99</catalog_variable>
+        <cleared>false</cleared>
+        <disabled>ignore</disabled>
+        <field/>
+        <mandatory>ignore</mandatory>
+        <order>100</order>
+        <sys_class_name>catalog_ui_policy_action</sys_class_name>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2023-12-29 10:24:22</sys_created_on>
+        <sys_id>6cbe46571bdb75141984dc66bd4bcbe0</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>level_business_application</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_update_name>catalog_ui_policy_action_6cbe46571bdb75141984dc66bd4bcbe0</sys_update_name>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-12-29 10:24:22</sys_updated_on>
+        <table/>
+        <ui_policy display_value="Show MRVS">10ae06171bdb75141984dc66bd4bcbbc</ui_policy>
+        <variable>level_business_application</variable>
+        <variable_set/>
+        <visible>true</visible>
+    </catalog_ui_policy_action>
+</record_update>

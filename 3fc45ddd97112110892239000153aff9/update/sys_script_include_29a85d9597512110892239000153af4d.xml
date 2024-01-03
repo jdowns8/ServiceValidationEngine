@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
     <sys_script_include action="INSERT_OR_UPDATE">
-        <access>package_private</access>
+        <access>public</access>
         <active>true</active>
         <api_name>x_236151_service_1.ServiceValidationHelper</api_name>
         <caller_access/>
@@ -43,7 +43,8 @@ _getRiskLevel: Traverse the system property used to store the risk matrix&#13;
         <script><![CDATA[var ServiceValidationHelper = Class.create();
 ServiceValidationHelper.prototype = {
     thresholdMatrix: gs.getProperty('x_236151_service_1.sve.validation_pattern_weighting'),
-    initialize: function() {
+    initialize: function(taskID) {
+		
         this.timer_log = 'Service Validation;Duration\n';
 		this.excludedClasses = gs.getProperty('x_236151_service_1.sve.mapped.ci.excluded.ci.classes');
 		if(taskID != null)
@@ -90,6 +91,7 @@ ServiceValidationHelper.prototype = {
 	},
 	
 	findPatterns: function(pattern, serviceValidation, type) {
+		
 		var gdt = new GlideDateTime();
         
 		// Remove any results which have an inactive mapped CI
@@ -109,19 +111,24 @@ ServiceValidationHelper.prototype = {
 		}
 		}
 		else if (type == 'Drift'){
-		var getPatterns = new GlideRecord('x_236151_service_1_service_validation_patterns');
-        if (pattern.length > 0) {
-            getPatterns.addQuery('number', pattern);
-        }
-        getPatterns.addQuery('active', 'true');
-		getPatterns.addQuery('validation_type', type);
-        getPatterns.query();
-        while (getPatterns.next()) {
-            var gdt3 = new GlideDateTime();
-            this._validatePattern(getPatterns, serviceValidation, type);
-            this._createOrUpdatePerformanceStat(serviceValidation.number + " Pattern Validated: " + getPatterns.description, gdt3, "Pattern", serviceValidation);
-        }
-		}
+			
+			// Only run if Service Validation is certified
+			if (serviceValidation.certified){
+						
+				var getPatterns = new GlideRecord('x_236151_service_1_service_validation_patterns');
+				if (pattern.length > 0) {
+					getPatterns.addQuery('number', pattern);
+				}
+				getPatterns.addQuery('active', 'true');
+				getPatterns.addQuery('validation_type', type);
+				getPatterns.query();
+				while (getPatterns.next()) {
+					var gdt3 = new GlideDateTime();
+					this._validatePattern(getPatterns, serviceValidation, type);
+					this._createOrUpdatePerformanceStat(serviceValidation.number + " Pattern Validated: " + getPatterns.description, gdt3, "Pattern", serviceValidation);
+				}
+				}
+			}
 			this._createOrUpdatePerformanceStat(serviceValidation.number + " Patterns Validated", gdt, "Function", serviceValidation);
 		
     },
@@ -511,22 +518,25 @@ ServiceValidationHelper.prototype = {
 		
 		var gdt = new GlideDateTime();
         var condition = '';
-        var nextLevel = this._getNextLevel(pattern, 0);
+		var conditionQuery = '';
 		
         var mappedCIs = new GlideAggregate('x_236151_service_1_associated_cis');
-		mappedCIs.addQuery('active', 'true');
         condition = pattern.getValue('condition') || '';
 		var applies_to_class = pattern.applies_to_class.toString();
-		
-        if (serviceValidation){
-			mappedCIs.addQuery('service_validation', serviceValidation.sys_id);
-		}
 		if (condition.toString().length > 0){
 			var queryPrefix = "ci.ref_"+applies_to_class+".";
 			var patternCondition = pattern.condition.slice(0,-3);
-			var conditionQuery = queryPrefix + patternCondition.replace(/\^/g, "^" + queryPrefix);
-			mappedCIs.addEncodedQuery(conditionQuery);
+			patternCondition = patternCondition.replace(/\^OR/g, "&&&");
+			patternCondition = patternCondition.replace(/\^/g, "^" + queryPrefix);
+			patternCondition = patternCondition.replace(/\&&&/g, "^OR" + queryPrefix);
+			conditionQuery = queryPrefix + patternCondition;
+			mappedCIs.addEncodedQuery(conditionQuery);		
+		}		
+		mappedCIs.addQuery('active', 'true');
+        if (serviceValidation){
+			mappedCIs.addQuery('service_validation', serviceValidation.sys_id);
 		}
+
 		var use_service_as_parent = false;
 		if (applies_to_class == 'cmdb_ci_service_auto' && pattern.relationship_direction == 'Downstream' || applies_to_class == 'cmdb_ci_service_discovered' && pattern.relationship_direction == 'Downstream'){
 			mappedCIs.addQuery('depth', '1');
@@ -537,7 +547,7 @@ ServiceValidationHelper.prototype = {
 		}
 		mappedCIs.addAggregate('COUNT', 'ci');
 		mappedCIs.query();
-        while (mappedCIs.next()) {		
+        while (mappedCIs.next()) {
 	
             var ci = mappedCIs.ci;
 			var service = this._getServiceFromMappedCI(ci, serviceValidation.sys_id) || '';
@@ -570,18 +580,23 @@ ServiceValidationHelper.prototype = {
 			}
 			else if (type == 'Drift'){
 				
+				
 				switch (pattern.drift_type.toString()){
 						
 					case "CI Attribute Changed":
 						new DriftHelper().ciAttributeChanged(ci, serviceValidation, pattern, service);
 						return;
 					
-					case "CI Relationship Created":
-						new DriftHelper().ciRelCreated(ci, serviceValidation, pattern, service);
+					case "Software Versioning":
+						new DriftHelper().appConfigComparison(ci, serviceValidation, pattern);
 						return;
 					
-					case "CI Relationship Removed":
-						new DriftHelper().ciRelRemoved(ci, serviceValidation, pattern, service);
+					case "Tracked Configuration File":
+						new DriftHelper().appConfigComparison(ci, serviceValidation, pattern);
+						return;
+						
+					case "Hardware Configuration":
+						new DriftHelper().appConfigComparison(ci, serviceValidation, pattern);
 						return;
 					
 					default:
@@ -923,13 +938,13 @@ ServiceValidationHelper.prototype = {
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2023-02-27 19:04:08</sys_created_on>
         <sys_id>29a85d9597512110892239000153af4d</sys_id>
-        <sys_mod_count>261</sys_mod_count>
+        <sys_mod_count>280</sys_mod_count>
         <sys_name>ServiceValidationHelper</sys_name>
         <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
         <sys_update_name>sys_script_include_29a85d9597512110892239000153af4d</sys_update_name>
-        <sys_updated_by>adam.domanski</sys_updated_by>
-        <sys_updated_on>2023-12-14 12:00:13</sys_updated_on>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2023-12-29 12:00:32</sys_updated_on>
     </sys_script_include>
 </record_update>

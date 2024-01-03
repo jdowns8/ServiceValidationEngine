@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="catalog_dl_definition">
+    <catalog_dl_definition action="DELETE">
+        <active>true</active>
+        <applies_to>item</applies_to>
+        <catalog_item display_value="Manage Application Configuration Standards">d2d14a1b1b5b75141984dc66bd4bcb2e</catalog_item>
+        <matcher_table>x_236151_service_1_service_validation_patterns</matcher_table>
+        <name>Dictionary</name>
+        <run_on_form_change>true</run_on_form_change>
+        <run_on_insert>true</run_on_insert>
+        <run_on_update>false</run_on_update>
+        <source_table/>
+        <sys_class_name>catalog_dl_definition</sys_class_name>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2024-01-02 11:50:23</sys_created_on>
+        <sys_id>c5980b601beb31541984dc66bd4bcb03</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Dictionary</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_update_name>catalog_dl_definition_c5980b601beb31541984dc66bd4bcb03</sys_update_name>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2024-01-02 11:50:23</sys_updated_on>
+        <variable_set/>
+    </catalog_dl_definition>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</application>
+        <file_path/>
+        <instance_id>3f7e13d9ff3790006663762fa87efe98</instance_id>
+        <instance_name>piit17</instance_name>
+        <name>catalog_dl_definition_c5980b601beb31541984dc66bd4bcb03</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="catalog_dl_definition"><catalog_dl_definition action="INSERT_OR_UPDATE"><active>true</active><applies_to>item</applies_to><catalog_item display_value="Manage Application Configuration Standards">d2d14a1b1b5b75141984dc66bd4bcb2e</catalog_item><matcher_table>x_236151_service_1_service_validation_patterns</matcher_table><name>Dictionary</name><run_on_form_change>true</run_on_form_change><run_on_insert>true</run_on_insert><run_on_update>false</run_on_update><source_table/><sys_class_name>catalog_dl_definition</sys_class_name><sys_created_by>jdowns8@dxc.com</sys_created_by><sys_created_on>2024-01-02 11:50:23</sys_created_on><sys_id>c5980b601beb31541984dc66bd4bcb03</sys_id><sys_mod_count>0</sys_mod_count><sys_name>Dictionary</sys_name><sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package><sys_policy/><sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope><sys_update_name>catalog_dl_definition_c5980b601beb31541984dc66bd4bcb03</sys_update_name><sys_updated_by>jdowns8@dxc.com</sys_updated_by><sys_updated_on>2024-01-02 11:50:23</sys_updated_on><variable_set/></catalog_dl_definition></record_update>]]></payload>
+        <payload_hash>1667099955</payload_hash>
+        <record_name>Dictionary</record_name>
+        <reverted_from/>
+        <source>fc07cbb11b552150dd76a8a4bd4bcbda</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2024-01-02 11:50:23</sys_created_on>
+        <sys_id>64c887601beb31541984dc66bd4bcb7a</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>18cca02b11a0000001</sys_recorded_at>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2024-01-02 11:50:23</sys_updated_on>
+        <type>Catalog Data Lookup Definitions</type>
+        <update_guid>68c88760bdeb3154e116d691b41c7e79</update_guid>
+        <update_guid_history>68c88760bdeb3154e116d691b41c7e79:1667099955</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="Dictionary">48c56fec1baf31541984dc66bd4bcb58</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>jdowns8@dxc.com</sys_created_by>
+        <sys_created_on>2024-01-02 13:57:03</sys_created_on>
+        <sys_db_object display_value="" name="catalog_dl_definition">catalog_dl_definition</sys_db_object>
+        <sys_id>2858bf61c2b643d88a3d5da431c5b690</sys_id>
+        <sys_metadata>c5980b601beb31541984dc66bd4bcb03</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Dictionary</sys_name>
+        <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
+        <sys_scope_delete display_value="">c499c25595e941129c8835469bc0cb04</sys_scope_delete>
+        <sys_update_name>catalog_dl_definition_c5980b601beb31541984dc66bd4bcb03</sys_update_name>
+        <sys_update_version display_value="catalog_dl_definition_c5980b601beb31541984dc66bd4bcb03">64c887601beb31541984dc66bd4bcb7a</sys_update_version>
+        <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
+        <sys_updated_on>2024-01-02 13:57:03</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

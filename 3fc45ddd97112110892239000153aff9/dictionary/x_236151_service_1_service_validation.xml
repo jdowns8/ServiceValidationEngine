@@ -4,7 +4,7 @@
         <element label="Business application" max_length="32" name="business_application" reference="cmdb_ci_business_app" type="reference"/>
         <element label="Certified" max_length="40" name="certified" type="boolean"/>
         <element attributes="edge_encryption_enabled=true" label="Last certified time" max_length="40" name="last_certified_time" read_only="true" type="glide_date_time"/>
-        <element label="last_validation_time" max_length="40" name="last_validation_time" read_only="true" type="glide_date_time"/>
+        <element label="Last validation time" max_length="40" name="last_validation_time" read_only="true" type="glide_date_time"/>
         <element attributes="ignore_filter_on_new=true" default="javascript:global.getNextObjNumberPadded();" label="Number" max_length="40" name="number" read_only="true" type="string"/>
         <element label="Service" max_length="32" name="service" reference="cmdb_ci_service" type="reference"/>
         <element default="javascript:current.getTableName();" dynamic_default_value="b5cb83a85f220100a9ad2572f2b4773c" label="Class name" max_length="80" name="sys_class_name" type="sys_class_name" use_dynamic_default="true"/>

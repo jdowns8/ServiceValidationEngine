@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
     <sys_script_include action="INSERT_OR_UPDATE">
-        <access>package_private</access>
+        <access>public</access>
         <active>true</active>
         <api_name>x_236151_service_1.DriftHelper</api_name>
         <caller_access/>
@@ -91,6 +91,8 @@ DriftHelper.prototype = {
 
 	appConfigComparison: function(ci, serviceValidation, pattern){
 		
+		gs.addInfoMessage("Detecting Drift for " + ci.name + " against pattern: " + pattern.description);
+		
 		var startDateTime = new GlideDateTime();
 		
 		//Fetch matching Drift Standard Configurations
@@ -99,7 +101,7 @@ DriftHelper.prototype = {
 		getConfigStandard.addQuery('business_application', serviceValidation.business_application).addOrCondition('application_service', serviceValidation.service).addOrCondition('server_ci', ci.sys_id);
 		getConfigStandard.addEncodedQuery('last_validated<'+gs.beginningOfToday()+'^ORlast_validatedISEMPTY');
 		getConfigStandard.query();
-		while (getConfigStandard.next()){
+		if (getConfigStandard.next()){
 			
 			// Process Server Level Configuration Standard
 			if (getConfigStandard.level == 'Server CI'){
@@ -119,7 +121,10 @@ DriftHelper.prototype = {
 			// Set Last Validated
 			getConfigStandard.setValue('last_validated', startDateTime);
 			getConfigStandard.update();
-		}	
+		}
+		else{
+			gs.addInfoMessage("No Valid Configuration Standards Found");
+		}
 	},
 	
 	processPatternRemediationTask: function(serviceValidation){
@@ -308,30 +313,30 @@ getBusApps.addEncodedQuery('managed_by_groupDYNAMICd6435e965f510100a9ad2572f2b47
 	getProducts: function(businessApplication, applicationService, serverCI, level){
 		
 		var ciList = '';
-		var modelList = '';
+		var productList = '';
 		
 		ciList = this._getAssociatedCIs(businessApplication, applicationService, serverCI, level);
 		
 		if (ciList){
 			
-			var getModels = new GlideAggregate('cmdb_sam_sw_install');
-			getModels.addEncodedQuery('installed_onIN' + ciList + '^operational_status=1^software_modelISNOTEMPTY');  // TODO : Check Operational Status Attribute
-			getModels.addAggregate('COUNT', 'software_model');
-			getModels.query();
-			while (getModels.next()){
+			var getProducts = new GlideAggregate('cmdb_sam_sw_install');
+			getProducts.addEncodedQuery('installed_onIN' + ciList + '^active=true^norm_productISNOTEMPTY');
+			getProducts.addAggregate('COUNT', 'norm_product');
+			getProducts.query();
+			while (getProducts.next()){
 				
-				var getProduct = new GlideRecord('cmdb_software_product_model');
-				getProduct.get(getModels.software_model);
-				modelList += getProduct.product + ","; // TODO : Check Product Attribute
+				// Use Normalized Product Field
+				productList += getProducts.getValue('norm_product') + ",";				
+				
 			}
 		}
 		
-		if (!modelList){
+		if (!productList){
 			return 'sys_idIN';
 			
 		}
 		else {
-			return 'sys_idIN' + modelList;
+			return 'sys_idIN' + productList;
 		}
 	},
 	
@@ -441,10 +446,11 @@ getBusApps.addEncodedQuery('managed_by_groupDYNAMICd6435e965f510100a9ad2572f2b47
 		// Check if the Server CI meets the condition
 		var checkInstall = new GlideRecord('cmdb_sam_sw_install');
 		checkInstall.addQuery('installed_on', ci.sys_id);
-		checkInstall.addQuery('prod_id', configStandard.product); // TODO Check Product Field
-		checkInstall.addQuery('operational_status', 1); // TODO Check Status Field
+		checkInstall.addQuery('norm_product', configStandard.product);
+		checkInstall.addQuery('active', 'true');
 		checkInstall.orderBy('normalized_version', 'DESC');
 		checkInstall.setLimit(1);
+		checkInstall.query();
 		if (!checkInstall.next()){
 			driftObj.driftResult = 'true';
 			driftObj.driftReason = 'Product ' + configStandard.product.getDisplayValue() + ' is not installed on Server CI ' + ci.name;
@@ -452,21 +458,21 @@ getBusApps.addEncodedQuery('managed_by_groupDYNAMICd6435e965f510100a9ad2572f2b47
 		else{
 			
 			if (configStandard.threshold == 'Matches'){
-				if (parseInt(checkInstall.normalized_verson) != parseInt(configStandard.expected_value)){
+				if (parseInt(checkInstall.normalized_version) != parseInt(configStandard.expected_value)){
 					driftObj.driftResult = 'true';
 					driftObj.driftReason = 'Product ' + configStandard.product.getDisplayValue() + ' installed on Server CI ' + ci.name + ' did not match the expected version.' + '\n' + 'Current Version: ' + checkInstall.normalized_version + '\n' + 'Expected Version: ' + configStandard.expected_value;
 				}
 			}
 			else if (configStandard.threshold == 'Minimum or Above'){
-				if (parseInt(checkInstall.normalized_verson) <= parseInt(configStandard.expected_value)){
+				if (parseInt(checkInstall.normalized_version) <= parseInt(configStandard.expected_value)){
 					driftObj.driftResult = 'true';
-					driftObj.driftReason = 'Product ' + configStandard.product.getDisplayValue() + ' installed on Server CI ' + ci.name + ' did not meet the minimum version.' + '\n' + 'Current Version: ' + checkInstall.normalized_version + '\n' + 'Expected Version: ' + configStandard.expected_value;
+					driftObj.driftReason = 'Product ' + configStandard.product.getDisplayValue() + ' installed on Server CI ' + ci.name + ' did not meet the minimum version.' + '\n' + 'Current Version: ' + checkInstall.normalized_version + '\n' + 'Minimum Version: ' + configStandard.expected_value;
 				}			
 			}
 			else if (configStandard.threshold == 'Maximum or Below'){
-				if (parseInt(checkInstall.normalized_verson) >= parseInt(configStandard.expected_value)){
+				if (parseInt(checkInstall.normalized_version) >= parseInt(configStandard.expected_value)){
 					driftObj.driftResult = 'true';
-					driftObj.driftReason = 'Product ' + configStandard.product.getDisplayValue() + ' installed on Server CI ' + ci.name + ' exceeds the maximum version.' + '\n' + 'Current Version: ' + checkInstall.normalized_version + '\n' + 'Expected Version: ' + configStandard.expected_value;
+					driftObj.driftReason = 'Product ' + configStandard.product.getDisplayValue() + ' installed on Server CI ' + ci.name + ' exceeds the maximum version.' + '\n' + 'Current Version: ' + checkInstall.normalized_version + '\n' + 'Maximum Version: ' + configStandard.expected_value;
 				}			
 			}
 		}
@@ -475,6 +481,7 @@ getBusApps.addEncodedQuery('managed_by_groupDYNAMICd6435e965f510100a9ad2572f2b47
 	},
 	
 	_compareHardwareAttr: function(configStandard, ci){
+		
 		
 		var driftObj = {};
 		driftObj.driftResult = 'false';
@@ -493,21 +500,21 @@ getBusApps.addEncodedQuery('managed_by_groupDYNAMICd6435e965f510100a9ad2572f2b47
 		else{
 			
 			if (configStandard.threshold == 'Matches'){
-				if (parseInt(checkInstall.normalized_verson) != parseInt(configStandard.expected_value)){
+				if (parseInt(attrValue) != parseInt(configStandard.expected_value)){
 					driftObj.driftResult = 'true';
-					driftObj.driftReason = 'The current hardware attribute ' + configStandard.hardware_attribute.getDisplayValue() + ' value for Server CI ' + ci.name + ' did not match the expected value.' + '\n' + 'Current Value: ' + checkInstall.normalized_version + '\n' + 'Expected Value: ' + configStandard.expected_value;
+					driftObj.driftReason = 'The current hardware attribute ' + configStandard.hardware_attribute.getDisplayValue() + ' value for Server CI ' + ci.name + ' did not match the expected value.' + '\n' + 'Current Value: ' + attrValue + '\n' + 'Expected Value: ' + configStandard.expected_value;
 				}
 			}
 			else if (configStandard.threshold == 'Minimum or Above'){
-				if (parseInt(checkInstall.normalized_verson) <= parseInt(configStandard.expected_value)){
+				if (parseInt(attrValue) <= parseInt(configStandard.expected_value)){
 					driftObj.driftResult = 'true';
-					driftObj.driftReason = 'The current hardware attribute ' + configStandard.hardware_attribute.getDisplayValue() + ' value for Server CI ' + ci.name + ' did not match the minimum value.' + '\n' + 'Current Value: ' + checkInstall.normalized_version + '\n' + 'Expected Value: ' + configStandard.expected_value;
+					driftObj.driftReason = 'The current hardware attribute ' + configStandard.hardware_attribute.getDisplayValue() + ' value for Server CI ' + ci.name + ' did not match the minimum value.' + '\n' + 'Current Value: ' + attrValue + '\n' + 'Expected Value: ' + configStandard.expected_value;
 				}			
 			}
 			else if (configStandard.threshold == 'Maximum or Below'){
-				if (parseInt(checkInstall.normalized_verson) >= parseInt(configStandard.expected_value)){
+				if (parseInt(attrValue) >= parseInt(configStandard.expected_value)){
 					driftObj.driftResult = 'true';
-					driftObj.driftReason = 'The current hardware attribute ' + configStandard.hardware_attribute.getDisplayValue() + ' value for Server CI ' + ci.name + ' exceeds the maximum value.' + '\n' + 'Current Value: ' + checkInstall.normalized_version + '\n' + 'Expected Value: ' + configStandard.expected_value;
+					driftObj.driftReason = 'The current hardware attribute ' + configStandard.hardware_attribute.getDisplayValue() + ' value for Server CI ' + ci.name + ' exceeds the maximum value.' + '\n' + 'Current Value: ' + attrValue + '\n' + 'Expected Value: ' + configStandard.expected_value;
 				}			
 			}
 		}
@@ -600,7 +607,7 @@ getBusApps.addEncodedQuery('managed_by_groupDYNAMICd6435e965f510100a9ad2572f2b47
 		var checkEvent = new GlideRecord('x_236151_service_1_drift_events');
 		checkEvent.addQuery('ci', ci.sys_id);
 		checkEvent.addQuery('service_validation', serviceValidation.sys_id);
-		checkEvent.addQuery('service_validation_pattern', pattern.sys_id);
+		checkEvent.addQuery('drift_control', pattern.sys_id);
 		checkEvent.addQuery('attribute', attribute);
 		checkEvent.addQuery('active', 'true');
 		checkEvent.query();
@@ -648,7 +655,7 @@ getBusApps.addEncodedQuery('managed_by_groupDYNAMICd6435e965f510100a9ad2572f2b47
 		var createEvent = new GlideRecord('x_236151_service_1_drift_events');
 		createEvent.addQuery('ci', ci.sys_id);
 		createEvent.addQuery('service_validation', serviceValidation.sys_id);
-		createEvent.addQuery('service_validation_pattern', pattern.sys_id);
+		createEvent.addQuery('drift_control', pattern.sys_id);
 		createEvent.addQuery('attribute', driftAttribute);
 		createEvent.addQuery('active', 'true');
 		createEvent.query();
@@ -658,7 +665,7 @@ getBusApps.addEncodedQuery('managed_by_groupDYNAMICd6435e965f510100a9ad2572f2b47
 			createEvent.setValue('ci', ci.sys_id);
 			createEvent.setValue('active', 'true');
 			createEvent.setValue('service_validation', serviceValidation.sys_id);
-			createEvent.setValue('service_validation_pattern', pattern.sys_id);
+			createEvent.setValue('drift_control', pattern.sys_id);
 			createEvent.setValue('attribute', driftAttribute);
 			createEvent.setValue('drift_reason', driftReason);
 			createEvent.insert();
@@ -671,7 +678,7 @@ getBusApps.addEncodedQuery('managed_by_groupDYNAMICd6435e965f510100a9ad2572f2b47
 		var deactivateEvent = new GlideRecord('x_236151_service_1_drift_events');
 		deactivateEvent.addQuery('ci', ci.sys_id);
 		deactivateEvent.addQuery('service_validation', serviceValidation.sys_id);
-		deactivateEvent.addQuery('service_validation_pattern', pattern.sys_id);
+		deactivateEvent.addQuery('drift_control', pattern.sys_id);
 		deactivateEvent.addQuery('attribute', driftAttribute);
 		deactivateEvent.addQuery('active', 'true');
 		deactivateEvent.query();
@@ -729,13 +736,13 @@ getBusApps.addEncodedQuery('managed_by_groupDYNAMICd6435e965f510100a9ad2572f2b47
         <sys_created_by>jdowns8@dxc.com</sys_created_by>
         <sys_created_on>2023-06-02 11:35:12</sys_created_on>
         <sys_id>599ff0731bcb21501984dc66bd4bcbc4</sys_id>
-        <sys_mod_count>18</sys_mod_count>
+        <sys_mod_count>43</sys_mod_count>
         <sys_name>DriftHelper</sys_name>
         <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
         <sys_update_name>sys_script_include_599ff0731bcb21501984dc66bd4bcbc4</sys_update_name>
         <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
-        <sys_updated_on>2023-12-22 14:30:31</sys_updated_on>
+        <sys_updated_on>2023-12-31 15:27:41</sys_updated_on>
     </sys_script_include>
 </record_update>

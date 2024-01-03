@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
-    <element db_object_id="d7b603351b552150dd76a8a4bd4bcbb1" max_length="40" name="x_236151_service_1_associated_cis" type="collection">
+    <element db_object_id="d7b603351b552150dd76a8a4bd4bcbb1" label="Associated CI" max_length="40" name="x_236151_service_1_associated_cis" type="collection">
         <element label="Active" max_length="40" name="active" type="boolean"/>
         <element label="CI" max_length="32" name="ci" reference="cmdb_ci" type="reference"/>
-        <element label="Deactivated time" max_length="40" name="deactivated" type="glide_date_time"/>
+        <element label="Deactivated" max_length="40" name="deactivated" type="glide_date_time"/>
         <element label="Depth" max_length="40" name="depth" type="integer"/>
         <element label="Last validation time" max_length="40" name="last_validation_time" type="glide_date_time"/>
         <element attributes="ignore_filter_on_new=true" default="javascript:global.getNextObjNumberPadded();" label="Number" max_length="40" name="number" type="string"/>

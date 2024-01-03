@@ -117,8 +117,8 @@ DriftAjax.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
 		
 		var getValue = new GlideRecord('cmdb_sam_sw_install');
 		getValue.addQuery('installed_on', serverCI);
-		getValue.addQuery('software_model.product', product); // TODO : Get OOTB Product Field
-		getValue.addQuery('operational_status', 1); // TODO : Get OOTB Status Field
+		getValue.addQuery('norm_product', product);
+		getValue.addQuery('active', 'true'); 
 		getValue.setLimit(1);
 		getValue.query();
 		while (getValue.next()){
@@ -155,6 +155,28 @@ DriftAjax.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
 		return defaultValue;
 	},
 	
+	getDriftAttr: function(){
+		
+		var attrArr = [];
+		
+		var getAttr = new GlideRecord('x_236151_service_1_service_validation_patterns');
+		getAttr.addNotNullQuery('drift_attributes');
+		getAttr.query();
+		while (getAttr.next()){
+			
+			var getEntries = new GlideRecord('sys_dictionary');
+			getEntries.addQuery('sys_id', 'IN', getAttr.drift_attributes);
+			getEntries.query();
+			while (getEntries.next()){
+				
+				attrArr.push(getEntries.column_label + "|" + getEntries.element);
+			}
+		}
+		
+		return JSON.stringify(attrArr);
+		
+	},
+	
 	
 
     type: 'DriftAjax'
@@ -163,13 +185,13 @@ DriftAjax.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
         <sys_created_by>jdowns8@dxc.com</sys_created_by>
         <sys_created_on>2023-12-07 10:48:01</sys_created_on>
         <sys_id>2140c9581bc77d10dd76a8a4bd4bcba2</sys_id>
-        <sys_mod_count>3</sys_mod_count>
+        <sys_mod_count>19</sys_mod_count>
         <sys_name>DriftAjax</sys_name>
         <sys_package display_value="Service Validation Engine" source="x_236151_service_1">3fc45ddd97112110892239000153aff9</sys_package>
         <sys_policy>read</sys_policy>
         <sys_scope display_value="Service Validation Engine">3fc45ddd97112110892239000153aff9</sys_scope>
         <sys_update_name>sys_script_include_2140c9581bc77d10dd76a8a4bd4bcba2</sys_update_name>
         <sys_updated_by>jdowns8@dxc.com</sys_updated_by>
-        <sys_updated_on>2023-12-07 11:05:19</sys_updated_on>
+        <sys_updated_on>2024-01-02 16:50:51</sys_updated_on>
     </sys_script_include>
 </record_update>

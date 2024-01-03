@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><database>
     <element db_object_id="57adf0141bc77d10dd76a8a4bd4bcbfe" label="Drift Configuration Standard" max_length="40" name="x_236151_service_1_drift_configuration_standard" type="collection">
-        <element label="Application service" max_length="32" name="application_service" reference="cmdb_ci_service" type="reference"/>
-        <element label="Business application" max_length="32" name="business_application" reference="cmdb_ci_business_app" type="reference"/>
+        <element label="Application service" max_length="32" name="application_service" reference="cmdb_ci_service" reference_qual="javascript: new x_236151_service_1.DriftHelper().getAppServices(current.business_application)" type="reference" use_reference_qualifier="advanced"/>
+        <element label="Business application" max_length="32" name="business_application" reference="cmdb_ci_business_app" reference_qual="javascript: new x_236151_service_1.DriftHelper().getBusinessApps()" type="reference" use_reference_qualifier="advanced"/>
         <element label="Expected value" max_length="100" name="expected_value" type="string"/>
         <element label="Hardware attribute" max_length="32" name="hardware_attribute" reference="sys_dictionary" reference_qual="name=cmdb_ci_server^EQ" reference_qual_condition="name=cmdb_ci_server^EQ" type="reference"/>
         <element label="Last validated" max_length="40" name="last_validated" type="glide_date_time"/>
@@ -13,8 +13,8 @@
             </choice>
         </element>
         <element default="javascript:global.getNextObjNumberPadded();" label="Number" max_length="40" name="number" type="string"/>
-        <element label="Product" max_length="32" name="product" reference="cmdb_software_product_model" type="reference"/>
-        <element label="Server CI" max_length="32" name="server_ci" reference="cmdb_ci_server" type="reference"/>
+        <element label="Product" max_length="32" name="product" reference="samp_sw_product" reference_qual="javascript: new x_236151_service_1.DriftHelper().getProducts(current.business_application, current.application_service, current.server_ci, current.level)" type="reference" use_reference_qualifier="advanced"/>
+        <element label="Server CI" max_length="32" name="server_ci" reference="cmdb_ci_server" reference_qual="javascript: new x_236151_service_1.DriftHelper().getServerCIs(current.application_service)" type="reference" use_reference_qualifier="advanced"/>
         <element choice="1" label="Threshold" max_length="40" name="threshold" type="choice">
             <choice>
                 <element inactive_on_update="false" label="Matches" sequence="0" value="Matches"/>
@@ -22,7 +22,7 @@
                 <element inactive_on_update="false" label="Maximum or Below" sequence="2" value="Maximum or Below"/>
             </choice>
         </element>
-        <element label="Tracked file" max_length="32" name="tracked_file" reference="cmdb_ci_config_file_tracked" type="reference"/>
+        <element label="Tracked file" max_length="32" name="tracked_file" reference="cmdb_ci_config_file_tracked" reference_qual="javascript: new x_236151_service_1.DriftHelper().getTrackedFiles(current.business_application, current.application_service, current.server_ci, current.level)" type="reference" use_reference_qualifier="advanced"/>
         <element choice="1" label="Type" max_length="40" name="type" type="choice">
             <choice>
                 <element inactive_on_update="false" label="Software Versioning" sequence="0" value="Software Versioning"/>
